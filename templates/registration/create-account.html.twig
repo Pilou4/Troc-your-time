@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <main class="register">
+        <div class="register__form">
+            <div class="register__form__header">
+                <h1 class="register__form__header__title">Création de compte !</h1>
+                <p class="register__form__header__text">Renseigner votre email et votre mot de passe.</p>
+            </div>
+            {{ form_start(registrationForm) }}
+                {{ form_row(registrationForm.email) }}
+                {{ form_row(registrationForm.password, {
+                    label: 'Password'
+                }) }}
+                {{ form_row(registrationForm.agreeTerms) }}
+                <button type="submit" class="register__form__button">s'inscrire</button>
+            {{ form_end(registrationForm) }}
+            <div class="register__form__footer">
+                <p class="register__form__footer__text">
+                    Me renseigner sur les finalités du traitement de mes données personnelles, les destinataires, le responsable de traitement, les durées de conservation, les coordonnées du DPO et mes droits.
+                </p>           
+            </div>
+        </div>
+
+    </main>
+{% endblock %}
