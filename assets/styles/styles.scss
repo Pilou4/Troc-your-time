@@ -1,0 +1,45 @@
+@use './vars';
+
+*, ::before, ::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+
+}
+
+
+/* ---- MESSAGES FLASH ---- */
+.alert-error {
+    background-color: red;
+    font-size: 1.3em;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.alert-success {
+    background-color: green;
+    font-size: 1.3em;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.alert-message {
+    background-color: grey;
+    font-size: 1.3em;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.alert-warning {
+    background-color: orange;
+    font-size: 1.3em;
+    padding: 20px;
+    margin-bottom: 20px;
+}
