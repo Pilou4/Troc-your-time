@@ -75,7 +75,7 @@ class RegistrationController extends AbstractController
      * @param string $token
      */
     #[Route('/confirm-account/{token}', name: 'confirm_account')]
-    public function confirmAccount(string $token)
+    public function confirmAccount(string $token, Request $request, UserAuthenticatorInterface $userAuthenticator, UserAuthenticator $authenticator)
     {
         $user = $this->userRepository->findOneBy(["token" => $token]);
         
@@ -88,8 +88,13 @@ class RegistrationController extends AbstractController
         $user->setRoles(["ROLE_USER_VALIDATE"]);
         $this->entityManager->persist($user);
         $this->entityManager->flush();
-        $this->addFlash("success", "Compte actif !"); 
-        return $this->redirectToRoute("app_login");           
+        $this->addFlash("success", "Compte actif !");
+        return $userAuthenticator->authenticateUser(
+                $user,
+                $authenticator,
+                $request
+            ); 
+        $this->redirectToRoute("profile_add");           
         
     }
 

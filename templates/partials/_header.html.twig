@@ -2,7 +2,11 @@
     <nav class="header__nav">
         <a href="{{ path('homepage') }}" class="header__nav__link">Accueil</a>
         {% if app.user %}
-            <a href="{{ path('app_logout') }}" class="header__nav__link">Se deconnecter</a>
+            {% if app.user.profile == null %}
+                <a href="{{ path('profile_add') }}">Compléter profil</a>
+                {% else %}
+                    <a href="{{ path('profile_view',{id: app.user.profile.id}) }}" class="header__nav__link">Profil</a>
+            {% endif %}
         {% else %}
             <a href="{{ path('app_login') }}" class="header__nav__link">Se connecter</a>
         {% endif %}

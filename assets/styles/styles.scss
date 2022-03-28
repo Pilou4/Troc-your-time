@@ -106,6 +106,63 @@ body {
     }
 }
 
+/* ---- PAGE VUE DU PROFILE ---- */
+.profile {
+    &__header {
+        width: 100%;
+        display: flex;
+        border-bottom: 3px solid lightblue;
+        padding: 20px;
+        &__username {
+            text-transform: uppercase;
+        }
+        &__img {
+            border-radius: 50%;
+        }
+    }
+}
+/* ---- PAGE PROFILE ADD ---- */
+.profileAdd {
+    &__title {
+        text-align: center;
+    }
+    &__form {
+        max-width: 600px;
+        // border: 2px solid aqua;
+        margin: 0 auto;
+        margin-top: 50px;
+        padding: 20px;
+        box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
+        border-radius: 5px;
+        &__header {
+            text-align: center;
+            width: 100%;
+        }
+        &__footer {
+            width: 100%;
+            text-align: center;
+            margin-top: 20px;
+        }
+        &__input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px;
+        }
+        &__label {
+            width: 100%;
+            margin: 0 10px;
+        }
+        &__button {
+            display: block;
+            margin: 0 auto;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    }
+}
+
 
 /* ---- MESSAGES FLASH ---- */
 .alert-error {
