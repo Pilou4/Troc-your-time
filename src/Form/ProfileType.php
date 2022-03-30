@@ -7,7 +7,9 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class ProfileType extends AbstractType
 {
@@ -58,10 +60,20 @@ class ProfileType extends AbstractType
                 ]
             )
             ->add(
-                'adress',
+                'address',
                 TextType::class,
                 [
+                    'mapped' => false,
                     'label' => 'adresse',
+                    'label_attr' => ['class' => 'profileAdd__form__label'],
+                    'attr' => ['class' => 'profileAdd__form__input']
+                ]
+            )
+            ->add(
+                'street',
+                TextType::class,
+                [
+                    'label' => 'numéro et rue',
                     'label_attr' => ['class' => 'profileAdd__form__label'],
                     'attr' => ['class' => 'profileAdd__form__input']
                 ]
@@ -84,6 +96,15 @@ class ProfileType extends AbstractType
                     'attr' => ['class' => 'profileAdd__form__input']
                 ]
             )
+            ->add(
+                'imageFile',
+                FileType::class, [
+                    'required' => false,
+                    // 'mapped' => false
+                ]
+            )
+            ->add('lat', HiddenType::class)
+            ->add('lng', HiddenType::class)
         ;
     }
 

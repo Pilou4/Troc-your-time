@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Messagerie !{% endblock %}
+
+{% block body %}
+    <main class="message">
+        <nav class="message__nav">
+            <a href="#" class="message__nav__link">Accueil</a>
+            <a href="{{ path('message_received') }}" class="message__nav__link">Messages reçus</a>
+            <a href="#" class="message__nav__link">Messages Envoyés</a>
+        </nav>
+        <h1 class="message__title">Messagerie</h1>
+        <h2>Boite de réception</h2>
+        <p>Vous avez reçus: {{ app.user.profile.received|length }} messages</p>
+        <section>
+            <table>
+                <thead>
+                    <tr>
+                        <th>De</th>
+                        <th>Sujet</th>
+                        <th>Date</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for message in app.user.profile.received %}
+                        {% if message.isRead == 0 %}
+                            {% set bold = "bold" %}
+                        {% else %}
+                            {% set bold = "" %}
+                        {% endif %}
+                        <tr>
+                            <td class={{bold}}>{{ message.sender.username }}</td>
+                            <td class={{bold}}><a href="{{ path('message_read', {id: message.id}) }}">{{ message.title }}</a></td>
+                            <td class={{bold}}>{{ message.createdAt|date('d-m-Y') }}</td>
+                            <td></td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+        <button class="message__button">Voirs mes dossiers</button>
+        <button class="message__button"><a href="{{ path('message_send') }}" class="message__button__link">Envoyé un message</a></button>
+    </main>
+{% endblock %}

@@ -1,11 +1,13 @@
 <header class="header">
     <nav class="header__nav">
         <a href="{{ path('homepage') }}" class="header__nav__link">Accueil</a>
+        <button><a href="{{ path('announcement_add') }}" class="header__nav__link">Ajouter une annonces</a></button>
+        <a href="{{ path('message_list') }}" class="header__nav__link">Messages</a>
         {% if app.user %}
             {% if app.user.profile == null %}
                 <a href="{{ path('profile_add') }}">Compléter profil</a>
                 {% else %}
-                    <a href="{{ path('profile_view',{id: app.user.profile.id}) }}" class="header__nav__link">Profil</a>
+                    <a href="{{ path('profile_list') }}" class="header__nav__link">Profil</a>
             {% endif %}
         {% else %}
             <a href="{{ path('app_login') }}" class="header__nav__link">Se connecter</a>

@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber;
 
+use App\Entity\Announcement;
 use App\Entity\Profile;
 use Doctrine\ORM\Events;
 use Doctrine\Common\EventSubscriber;
@@ -30,6 +31,11 @@ class UserSubscriber implements EventSubscriber
         
         if ($entity instanceof Profile) {
             $entity->setUser($user);
+            return $entity;
+        }
+
+        if ($entity instanceof Announcement) {
+            $entity->setProfile($user->getProfile());
             return $entity;
         }
         

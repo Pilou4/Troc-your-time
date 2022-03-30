@@ -163,7 +163,35 @@ body {
     }
 }
 
-
+/* ---- PAGE MESSAGE LIST ---- */
+.message {
+    &__title {
+        text-align: center;
+    }
+    &__nav {
+        width: 250px;
+        // transform: translateX(-250px);
+        position: absolute;
+        border-right: 2px solid blue;
+        top: 60px;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        &__link {
+            border-bottom: 2px solid blue;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+        }
+    }
+    &__contents {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+}
+.bold {
+    font-weight: bold;
+}
 /* ---- MESSAGES FLASH ---- */
 .alert-error {
     background-color: red;
