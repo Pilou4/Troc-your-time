@@ -14,8 +14,8 @@ class ResetPassType extends AbstractType
         $builder
             ->add('email', EmailType::class,
                 [
-                    'label_attr' => ['class' => 'form-label'],
-                    'attr' => ['class' => 'form-input'],
+                    'label_attr' => ['class' => 'forgotten__form__label'],
+                    'attr' => ['class' => 'forgotten__form__input'],
                 ]
             )
         ;

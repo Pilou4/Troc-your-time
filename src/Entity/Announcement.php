@@ -29,7 +29,7 @@ class Announcement
     #[Gedmo\Timestampable(on: "update")]
     private $updatedAt;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'text')]
     private $description;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'announcements')]
@@ -127,4 +127,5 @@ class Announcement
 
         return $this;
     }
+
 }

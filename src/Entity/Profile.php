@@ -65,13 +65,14 @@ class Profile
     private $announcements;
 
     #[ORM\Column(type: 'datetime_immutable')]
+    
     /**
      * @Gedmo\Timestampable(on="create")
      */
     private $createdAt;
 
     #[ORM\Column(type: 'datetime_immutable')]
-     /**
+    /**
      * @Gedmo\Timestampable(on="update")
      */
     private $updatedAt;
@@ -370,8 +371,7 @@ class Profile
     {
         $this->filename = $filename;
         if ($this->imageFile instanceof UploadedFile) {
-            dd("test");
-            $this->updatedAt = new \DateTime('now');
+            $this->updatedAt = new \DateTimeImmutable('now');
         }
         return $this;
     }

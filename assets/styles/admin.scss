@@ -1,0 +1,40 @@
+/* ---- DASHBOARD ---- */
+.dashboard {
+    min-height: 80vh;
+    display: flex;
+    &__nav {
+        width: 250px;
+        border: 2px solid rgb(184, 12, 104);
+        border-top: none;
+        &__link {
+            display: block;
+            text-decoration: none;
+            padding: 20px;
+            font-size: 1.2em;
+            text-align: center;
+            border-bottom: 3px solid rgb(184, 12, 104);
+        }
+    }
+    &__content {
+        width: calc(100% - 250px);
+        &__title {
+            text-align: center;
+            padding: 20px;
+            border-bottom: 3px solid rgb(184, 12, 104);
+        }
+    }
+}
+
+/* ---- LISTE DES CATÉGORIES ---- */
+.admin__category {
+    min-height: 80vh;
+    &__title {
+        padding: 20px;
+    }
+    &__img {
+        width: 150px;
+    }
+    & table {
+        margin: 0 auto;
+    }
+}

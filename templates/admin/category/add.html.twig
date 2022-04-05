@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AnnouncementController!{% endblock %}
+
+{% block body %}
+<main class="dashboard">
+    <nav class="dashboard__nav">
+        <a href="{{ path('admin_dashboard') }}" class="dashboard__nav__link">Tableau de bord</a>
+        <a href="{{ path('admin_category_list') }}" class="dashboard__nav__link">Catégories</a>
+    </nav>
+    <section class="dashboard__content">
+        <h1 class="dashboard__content__title">Ajouter une catégorie</h1>
+        <section class="admin__category__add">
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+                <input type="submit" value="Valider" class="admin__category__add__form__button">
+            {{ form_end(form) }}
+        </section>
+    </section>
+</main>
+{% endblock %}

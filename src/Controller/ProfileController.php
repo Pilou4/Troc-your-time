@@ -12,6 +12,8 @@ use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use App\Form\PictureProfileType;
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 #[Route('/profile', name: 'profile_'), IsGranted("ROLE_USER")]
 class ProfileController extends AbstractController
@@ -25,6 +27,44 @@ class ProfileController extends AbstractController
     public function list(): Response
     {
         return $this->render('profile/list.html.twig');
+    }
+
+    #[Route('/data', name: 'data')]
+    public function data(): Response
+    {
+        return $this->render('profile/data.html.twig');
+    }
+
+    #[Route('/download', name: 'download')]
+    public function download(): Response
+    {
+        $pdfOptions = new Options();
+        $pdfOptions->set('defaultFont', 'Arial'); 
+        $pdfOptions->setIsRemoteEnabled(true);
+        
+        $dompdf= new Dompdf($pdfOptions);
+        $context = stream_context_create([
+            'ssl' => [
+                'verify_peer' => FALSE,
+                'verify_peer_name' => FALSE,
+                'allow_self_signed' => TRUE
+            ]
+        ]);
+        $dompdf->setHttpContext($context);
+
+        $html = $this->renderView('profile/download.html.twig');
+        
+        $dompdf->loadHtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        $file = 'profil-data-' . $this->getUser()->getId() . '.pdf';
+
+        $dompdf->stream($file, [
+            'Attachement' => true
+        ]);
+
+        return new Response();
     }
 
     #[Route('/view/{id}', name: 'view')]
@@ -45,7 +85,7 @@ class ProfileController extends AbstractController
         $form = $this->createForm(ProfileType::class, $profile);
         $form->handleRequest($request);
 
-        /** @param $user instanceof User */
+        /** @var $user instanceof User */
         $user = $this->getUser();
         if ($user->isVerified() === false) {
             $this->addFlash('error', "Adresse email non vérifié");

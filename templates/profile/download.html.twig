@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Liste des données de {{ app.user.profile.firstname ~ " " ~  app.user.profile.lastname }}</title>
+    </head>
+    <body>
+        <h1>Liste des données de {{ app.user.profile.firstname ~ " " ~  app.user.profile.lastname }}</h1>
+        <h2>Vos données</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom d'utilisateur</th>
+                    <th>Nom</th>
+                    <th>Prénom</th>
+                    <th>Email</th>
+                    {% if app.user.profile.birthday %}
+                        <th>Date de naissance</th>
+                    {% endif %}
+                    <th>rue</th>
+                    <th>code postal</th>
+                    <th>ville</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>{{ app.user.profile.username }}</td>
+                    <td>{{ app.user.profile.lastname }}</td>
+                    <td>{{ app.user.profile.firstname }}</td>
+                    <td>{{ app.user.email }}</td>
+                    {% if app.user.profile.birthday %}
+                        <td>{{ app.user.profile.birthday|date('d m Y') }}</td>
+                    {% endif %}
+                    <td>{{ app.user.profile.street }}</td>
+                    <td>{{ app.user.profile.zipcode }}</td>
+                    <td>{{ app.user.profile.city }}</td>
+                </tr>
+            </tbody>
+        </table>
+        <h2>Vos annonces</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>titre</th>
+                    <th>slug</th>
+                    <th>catégorie</th>
+                    <th>contenue</th>
+                    <th>date de création</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for announce in app.user.profile.announcements %}
+                    <tr>
+                        <td>{{ announce.title }}</td>
+                        <td>{{ announce.slug }}</td>
+                        <td>{{ announce.category.name }}</td>
+                        <td>{{ announce.description }}</td>
+                        <td>{{ announce.createdAt|date('d m Y') }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <h2>Vos messages envoyés</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>destinataire</th>
+                    <th>sujet</th>
+                    <th>contenue</th>
+                    <th>date de création</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for message in app.user.profile.sent %}
+                    <tr>
+                        <td>{{ message.recipient.username }}</td>
+                        <td>{{ message.title }}</td>
+                        <td>{{ message.message }}</td>
+                        <td>{{ message.createdAt|date('d m Y') }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <h2>Vos messages reçus</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>expéditeur</th>
+                    <th>sujet</th>
+                    <th>contenue</th>
+                    <th>date de création</th>
+                </tr>
+            </thead>
+            <tbody>             
+                {% for message in app.user.profile.received %}
+                    <tr>
+                        <td>{{ message.sender.user.email }}</td>
+                        <td>{{ message.title }}</td>
+                        <td>{{ message.message }}</td>
+                        <td>{{ message.createdAt|date('d m Y') }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </body>
+</html>

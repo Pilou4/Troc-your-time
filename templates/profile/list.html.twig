@@ -45,15 +45,23 @@
             </tr>
         </table>
     </section>
-    <section>
-        <div>
-            <h2>annonces</h2>
+    <section class="profile__main">
+        <div class="profile__main__card">
+            <h2 class="profile__main__card__title">annonces</h2>
+            <p class="profile__main__card__number">Vous avez actuellement {{ app.user.profile.announcements ? app.user.profile.announcements|length : 0 }} en ligne{{ app.user.profile.announcements|length > 1 ? "s" : "" }}</p>
+            <a href="{{ path('announcement_me') }}" class="profile__main__card__text">Voir vos annonces</a>
         </div>
-        <div>
-            <h2>messages</h2>
+        <div class="profile__main__card">
+            <h2 class="profile__main__card__title">messages</h2>
+            <a href="{{ path('message_list') }}" class="profile__main__card__text">
+                Accéder à votre messagerie
+                </a>
         </div>
-        <div>
-            <h2>paramètres</h2>
+        <div class="profile__main__card">
+            <h2 class="profile__main__card__title">paramètres</h2>
+            <a href="{{ path('profile_update', {'id': app.user.profile.id}) }}" class="profile__main__card__link">
+                Modifier vos informations personnels
+            </a>
         </div>
         <div>
             <h2></h2>
@@ -63,6 +71,9 @@
     <p>Email : {{ app.user.email }}</p>
     <a href="{{ path('profile_update', {'id': app.user.profile.id}) }}">
         <i class="las la-edit la-2x"></i>
+    </a>
+    <a href="{{ path('profile_data') }}">
+        Voir mes données personnelles (RGPD)
     </a>
     {# <p>Nom d'utilisateur : {{ app.user.profile.username }}</p> #}
 </main>

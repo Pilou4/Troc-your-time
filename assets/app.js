@@ -1,3 +1,4 @@
+// GÉOLOCALISATION
 import Places from 'places.js';
 
 let inputAddress = document.querySelector('#profile_address');
@@ -22,9 +23,11 @@ if (inputAddress) {
  * We recommend including the built version of this JavaScript file
  * (and its CSS file) in your base layout (base.html.twig).
  */
+import './js/carousel'
 
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/styles.scss';
+import './styles/admin.scss';
 
 // start the Stimulus application
 import './bootstrap';

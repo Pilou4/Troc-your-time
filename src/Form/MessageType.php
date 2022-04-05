@@ -34,17 +34,17 @@ class MessageType extends AbstractType
                     ]
                 ]
             )
-            ->add(
-                'recipient',
-                EntityType::class,
-                [
-                    "class" => Profile::class,
-                    "choice_label" => "username",
-                    "attr" => [
-                        "class" => "send__form__input"
-                    ]
-                ]
-            )
+            // ->add(
+            //     'recipient',
+            //     EntityType::class,
+            //     [
+            //         "class" => Profile::class,
+            //         "choice_label" => "username",
+            //         "attr" => [
+            //             "class" => "send__form__input"
+            //         ]
+            //     ]
+            // )
         ;
     }
 

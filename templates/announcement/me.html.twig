@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AnnouncementController!{% endblock %}
+
+{% block body %}
+<main class="myAnnouncement">
+    <h1 class="myAnnouncement__title">Liste de mes annonces</h1>
+    {% for announcement in app.user.profile.announcements %}
+        <article class="myAnnouncement__article">
+            <p class="myAnnouncement__article__category">{{ announcement.category.name }}</p>
+            <h2 class="myAnnouncement__article__title">{{ announcement.title }}</h2>
+            <p class="myAnnouncement__article__date">crée le {{ announcement.createdAT|date('d-m-Y\\ à H\\hi\\', "Europe/Paris") }}</p>
+            <p class="myAnnouncement__article__content">{{ announcement.description }}</p>
+            <a href="{{ path('announcement_update', {'id': announcement.id}) }}">
+                <i class="las la-edit la-2x"></i>
+            </a>
+            <a href="{{ path('announcement_delete', {'id': announcement.id}) }}"  onClick="return confirm('Confirmez la suppression');"><i class="las la-trash la-2x"></i></a>
+        </article>
+    {% endfor %}
+</main>
+{% endblock %}

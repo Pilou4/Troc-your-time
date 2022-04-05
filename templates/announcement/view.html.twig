@@ -1,0 +1,12 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AnnouncementController!{% endblock %}
+
+{% block body %}
+<main class="announcement">
+    <h1 class="announcement__title">Titre de l'annonce {{ announcement.title }}</h1>
+    <p class="announcement__title">Annonces de {{ announcement.profile.username }}</p>
+    <p class="announcement__title">{{ announcement.description }}</p>
+    <p><a href="{{ path('message_contact', {'username': announcement.profile.username})}}">contacter</a></p>
+</main>
+{% endblock %}

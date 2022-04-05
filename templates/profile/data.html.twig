@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Données personnelle de {{ app.user.profile.firstname ~ ' ' ~ app.user.profile.lastname}} !{% endblock %}
+
+{% block body %}
+<main class="profile">
+    <h1 class="profile__title">Données personnelle de {{ app.user.profile.firstname ~ ' ' ~ app.user.profile.lastname}}</h1>
+    <section class="profile__coord">
+        {% if app.user.profile.filename %}
+            <p>Image de profile : <img src={{ vich_uploader_asset(app.user.profile, 'imageFile')}} alt="image de profil (avatar)" class="profile__header__img"></p>
+        {% endif %}
+        <p>Email : {{ app.user.email }}</p>
+        <p>Nom d'utilisateur : {{ app.user.profile.username }}</p>
+        <p>Prénom : {{ app.user.profile.firstname }}</p>
+        <p>Nom : {{ app.user.profile.lastname }}</p>
+        {% if app.user.profile.birthday %}
+            <p>Date de naissance : {{ app.user.profile.birthday|date('d-m-Y') }}</p>
+        {% endif %}
+        <p>Adresse : {{ app.user.profile.street }}</p>
+        <p>Code postal : {{ app.user.profile.zipcode ~ ' ' ~ app.user.profile.city}}</p>
+        <p>Ville : {{  app.user.profile.city}}</p>
+        <p>Latitude : {{  app.user.profile.lat}}</p>
+        <p>Longitude : {{  app.user.profile.lng}}</p>
+    </section>
+    <h2>Vos annonces</h2>
+    <section>
+        {% for announce in app.user.profile.announcements %}
+            <p>Titre : {{ announce.title }}</p>
+            <p>Slug : {{ announce.slug }}</p>
+            <p>Catégorie : {{ announce.category.name }}</p>
+            <p>Contenue : {{ announce.description }}</p>
+            <p>Date de création : {{ announce.createdAt|date('d-m-Y') }}</p>
+        {% endfor %}
+    </section>
+    <h2>Vos messages envoyés</h2>
+    <section>
+        {% for message in app.user.profile.sent %}
+            <p>À : {{ message.recipient.username }}</p>
+            <p>Titre : {{ message.title }}</p>
+            <p>Contenu : {{ message.message }}</p>
+            <p>Date de reception : {{ message.createdAt|date('d-m-Y') }}</p>
+        {% endfor %}
+    </section>
+    <h2>Vos messages reçus</h2>
+    <section>
+        {% for message in app.user.profile.received %}
+            <p>De : {{ message.sender.user.email }}</p>
+            <p>Titre : {{ message.title }}</p>
+            <p>Contenu : {{ message.message }}</p>
+            <p>Date de reception : {{ message.createdAt|date('d-m-Y') }}</p>
+        {% endfor %}
+    </section>
+    <button><a href="{{ path('profile_download') }}">Télécharger les données</a></button>
+</main>
+{% endblock %}

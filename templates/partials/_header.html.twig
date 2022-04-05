@@ -1,16 +1,27 @@
 <header class="header">
     <nav class="header__nav">
-        <a href="{{ path('homepage') }}" class="header__nav__link">Accueil</a>
-        <button><a href="{{ path('announcement_add') }}" class="header__nav__link">Ajouter une annonces</a></button>
-        <a href="{{ path('message_list') }}" class="header__nav__link">Messages</a>
-        {% if app.user %}
-            {% if app.user.profile == null %}
-                <a href="{{ path('profile_add') }}">Compléter profil</a>
-                {% else %}
-                    <a href="{{ path('profile_list') }}" class="header__nav__link">Profil</a>
+        <div class="header__nav__left">
+            <a href="{{ path('homepage') }}" class="header__nav__link">Accueil</a>
+            <button class="header__nav__button">
+                <a href="{{ path('announcement_add') }}" class="header__nav__button__link"></i><i class="las la-plus-circle"></i> Ajouter une annonce</a>
+            </button>
+            <button class="header__nav__button">
+                <a href="#" class="header__nav__button__link"><i class="las la-search"></i> Rechercher</a>
+            </button>
+        </div>
+        <div class="header__nav__right">
+            <a href="#" class="header__nav__link"><i class="lar la-heart"></i> Favoris</a>
+            <a href="{{ path('message_list') }}" class="header__nav__link"><i class="las la-comment"></i> Messages</a>
+            {% if app.user %}
+                {% if app.user.profile == null %}
+                    <a href="{{ path('profile_add') }}">Compléter profil</a>
+                    {% else %}
+                        <a href="{{ path('profile_list') }}" class="header__nav__link"><i class="las la-user-tie"></i> Profil</a>
+                {% endif %}
+            {% else %}
+                <a href="{{ path('app_login') }}" class="header__nav__link">Se connecter</a>
             {% endif %}
-        {% else %}
-            <a href="{{ path('app_login') }}" class="header__nav__link">Se connecter</a>
-        {% endif %}
+                <a href="{{ path('admin_dashboard') }}" class="header__nav__link">Admin</a>
+        </div>
     </nav>
 </header>

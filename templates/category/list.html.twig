@@ -1,9 +1,41 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AnnouncementController!{% endblock %}
+{% block title %}Liste des catégories !{% endblock %}
 
 {% block body %}
-<main class="announcement">
-    <h1 class="announcement__title">Liste des catégories</h1>
+<main class="category">
+    <h1 class="category__title">Liste des catégories</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>image</th>
+                <th>date de création</th>
+                <th>modifier</th>
+                <th>supprimer</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for category in categories %}
+                <tr>
+                    <td>{{ category.name }}</td>
+                    <td>{% if category.filename %}
+                            <img src={{ vich_uploader_asset(category, 'imageFile')}} alt="image de la category {{ category.name }}" class="homepages__category__img">
+                        {% endif %}</td>
+                    <td>{{ category.createdAt|date('d-m-Y') }}</td>
+                    <td>
+                        <a href="{{ path('category_update', {'id': category.id}) }}">
+                            <i class="las la-edit la-2x"></i>
+                        </a>
+                    </td>
+                    <td>
+                        <a href="{{ path('category_update', {'id': category.id}) }}">
+                            <i class="las la-edit la-2x"></i>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </main>
 {% endblock %}

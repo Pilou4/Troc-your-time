@@ -5,5 +5,59 @@
 {% block body %}
     <main class="homepage">
         <h1 class="homepage__title">Troc your time</h1>
+        <section class="homepage__presentation">
+            <p class="homepage__presentation__content">
+                
+            </p>
+        </section>
+        {# <section class="homepage__categories">
+            <h2 class="homepage__categories__title">Liste des catégories</h2>
+            <div id="carousel1">
+                {% for category in categories %}
+                    <div class="item">
+                        <div class="item__image">
+                            <p class="item__title">{{ category.name }}</p>
+                            {% if category.filename %}
+                                <img src={{ vich_uploader_asset(category, 'imageFile')}} alt="image de la category {{ category.name }}" class="carousel-img">
+                            {% endif %}
+                        </div>
+                        <div class="item__body">
+                            <div class="item__title">
+                                {{ category.name }}
+                            </div>
+                            <div class="item__description">
+                                Description
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </section> #}
+
+        <h2 class="homepage__subtitle">Liste des annonces</h2>
+        <section class="homepage__announcements">
+            {% for announcement in announcements %}
+                <a href="{{ path('announcement_view', {'id': announcement.id}) }}" class="homepage__announcement__link">
+                    <article class="homepage__announcement">
+                        <div class="homepage__announcement__author">
+                            {% if announcement.profile.filename %}
+                                <img src={{ vich_uploader_asset(announcement.profile, 'imageFile')}} alt="image de profil (avatar)" class="homepage__announcement__author__picture">
+                            {% else %}
+                                <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil (avatar)" class="homepage__announcement__author__picture">
+                            {% endif %}
+                            <h3 class="homepage__announcement__author__name">{{ announcement.profile.username }}</h3>
+                            <p class="homepage__announcement__author__category">{{ announcement.category.name }}</p>
+                        </div>
+                        <div class="homepage__announcement__content">
+                            <h3 class="homepage__announcement__content__title">{{ announcement.title }}</h3>
+                            <p class="homepage__announcement__content__text">{{ announcement.description }}</p>
+                        </div>
+                        <div class="homepage__announcement__date">
+                            <p class="homepage__announcement__date__create">Publié le {{ announcement.createdAt|date('d m Y\ à H\\hi') }}</p>
+                        </div>
+                    </article>
+                </a>
+            {% endfor %}
+        </section>
     </main>
 {% endblock %}
