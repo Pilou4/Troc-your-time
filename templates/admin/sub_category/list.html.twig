@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des catégories !{% endblock %}
+
+{% block body %}
+<main class="admin">
+    {% include "admin/partials/_nav.html.twig" %}
+    <section class="admin__content">
+        <h1 class="admin__content__title">Liste des sous catégories</h1>
+        <button><a href="{{ path('admin_sub_category_add') }}">Ajouter une sous catégorie</a></button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Catégorie</th>
+                    <th>Nom</th>
+                    <th>modifier</th>
+                    <th>supprimer</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for subCategory in subCategories %}
+                    <tr>
+                        {% if subCategory.category %}
+                            <td>{{ subCategory.category.name }}</td>
+                            {% else %}
+                                <td>0</td>
+                        {% endif %}
+                        <td>{{ subCategory.name }}</td>
+                        <td>
+                            <a href="{{ path('admin_sub_category_update', {'id': subCategory.id}) }}">
+                                <i class="las la-edit la-2x"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{{ path('admin_sub_category_delete', {'id': subCategory.id}) }}"  onClick="return confirm('Confirmez la suppression');"><i class="las la-trash la-2x"></i></a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+</main>
+
+{% endblock %}

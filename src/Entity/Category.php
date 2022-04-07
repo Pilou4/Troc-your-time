@@ -10,11 +10,13 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-#[ORM\Entity(repositoryClass: CategoryRepository::class)]
 /**
  * @Vich\Uploadable()
  */
+#[ORM\Entity(repositoryClass: CategoryRepository::class)]
+#[UniqueEntity(fields: ['name'], message: 'Le nom de la catégorie doit être unqiue')]
 class Category
 {
     #[ORM\Id]
@@ -22,11 +24,10 @@ class Category
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 150)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min:3, max:150, minMessage:"Le nom de la catégorie doit contenir au minimun {{ limit }} caractères", maxMessage:"Le nom de la catégorie ne doit pas dépasser {{ limit }} caractères")]
     private $name;
-
-    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Announcement::class)]
-    private $announcements;
 
     #[ORM\Column(type: 'datetime_immutable')]
     /**
@@ -52,9 +53,13 @@ class Category
      */
     private $imageFile;
 
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: SubCategory::class, cascade: ['persist', 'remove'])]
+    private $subCategories;
+
     public function __construct()
     {
         $this->announcements = new ArrayCollection();
+        $this->subCategories = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -70,36 +75,6 @@ class Category
     public function setName(string $name): self
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Announcement>
-     */
-    public function getAnnouncements(): Collection
-    {
-        return $this->announcements;
-    }
-
-    public function addAnnouncement(Announcement $announcement): self
-    {
-        if (!$this->announcements->contains($announcement)) {
-            $this->announcements[] = $announcement;
-            $announcement->setCategory($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAnnouncement(Announcement $announcement): self
-    {
-        if ($this->announcements->removeElement($announcement)) {
-            // set the owning side to null (unless already changed)
-            if ($announcement->getCategory() === $this) {
-                $announcement->setCategory(null);
-            }
-        }
 
         return $this;
     }
@@ -163,6 +138,36 @@ class Category
     public function setImageFile($imageFile)
     {
         $this->imageFile = $imageFile;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SubCategory>
+     */
+    public function getSubCategories(): Collection
+    {
+        return $this->subCategories;
+    }
+
+    public function addSubCategory(SubCategory $subCategory): self
+    {
+        if (!$this->subCategories->contains($subCategory)) {
+            $this->subCategories[] = $subCategory;
+            $subCategory->setCategory($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSubCategory(SubCategory $subCategory): self
+    {
+        if ($this->subCategories->removeElement($subCategory)) {
+            // set the owning side to null (unless already changed)
+            if ($subCategory->getCategory() === $this) {
+                $subCategory->setCategory(null);
+            }
+        }
 
         return $this;
     }

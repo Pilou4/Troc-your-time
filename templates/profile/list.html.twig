@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Page profil utilisateur !{% endblock %}
+{% block title %}Page de profil de {{ app.user.profile.firstname ~ ' ' ~ app.user.profile.lastname}}{% endblock %}
 
 {% block body %}
 <main class="profile">

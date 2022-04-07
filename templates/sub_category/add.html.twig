@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ProfileController!{% endblock %}
+
+{% block body %}
+    <main class="subCategorieAdd">
+        <div class="subCategorieAdd__form">
+            <h1 class="subCategorieAdd__title">compléter votre profile</h1>
+        
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <input type="submit" value="Valider" class="subCategorieAdd__form__button">
+            {{ form_end(form) }}
+        </div>
+    </main>
+{% endblock %}
+

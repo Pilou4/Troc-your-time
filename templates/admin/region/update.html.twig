@@ -1,16 +1,16 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AnnouncementController!{% endblock %}
+{% block title %}Modification d'un catégorie !{% endblock %}
 
 {% block body %}
-<main class="admin">
+<main class="dashboard">
     {% include "admin/partials/_nav.html.twig" %}
-    <section class="admin__content">
-        <h1 class="admin__content__title">Ajouter une catégorie</h1>
-        <section class="admin__content__form">
+    <section class="dashboard__content">
+        <h1 class="dashboard__content__title">Modifier une région</h1>
+        <section class="admin__category__add">
             {{ form_start(form) }}
                 {{ form_widget(form) }}
-                <input type="submit" value="Valider" class="admin__content__form__button">
+                <input type="submit" value="Valider" class="admin__category__add__form__button">
             {{ form_end(form) }}
         </section>
     </section>
@@ -23,11 +23,11 @@
         let span;
 
         window.onload = () => {
-            collection = document.querySelector("#category_subCategories");
+            collection = document.querySelector("#region_departments");
 
             buttonAdd = document.createElement("button");
-            buttonAdd.className = "admin__content__form__button__new";
-            buttonAdd.innerText = "Ajouter une sous catégorie";
+            buttonAdd.className = "add-department";
+            buttonAdd.innerText = "Ajouter un département";
 
             let newButtonAdd = collection.append(buttonAdd);
 
@@ -49,21 +49,22 @@
 
                 let buttonDelete = document.createElement("button");
                 buttonDelete.type = "button";
-                buttonDelete.id = "delete-sub-category-" + index;
-                buttonDelete.className = "admin__content__form__button__delete";
-                buttonDelete.innerText = "Supprimer une sous catégorie";
+                buttonDelete.id = "delete-department-" + index;
+                buttonDelete.className = "form__buttonDelete";
+                buttonDelete.innerText = "Supprimer un département";
 
                 newForm.append(buttonDelete);
 
                 collection.dataset.index++;
 
-                let buttonAdd = collection.querySelector(".admin__content__form__button__new");
+                let buttonAdd = collection.querySelector(".add-department");
                 collection.insertBefore(newForm, buttonAdd);
 
                 buttonDelete.addEventListener("click", function () {
                     this.previousElementSibling.parentElement.remove();
-                });
+            })
             }
+
         }
         
     </script>

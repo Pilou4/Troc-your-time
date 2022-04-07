@@ -14,7 +14,7 @@
             <a href="{{ path('message_list') }}" class="header__nav__link"><i class="las la-comment"></i> Messages</a>
             {% if app.user %}
                 {% if app.user.profile == null %}
-                    <a href="{{ path('profile_add') }}">Compléter profil</a>
+                    <a href="{{ path('profile_add') }}" class="header__nav__link">Compléter profil</a>
                     {% else %}
                         <a href="{{ path('profile_list') }}" class="header__nav__link"><i class="las la-user-tie"></i> Profil</a>
                 {% endif %}

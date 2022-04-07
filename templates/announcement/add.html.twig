@@ -3,13 +3,65 @@
 {% block title %}Hello AnnouncementController!{% endblock %}
 
 {% block body %}
-<main class="announcementAdd">
-    <h1 class="announcementAdd__title">Ajouter une annonces</h1>
-    <div class="announcementAdd__form">        
-        {{ form_start(form) }}
-        {{ form_widget(form) }}
-        <input type="submit" value="Valider" class="announcementAdd__form__button">
-        {{ form_end(form) }}
-    </div>
-</main>
-{% endblock %}
+    <main class="announcementAdd">
+        <h1 class="announcementAdd__title">Ajouter une annonces</h1>
+        <div class="announcementAdd__form">        
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <input type="submit" value="Valider" class="announcementAdd__form__button">
+            {{ form_end(form) }}
+        </div>
+    </main>
+    {% endblock %}
+    {% block javascripts %}
+        <script>
+            window.onload = () => {
+                let region = document.querySelector('#announcement_region');
+                let category = document.querySelector('#announcement_category');
+
+                region.addEventListener('change', function () {
+                    /* closest function permettant de récupérer la balise HTML la plus proche */
+                    let form = this.closest('form');
+                    let data = this.name + "=" + this.value;
+                    fetch(form.action, {
+                        method: form.getAttribute("method"),
+                        body: data,
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded;charset: UTF-8"
+                        }
+                    })
+                    .then(response => response.text())
+                    .then(html => {
+                        let content = document.createElement("html");
+                        content.innerHTML = html;
+                        let newSelect = content.querySelector("#announcement_department");
+                        document.querySelector("#announcement_department").replaceWith(newSelect);
+                    })
+                    .catch(error => console.log(error))
+                });
+
+                category.addEventListener('change', function () {
+                    /* closest function permettant de récupérer la balise HTML la plus proche */
+                    let form = this.closest('form');
+                    let data = this.name + "=" + this.value;
+                    fetch(form.action, {
+                        method: form.getAttribute("method"),
+                        body: data,
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded;charset: UTF-8"
+                        }
+                    })
+                    .then(response => response.text())
+                    .then(html => {
+                        let content = document.createElement("html");
+                        content.innerHTML = html;
+                        let newSelect = content.querySelector("#announcement_subCategory");
+                        document.querySelector("#announcement_subCategory").replaceWith(newSelect);
+                    })
+                    .catch(error => console.log(error))
+                });
+            }
+            
+        </script>
+{% endblock %}    
+

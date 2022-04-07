@@ -20,9 +20,7 @@ class MessageType extends AbstractType
                 'title',
                 TextType::class,
                 [
-                    "attr" => [
-                    "class" => "send__form__input"
-                    ]
+                    "attr" => ["class" => "send__form__input"]
                 ]
             )
             ->add(

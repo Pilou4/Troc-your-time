@@ -3,14 +3,11 @@
 {% block title %}Tableau de bord administration !{% endblock %}
 
 {% block body %}
-<main class="dashboard">
-    <nav class="dashboard__nav">
-        <a href="{{ path('admin_dashboard') }}" class="dashboard__nav__link">Tableau de bord</a>
-        <a href="{{ path('admin_category_list') }}" class="dashboard__nav__link">Catégories</a>
-    </nav>
-    <section class="dashboard__content">
-        <h1 class="dashboard__content__title">Tableau de bord</h1>
-        <p class="dashboard__content__text">Il y a {{ app.user.profile|length }} d'utilisateurs inscrits.</p>
+<main class="admin">
+    {% include "admin/partials/_nav.html.twig" %}
+    <section class="admin__content">
+        <h1 class="admin__content__title">Tableau de bord</h1>
+        <p class="admin__content__text">Il y a {{ app.user.profile|length }} d'utilisateurs inscrits.</p>
     </section>
 </main>
 {% endblock %}

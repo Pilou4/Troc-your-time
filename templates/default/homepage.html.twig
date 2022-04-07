@@ -7,33 +7,21 @@
         <h1 class="homepage__title">Troc your time</h1>
         <section class="homepage__presentation">
             <p class="homepage__presentation__content">
-                
+                Troc time est une plate-forme de mise en relation qui vise à favoriser l'échange et le service. Publiez des annonces !
+                Échanger des services sans commission avec les membres de la communauté !
             </p>
         </section>
-        {# <section class="homepage__categories">
-            <h2 class="homepage__categories__title">Liste des catégories</h2>
-            <div id="carousel1">
-                {% for category in categories %}
-                    <div class="item">
-                        <div class="item__image">
-                            <p class="item__title">{{ category.name }}</p>
-                            {% if category.filename %}
-                                <img src={{ vich_uploader_asset(category, 'imageFile')}} alt="image de la category {{ category.name }}" class="carousel-img">
-                            {% endif %}
-                        </div>
-                        <div class="item__body">
-                            <div class="item__title">
-                                {{ category.name }}
-                            </div>
-                            <div class="item__description">
-                                Description
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
-            </div>
-        </section> #}
-
+        <h2 class="homepage__subtitle">Liste des catégories</h2>
+        <ul>
+            {% for category in categories %}
+                <li>{{category.name}}</li>
+                <ul>
+                    {% for subCategory in category.subCategories %}
+                        <li>{{ subCategory.name }}</li>
+                    {% endfor %}
+                </ul>
+            {% endfor %}
+        </ul>
         <h2 class="homepage__subtitle">Liste des annonces</h2>
         <section class="homepage__announcements">
             {% for announcement in announcements %}
@@ -46,7 +34,7 @@
                                 <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil (avatar)" class="homepage__announcement__author__picture">
                             {% endif %}
                             <h3 class="homepage__announcement__author__name">{{ announcement.profile.username }}</h3>
-                            <p class="homepage__announcement__author__category">{{ announcement.category.name }}</p>
+                            <p class="homepage__announcement__author__category">{{ announcement.subCategory.name }}</p>
                         </div>
                         <div class="homepage__announcement__content">
                             <h3 class="homepage__announcement__content__title">{{ announcement.title }}</h3>

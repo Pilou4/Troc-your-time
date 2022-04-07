@@ -3,53 +3,42 @@
 {% block title %}Liste des catégories !{% endblock %}
 
 {% block body %}
-<main class="dashboard">
-    <nav class="dashboard__nav">
-        <a href="{{ path('admin_dashboard') }}" class="dashboard__nav__link">Tableau de bord</a>
-        <a href="{{ path('admin_category_list') }}" class="dashboard__nav__link">Catégories</a>
-    </nav>
-    <section class="dashboard__content">
-        <h1 class="dashboard__content__title">Tableau de bord</h1>
-
-        <section class="admin__category">
-            <h2 class="admin__category__title">Liste des catégories
-                <button><a href="{{ path('admin_category_add') }}">Ajouter une catégorie</a></button>
-            </h2>
-            
-            <table>
-                <thead>
+<main class="admin">
+    {% include "admin/partials/_nav.html.twig" %}
+    <section class="admin__content">
+        <h1 class="admin__content__title">Liste des catégories</h1>
+        <button class="admin__content__button"><a href="{{ path('admin_category_add') }}">Ajouter une catégorie</a></button>
+        <table>
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Nb de sous catégorie</th>
+                    <th>date de création</th>
+                    {# <th>modifier</th>
+                    <th>supprimer</th> #}
+                </tr>
+            </thead>
+            <tbody>
+                {% for category in categories %}
                     <tr>
-                        <th>Nom</th>
-                        <th>image</th>
-                        <th>date de création</th>
-                        <th>modifier</th>
-                        <th>supprimer</th>
+                        <td>{{ category.name }}</td>
+                        <td>{{ category.subCategories|length }}</td>
+                        {% if category.filename %}
+                            <td><img src={{ vich_uploader_asset(category, 'imageFile')}} alt="image de la category {{ category.name }}" class="admin__category__img"></td>
+                        {% endif %}
+                        <td>{{ category.createdAt|date('d-m-Y') }}</td>
+                        <td>
+                            <a href="{{ path('admin_category_update', {'id': category.id}) }}">
+                                <i class="las la-edit la-2x"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{{ path('admin_category_delete', {'id': category.id}) }}"  onClick="return confirm('Confirmez la suppression');"><i class="las la-trash la-2x"></i></a>
+                        </td>
                     </tr>
-                </thead>
-                <tbody>
-                    {% for category in categories %}
-                        <tr>
-                            <td>{{ category.name }}</td>
-                            <td>{% if category.filename %}
-                                    <img src={{ vich_uploader_asset(category, 'imageFile')}} alt="image de la category {{ category.name }}" class="admin__category__img">
-                                {% endif %}</td>
-                            <td>{{ category.createdAt|date('d-m-Y') }}</td>
-                            <td>
-                                <a href="{{ path('admin_category_update', {'id': category.id}) }}">
-                                    <i class="las la-edit la-2x"></i>
-                                </a>
-                            </td>
-                            <td>
-                                <a href="{{ path('admin_category_update', {'id': category.id}) }}">
-                                    <i class="las la-edit la-2x"></i>
-                                </a>
-                            </td>
-                        </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </section>
-        
+                {% endfor %}
+            </tbody>
+        </table>        
     </section>
 </main>
 

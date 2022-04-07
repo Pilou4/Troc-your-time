@@ -26,21 +26,29 @@ class Profile
     private $id;
 
     #[ORM\Column(type: 'string', length: 100)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min:2, max:100, minMessage:"Le prénom doit contenir au minimun {{ limit }} caractères", maxMessage:"Le prénom ne peut pas dépasser {{ limit }} caractères")]
     private $firstname;
 
     #[ORM\Column(type: 'string', length: 100)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min:2, max:100, minMessage:"Le nom doit contenir au minimun {{ limit }} caractères", maxMessage:"Le nom ne peut pas dépasser {{ limit }} caractères")]
     private $lastname;
 
     #[ORM\Column(type: 'date', nullable: true)]
     private $birthday;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Assert\NotBlank]
     private $street;
 
     #[ORM\Column(type: 'string', length: 5)]
+    #[Assert\NotBlank]
+    #[Assert\Length(min:5, max:5, minMessage:"Le code postal doit contenir {{ limit }} caractères", maxMessage:"Le code postal doit contenir {{ limit }} caractères")]
     private $zipcode;
 
     #[ORM\Column(type: 'string', length: 150)]
+    #[Assert\NotBlank]
     private $city;
 
     #[ORM\OneToOne(mappedBy: 'profile', targetEntity: User::class, cascade: ['persist', 'remove'])]
