@@ -11,7 +11,7 @@
                 Échanger des services sans commission avec les membres de la communauté !
             </p>
         </section>
-        <h2 class="homepage__subtitle">Liste des catégories</h2>
+        {# <h2 class="homepage__subtitle">Liste des catégories</h2>
         <ul>
             {% for category in categories %}
                 <li>{{category.name}}</li>
@@ -21,7 +21,7 @@
                     {% endfor %}
                 </ul>
             {% endfor %}
-        </ul>
+        </ul> #}
         <h2 class="homepage__subtitle">Liste des annonces</h2>
         <section class="homepage__announcements">
             {% for announcement in announcements %}
@@ -39,6 +39,7 @@
                         <div class="homepage__announcement__content">
                             <h3 class="homepage__announcement__content__title">{{ announcement.title }}</h3>
                             <p class="homepage__announcement__content__text">{{ announcement.description }}</p>
+                            <p class="homepage__announcement__content__text">{{ announcement.propose }}</p>
                         </div>
                         <div class="homepage__announcement__date">
                             <p class="homepage__announcement__date__create">Publié le {{ announcement.createdAt|date('d m Y\ à H\\hi') }}</p>

@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Annonce favorite de {{ app.user.profile.username }}!{% endblock %}
+
+{% block body %}
+<main class="favorite">
+    <h1>Mes favoris</h1>
+    {% if app.user.profile.favorites %}
+        <p>test</p>
+        {% for favorite in app.user.profile.favorites %}
+            <article>
+                <h2>{{ favorite.title }}</h2>
+            </article>
+        {% endfor %}
+    {% endif %}
+</main>
+{% endblock %}

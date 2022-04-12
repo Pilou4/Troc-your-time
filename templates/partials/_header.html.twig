@@ -6,17 +6,28 @@
                 <a href="{{ path('announcement_add') }}" class="header__nav__button__link"></i><i class="las la-plus-circle"></i> Ajouter une annonce</a>
             </button>
             <button class="header__nav__button">
-                <a href="#" class="header__nav__button__link"><i class="las la-search"></i> Rechercher</a>
+                <a href="{{ path('announcement_list') }}" class="header__nav__button__link"><i class="las la-search"></i> Rechercher</a>
             </button>
         </div>
         <div class="header__nav__right">
-            <a href="#" class="header__nav__link"><i class="lar la-heart"></i> Favoris</a>
-            <a href="{{ path('message_list') }}" class="header__nav__link"><i class="las la-comment"></i> Messages</a>
+            <div class="header__nav__right__link">
+                <p class="header__nav__right__icone"><i class="lar la-heart la-2x"></i></p>
+                <a href="{{ path('announcement_favorite') }}" class="header__nav__link">
+                    Favoris
+                </a>
+            </div>
+            <div class="header__nav__right__link">
+                <p class="header__nav__right__icone"><i class="las la-comment la-2x"></i></p>
+                <a href="{{ path('message_list') }}" class="header__nav__link">Messages</a>
+            </div>
             {% if app.user %}
                 {% if app.user.profile == null %}
                     <a href="{{ path('profile_add') }}" class="header__nav__link">Compléter profil</a>
                     {% else %}
-                        <a href="{{ path('profile_list') }}" class="header__nav__link"><i class="las la-user-tie"></i> Profil</a>
+                        <div class="header__nav__right__link">
+                            <p class="header__nav__right__icone"><i class="las la-user-tie la-2x"></i></p>
+                            <a href="{{ path('profile_list') }}" class="header__nav__link">Profil</a>
+                        </div>
                 {% endif %}
             {% else %}
                 <a href="{{ path('app_login') }}" class="header__nav__link">Se connecter</a>

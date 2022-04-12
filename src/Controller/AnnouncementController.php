@@ -4,14 +4,18 @@ namespace App\Controller;
 
 use App\Entity\Announcement;
 use App\Form\AnnouncementType;
-use App\Repository\AnnouncementRepository;
+use App\Entity\AnnouncementSearch;
+use App\Form\AnnouncementSearchType;
 use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\AnnouncementRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 #[Route('/announcement', name: 'announcement_')]
 class AnnouncementController extends AbstractController
@@ -24,10 +28,21 @@ class AnnouncementController extends AbstractController
     }
     
     #[Route('/list', name: 'list')]
-    public function list(): Response
+    public function list(PaginatorInterface $paginator, Request $request, AnnouncementRepository $announcementRepository): Response
     {
+        $search = new AnnouncementSearch();
+        $form = $this->createForm(AnnouncementSearchType::class, $search);
+        $form->handleRequest($request);
+
+        $announcement = $paginator->paginate(
+            $announcementRepository->findAllVisibleQuery($search),
+            $request->query->getInt('page', 1),
+            2
+        );
+
         return $this->render('announcement/list.html.twig', [
-            'controller_name' => 'AnnouncementController',
+            'announcements' => $announcement,
+            'form'          => $form->createView()
         ]);
     }
 
@@ -44,6 +59,43 @@ class AnnouncementController extends AbstractController
     public function me(): Response
     {
         return $this->render('announcement/me.html.twig');
+    }
+
+    #[Route('/favorite/add/{id}', name: 'add_favorite')]
+    public function ajoutFavoris(Announcement $announce)
+    {
+        if(!$announce){
+            throw new NotFoundHttpException('Pas d\'annonce trouvée');
+        }
+        /** @var $user instanceof User */
+        $user = $this->security->getuser();
+        $announce->addFavorite($user->getProfile());
+
+        $this->entityManager->persist($announce);
+        $this->entityManager->flush();
+        return $this->redirectToRoute('announcement_list');
+    }
+
+    #[Route('/favorite/remove/{id}', name: 'remove_favorite')]
+    public function retraitFavoris(Announcement $announce)
+    {
+        if(!$announce){
+            throw new NotFoundHttpException('Pas d\'annonce trouvée');
+        }
+        /** @var $user instanceof User */
+        $user = $this->security->getuser();
+        $announce->removeFavorite($user->getProfile());
+
+        $this->entityManager->persist($announce);
+        $this->entityManager->flush();
+        return $this->redirectToRoute('announcement_list');
+    }
+
+    #[Route('/favorite', name: 'favorite')]
+    #[IsGranted("ROLE_USER")]
+    public function favorite(): Response
+    {        
+        return $this->render('announcement/favorite.html.twig');
     }
 
     #[Route('/add', name: 'add')]
@@ -64,7 +116,7 @@ class AnnouncementController extends AbstractController
         $form->handleRequest($request);
 
         /** @var $user instanceof User */
-        $user = $this->getUser();
+        $user = $this->security->getuser();
         if ($user->isVerified() === false) {
             $this->addFlash('error', "Adresse email non vérifié");
             return $this->redirectToRoute('homepage');

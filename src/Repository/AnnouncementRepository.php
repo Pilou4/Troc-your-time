@@ -3,7 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Announcement;
+use App\Entity\AnnouncementSearch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\DBAL\Query;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
@@ -45,6 +47,42 @@ class AnnouncementRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return Query
+     */
+    public function findAllVisibleQuery(AnnouncementSearch $search)
+    {
+        $query = $this->createQueryBuilder('announcement')
+                        ->leftjoin('announcement.subCategory', 'category')
+                        ->addSelect('category');
+        if ($search->getCategory()) {
+            $query
+                ->andWhere('category IN(:category)')
+                ->setParameter('category', $search->getCategory());
+        }
+
+        if ($search->getLat() && $search->getLng() && $search->getDistance()) {
+            $query = $query
+                ->select('announcement')
+                ->andWhere('(6353 * 2 * ASIN(SQRT( POWER(SIN((announcement.lat - :lat) *  pi()/180 / 2), 2) +COS(announcement.lat * pi()/180) * COS(:lat * pi()/180) * POWER(SIN((announcement.lng - :lng) * pi()/180 / 2), 2) ))) <= :distance')
+                ->setParameter('lng', $search->getLng())
+                ->setParameter('lat', $search->getLat())
+                ->setParameter('distance', $search->getDistance());
+        }
+
+        // $query = $query->getQuery();
+
+        return $query->getQuery()->getResult();
+    }
+
+
+    // /**
+    //  * @return Query
+    //  */
+    // public function findAllPaginate(): Query
+    // {
+    //     return $this->
+    // }
     // /**
     //  * @return Announcement[] Returns an array of Announcement objects
     //  */

@@ -60,16 +60,6 @@ class ProfileType extends AbstractType
                 ]
             )
             ->add(
-                'address',
-                TextType::class,
-                [
-                    'mapped' => false,
-                    'label' => 'adresse',
-                    'label_attr' => ['class' => 'profileAdd__form__label'],
-                    'attr' => ['class' => 'profileAdd__form__input']
-                ]
-            )
-            ->add(
                 'street',
                 TextType::class,
                 [
@@ -103,8 +93,6 @@ class ProfileType extends AbstractType
                     // 'mapped' => false
                 ]
             )
-            ->add('lat', HiddenType::class)
-            ->add('lng', HiddenType::class)
         ;
     }
 

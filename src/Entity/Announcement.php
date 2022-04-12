@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AnnouncementRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -38,12 +40,49 @@ class Announcement
 
     #[ORM\ManyToOne(targetEntity: Profile::class, inversedBy: 'announcements')]
     private $profile;
-
-    #[ORM\ManyToOne(targetEntity: Department::class, inversedBy: 'announcements')]
-    private $department;
-
+    
     #[ORM\ManyToOne(targetEntity: SubCategory::class, inversedBy: 'announcements')]
     private $subCategory;
+
+    #[ORM\Column(type: 'float', scale:4, precision:6)]
+    private $lat;
+
+    #[ORM\Column(type: 'float', scale:4, precision:7)]
+    private $lng;
+
+    #[ORM\Column(type: 'text')]
+    private $propose;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $city;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $department;
+
+    #[ORM\Column(type: 'string', length: 5)]
+    private $zipcode;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $region;
+
+    #[ORM\OneToMany(mappedBy: 'announcement', targetEntity: Picture::class, cascade: ['persist', 'remove'])]
+    private $pictures;
+
+    /**
+     * @Assert\All({
+     *   @Assert\Image(mimeTypes="image/jpeg")
+     * })
+     */
+    private $pictureFiles;
+
+    #[ORM\ManyToMany(targetEntity: Profile::class, inversedBy: 'favorites')]
+    private $favorites;
+
+    public function __construct()
+    {
+        $this->favorites = new ArrayCollection();
+        $this->pictures = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -122,18 +161,6 @@ class Announcement
         return $this;
     }
 
-    public function getDepartment(): ?Department
-    {
-        return $this->department;
-    }
-
-    public function setDepartment(?Department $department): self
-    {
-        $this->department = $department;
-
-        return $this;
-    }
-
     public function getSubCategory(): ?SubCategory
     {
         return $this->subCategory;
@@ -146,4 +173,167 @@ class Announcement
         return $this;
     }
 
+    public function getLat(): ?float
+    {
+        return $this->lat;
+    }
+
+    public function setLat(float $lat): self
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    public function getLng(): ?float
+    {
+        return $this->lng;
+    }
+
+    public function setLng(float $lng): self
+    {
+        $this->lng = $lng;
+
+        return $this;
+    }
+
+    public function getPropose(): ?string
+    {
+        return $this->propose;
+    }
+
+    public function setPropose(string $propose): self
+    {
+        $this->propose = $propose;
+
+        return $this;
+    }
+
+    public function getCity(): ?string
+    {
+        return $this->city;
+    }
+
+    public function setCity(string $city): self
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    public function getDepartment(): ?string
+    {
+        return $this->department;
+    }
+
+    public function setDepartment(string $department): self
+    {
+        $this->department = $department;
+
+        return $this;
+    }
+
+    public function getZipcode(): ?string
+    {
+        return $this->zipcode;
+    }
+
+    public function setZipcode(string $zipcode): self
+    {
+        $this->zipcode = $zipcode;
+
+        return $this;
+    }
+
+    public function getRegion(): ?string
+    {
+        return $this->region;
+    }
+
+    public function setRegion(string $region): self
+    {
+        $this->region = $region;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Picture>
+     */
+    public function getPictures(): Collection
+    {
+        return $this->pictures;
+    }
+
+    public function addPicture(Picture $picture): self
+    {
+        if (!$this->pictures->contains($picture)) {
+            $this->pictures[] = $picture;
+            $picture->setAnnouncement($this);
+        }
+
+        return $this;
+    }
+
+    public function removePicture(Picture $picture): self
+    {
+        if ($this->pictures->removeElement($picture)) {
+            // set the owning side to null (unless already changed)
+            if ($picture->getAnnouncement() === $this) {
+                $picture->setAnnouncement(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+    /**
+     * Get })
+     */ 
+    public function getPictureFiles()
+    {
+        return $this->pictureFiles;
+    }
+
+    /**
+     * Set })
+     *
+     * @return  self
+     */ 
+    public function setPictureFiles($pictureFiles)
+    {
+        foreach($pictureFiles as $pictureFile) {
+            $picture = new Picture();
+            $picture->setImageFile($pictureFile);
+            $this->addPicture($picture);
+        }
+        $this->pictureFiles = $pictureFiles;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Profile>
+     */
+    public function getFavorites(): Collection
+    {
+        return $this->favorites;
+    }
+
+    public function addFavorite(Profile $favorite): self
+    {
+        if (!$this->favorites->contains($favorite)) {
+            $this->favorites[] = $favorite;
+        }
+
+        return $this;
+    }
+
+    public function removeFavorite(Profile $favorite): self
+    {
+        $this->favorites->removeElement($favorite);
+
+        return $this;
+    }
 }

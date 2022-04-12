@@ -16,6 +16,75 @@ body {
     // line-height: 1.4;
 }
 
+/* ---- HEADER ---- */
+.header {
+    padding: 25px;
+    background: linear-gradient(90deg, rgb(230, 25, 25), purple, blue )  center center no-repeat;
+    // background-color: rgb(184, 12, 104);
+    &__nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        // box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
+        &__left {
+            display: flex;
+            align-items: center;
+        }
+        &__right {
+            display: flex;
+            align-items: center;
+            &__icone {
+                margin: 0;
+            }
+            &__link {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+        &__link {
+            display: block;
+            font-size: 1.2em;
+            text-decoration: none;
+            color: white;
+            transition: all 1s ease-out;
+            padding: 0 10px;
+            border-radius: 5px;
+            &:hover,:focus {
+                color: #333;
+                background-color: lightgrey;
+            }
+            &:hover {
+                color: blue;
+            }
+        }
+        &__button {
+            font-size: 1.1em;
+            padding: 1px 10px;
+            margin: 0 15px;
+            border-radius: 5px;
+            // color: black;
+            cursor: pointer;
+            transition: all 1s ease-out;
+            &:hover {
+                animation: buttonAnimate 1s forwards;
+            }
+            &__link {
+                text-decoration: none;
+                color: black;
+                transition: all 1s ease-out;
+                &:hover {
+                    color: white;
+                }
+            }
+            &__link {
+                color: blue;
+                text-decoration: none;
+            }
+        }
+    }
+}
+
 /* ---- PAGE D'ACCUEIL ---- */
 .homepage {
     min-height: 80vh;
@@ -77,6 +146,106 @@ body {
         }
     }
     &__categories {}
+}
+
+/* ---- PAGE MESSAGE LIST ---- */
+.search {
+    min-height: 80vh;
+    padding: 20px;
+    &__title {
+        text-align: center;
+    }
+    &__form {
+        
+    }
+    &__announcements {
+        display: flex;
+    }
+    &__announcement {
+        width: 400px;
+        box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
+        border: 1px solid black;
+        border-radius: 5px;
+        display: flex;
+        flex-direction: column;
+        &__header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            border-bottom: 1px solid lightgrey;
+            padding: 10px;
+            &__user {
+                display: flex;
+                align-items: center;
+                &__img {
+                    display: block;
+                    width: 50px;
+                    border-radius: 50%;
+                }
+                &__username {
+                    margin: 0 10px;
+                }
+            }
+            &__time {
+                display: flex;
+                align-items: center;
+            }
+        }
+        &__content {
+            border-bottom: 1px solid lightgrey;
+            padding: 10px;
+            &__title {
+                text-align: center;
+                margin: 10px;
+                color: blue;
+                font-weight: normal;
+            }
+            &__description {
+                padding: 10px;
+            }
+            &__propose {
+                display: flex;
+                align-items: center;
+                margin: 5px;
+                font-weight: normal;
+            }
+        }
+        &__footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px;
+            &__info {
+                margin: 0;
+                &__category {
+                    display: flex;
+                    align-items: center;
+                    margin: 5px;
+                }
+                &__city {
+                    display: flex;
+                    align-items: center;
+                    margin: 5px;
+                }
+            }
+            &__button {
+                display: block;
+                margin: 0 auto;
+                margin-top: 20px;
+                margin-bottom: 20px;
+            }
+        }
+    }
+}
+.la-tags {
+    margin-right: 5px;
+}
+.la-map-marker-alt {
+    margin-right: 5px;
+}
+.la-exchange-alt{
+    margin-right: 5px;
 }
 
 /** ----- CAROUSEL ----- */
@@ -213,58 +382,6 @@ body {
         color: white;
     }
     
-}
-
-/* ---- HEADER ---- */
-.header {
-    padding: 25px;
-    background: linear-gradient(90deg, rgb(230, 25, 25), purple, blue )  center center no-repeat;
-    // background-color: rgb(184, 12, 104);
-    &__nav {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        // box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
-        &__link {
-            font-size: 1.2em;
-            text-decoration: none;
-            color: white;
-            transition: all 1s ease-out;
-            padding: 10px;
-            border-radius: 5px;
-            &:hover,:focus {
-                color: #333;
-                background-color: lightgrey;
-            }
-            &:hover {
-                color: blue;
-            }
-        }
-        &__button {
-            font-size: 1.1em;
-            padding: 1px 10px;
-            margin: 0 15px;
-            border-radius: 5px;
-            // color: black;
-            cursor: pointer;
-            transition: all 1s ease-out;
-            &:hover {
-                animation: buttonAnimate 1s forwards;
-            }
-            &__link {
-                text-decoration: none;
-                color: black;
-                transition: all 1s ease-out;
-                &:hover {
-                    color: white;
-                }
-            }
-            &__link {
-                color: blue;
-                text-decoration: none;
-            }
-        }
-    }
 }
 
 /* ---- FOOTER ---- */
@@ -507,7 +624,7 @@ body {
             resize: vertical;
             width: 100%;
             margin: 10px;
-            min-height: 200px;
+            min-height: 100px;
             padding: 10px;
             // line-height: 5;
         }

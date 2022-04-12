@@ -24,12 +24,15 @@ class Picture
      * @Assert\Image(
      *     mimeTypes="image/jpeg"
      * )
-     * @Vich\UploadableField(mapping="picture", fileNameProperty="filename")
+     * @Vich\UploadableField(mapping="announcement_picture", fileNameProperty="filename")
      */
     private $imageFile;
 
     #[ORM\Column(type: 'string', length: 255)]
     private $filename;
+
+    #[ORM\ManyToOne(targetEntity: Announcement::class, inversedBy: 'pictures')]
+    private $announcement;
 
 
     public function getId(): ?int
@@ -69,6 +72,18 @@ class Picture
     public function setImageFile($imageFile)
     {
         $this->imageFile = $imageFile;
+
+        return $this;
+    }
+
+    public function getAnnouncement(): ?Announcement
+    {
+        return $this->announcement;
+    }
+
+    public function setAnnouncement(?Announcement $announcement): self
+    {
+        $this->announcement = $announcement;
 
         return $this;
     }

@@ -7,7 +7,7 @@
     <h1 class="myAnnouncement__title">Liste de mes annonces</h1>
     {% for announcement in app.user.profile.announcements %}
         <article class="myAnnouncement__article">
-            <p class="myAnnouncement__article__category">{{ announcement.category.name }}</p>
+            <p class="myAnnouncement__article__category">{{ announcement.subCategory.name }}</p>
             <h2 class="myAnnouncement__article__title">{{ announcement.title }}</h2>
             <p class="myAnnouncement__article__date">crée le {{ announcement.createdAT|date('d-m-Y\\ à H\\hi\\', "Europe/Paris") }}</p>
             <p class="myAnnouncement__article__content">{{ announcement.description }}</p>

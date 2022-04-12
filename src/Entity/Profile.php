@@ -44,6 +44,7 @@ class Profile
 
     #[ORM\Column(type: 'string', length: 5)]
     #[Assert\NotBlank]
+    #[Assert\Regex("/^[0-9]{5}$/")]
     #[Assert\Length(min:5, max:5, minMessage:"Le code postal doit contenir {{ limit }} caractères", maxMessage:"Le code postal doit contenir {{ limit }} caractères")]
     private $zipcode;
 
@@ -56,12 +57,6 @@ class Profile
 
     #[ORM\Column(type: 'string', length: 30)]
     private $username;
-
-    #[ORM\Column(type: 'float', scale: 4, precision: 6)]
-    private $lat;
-
-    #[ORM\Column(type: 'float', scale: 4, precision: 7)]
-    private $lng;
 
     #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Message::class, orphanRemoval: true)]
     private $sent;
@@ -97,11 +92,15 @@ class Profile
      */
     private $imageFile;
 
+    #[ORM\ManyToMany(targetEntity: Announcement::class, mappedBy: 'favorites')]
+    private $favorites;
+
     public function __construct()
     {
         $this->sent = new ArrayCollection();
         $this->received = new ArrayCollection();
         $this->announcements = new ArrayCollection();
+        $this->favorites = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -200,30 +199,6 @@ class Profile
     public function setUsername(string $username): self
     {
         $this->username = $username;
-
-        return $this;
-    }
-
-    public function getLat(): ?float
-    {
-        return $this->lat;
-    }
-
-    public function setLat(float $lat): self
-    {
-        $this->lat = $lat;
-
-        return $this;
-    }
-
-    public function getLng(): ?float
-    {
-        return $this->lng;
-    }
-
-    public function setLng(float $lng): self
-    {
-        $this->lng = $lng;
 
         return $this;
     }
@@ -404,6 +379,33 @@ class Profile
     public function setImageFile($imageFile)
     {
         $this->imageFile = $imageFile;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Announcement>
+     */
+    public function getFavorites(): Collection
+    {
+        return $this->favorites;
+    }
+
+    public function addFavorite(Announcement $favorite): self
+    {
+        if (!$this->favorites->contains($favorite)) {
+            $this->favorites[] = $favorite;
+            $favorite->addFavorite($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavorite(Announcement $favorite): self
+    {
+        if ($this->favorites->removeElement($favorite)) {
+            $favorite->removeFavorite($this);
+        }
 
         return $this;
     }
