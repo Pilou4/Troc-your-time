@@ -26,6 +26,25 @@ class AnnouncementController extends AbstractController
         )
     {
     }
+
+    #[Route('/search', name: 'search')]
+    public function search(PaginatorInterface $paginator, Request $request, AnnouncementRepository $announcementRepository): Response
+    {
+        $search = new AnnouncementSearch();
+        $form = $this->createForm(AnnouncementSearchType::class, $search);
+        $form->handleRequest($request);
+
+        $announcement = $paginator->paginate(
+            $announcementRepository->findAllVisibleQuery($search),
+            $request->query->getInt('page', 1),
+            2
+        );
+
+        return $this->render('announcement/search.html.twig', [
+            'announcements' => $announcement,
+            'form'          => $form->createView()
+        ]);
+    }
     
     #[Route('/list', name: 'list')]
     public function list(PaginatorInterface $paginator, Request $request, AnnouncementRepository $announcementRepository): Response

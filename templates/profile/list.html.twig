@@ -3,78 +3,82 @@
 {% block title %}Page de profil de {{ app.user.profile.firstname ~ ' ' ~ app.user.profile.lastname}}{% endblock %}
 
 {% block body %}
-<main class="profile">
-    <h1 class="profile__title">Profil de {{ app.user.profile.firstname ~ ' ' ~ app.user.profile.lastname}}</h1>
-    
-    <section class="profile__header">
-        <a href="{{ path('profile_avatar', {'id': app.user.profile.id}) }}">
-        {% if app.user.profile.filename %}
-            <img src={{ vich_uploader_asset(app.user.profile, 'imageFile')}} alt="image de profil (avatar)" class="profile__header__img">
-        {% else %}
-            <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil (avatar)" class="profile__header__img">
-        {% endif %}
-        </a>
-        <table>
-            <tr>
-                <td>Nom d'utilisateur : </td>
-                <td>{{ app.user.profile.username }}</td>
-            </tr>
-            <tr>
-                <td>Prénom : </td>
-                <td>{{ app.user.profile.firstname }}</td>
-            </tr>
-            <tr>
-                <td>Nom : </td>
-                <td>{{ app.user.profile.lastname }}</td>
-            </tr>
-            <tr>
-                <td>Date de naissance : </td>
-                <td>{{ app.user.profile.birthday | date('d-m-Y') }}</td>
-            </tr>
-            <tr>
-                <td>Adresse : </td>
-                <td>{{ app.user.profile.street }}</td>
-            </tr>
-            <tr>
-                <td>Code postal : </td>
-                <td>{{ app.user.profile.zipcode }}</td>
-            </tr>
-            <tr>
-                <td>Commune : </td>
-                <td>{{ app.user.profile.city }}</td>
-            </tr>
-        </table>
-    </section>
-    <section class="profile__main">
-        <div class="profile__main__card">
-            <h2 class="profile__main__card__title">annonces</h2>
-            <p class="profile__main__card__number">Vous avez actuellement {{ app.user.profile.announcements ? app.user.profile.announcements|length : 0 }} en ligne{{ app.user.profile.announcements|length > 1 ? "s" : "" }}</p>
-            <a href="{{ path('announcement_me') }}" class="profile__main__card__text">Voir vos annonces</a>
-        </div>
-        <div class="profile__main__card">
-            <h2 class="profile__main__card__title">messages</h2>
-            <a href="{{ path('message_list') }}" class="profile__main__card__text">
-                Accéder à votre messagerie
-                </a>
-        </div>
-        <div class="profile__main__card">
-            <h2 class="profile__main__card__title">paramètres</h2>
-            <a href="{{ path('profile_update', {'id': app.user.profile.id}) }}" class="profile__main__card__link">
-                Modifier vos informations personnels
-            </a>
-        </div>
-        <div>
-            
-        </div>
-    </section>
-
-    <p>Email : {{ app.user.email }}</p>
-    <a href="{{ path('profile_update', {'id': app.user.profile.id}) }}">
-        <i class="las la-edit la-2x"></i>
-    </a>
-    <a href="{{ path('profile_data') }}">
-        Voir mes données personnelles (RGPD)
-    </a>
-    {# <p>Nom d'utilisateur : {{ app.user.profile.username }}</p> #}
-</main>
+    <main class="community">
+        <h1 class="community__title">Communauté</h1>
+        <section class="community__form">
+            {{ form_start(form) }}
+                <table>
+                    <tr>
+                        <td>{{ form_row(form.address, {id: 'search_address_profile'}) }}</td>
+                        <td>{{ form_row(form.distance) }}</td>
+                        <td><button class="community__form__button">Rechercher</button></td>
+                    </tr>
+                </table>
+            {{ form_end(form) }}
+        </section>
+        <section class="community__list">
+            {% for profile in profiles %}
+                <article class="community__list__card">
+                    <div class="community__list__card__top">
+                        {% if profile.filename %}
+                            <img src={{ vich_uploader_asset(profile, 'imageFile')}} alt="image de profil {{ profile.username }}" class="community__list__card__top__img">
+                        {% else %}
+                            <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil vide" class="community__list__card__top__img">
+                        {% endif %}
+                        <div>
+                            <p class="community__list__card__top__username"><i class="las la-user-tie la-lg"></i> {{ profile.username }}</p>
+                            <p class="community__list__card__top__city"><i class="las la-map-marker-alt la-lg"></i>{{ profile.region ~ '/' ~ profile.department ~ '/' ~ profile.city }}</p>
+                        </div>
+                    </div>
+                    <div class="community__list__card__bottom">
+                        <p class="community__list__card__bottom__propose">
+                            <strong>Je recherche : </strong>
+                            {% if profile.propose %}
+                                {{ profile.propose }}
+                            {% else %}
+                                rien pour le moment    
+                            {% endif %}
+                        </p>
+                        <p class="community__list__card__bottom__research">
+                            <strong>Je propose : </strong>
+                            {% if profile.research %}
+                                {{ profile.research }}
+                            {% else %}
+                                rien pour le moment    
+                            {% endif %}
+                            <button class="community__list__card__bottom__btn"><a href="{{ path('message_contact', { 'username': profile.username}) }}">contacter</a></button>
+                        </p>
+                    </div>
+                </article>
+            {% endfor %}
+        </section>
+    </main>
 {% endblock %}
+
+{# 
+
+<div class="community__list__card__right">
+    <div class="community__list__card__right__top">
+        <p class="community__list__card__right__top__username"><i class="las la-user-tie la-lg"></i> {{ profile.username }}</p>
+        <p class="community__list__card__right__top__city"><i class="las la-map-marker-alt la-lg"></i>{{ profile.region ~ '/' ~ profile.department ~ '/' ~ profile.city }}</p>
+    </div>
+    <div class="community__list__card__right__content">
+        <p class="community__list__card__right__content__propose">
+            <strong>Je recherche : </strong>
+            {% if profile.propose %}
+                {{ profile.propose }}
+            {% else %}
+                rien pour le moment    
+            {% endif %}
+        </p>
+        <p class="community__list__card__right__content__research">
+            <strong>Je propose : </strong>
+            {% if profile.research %}
+                {{ profile.research }}
+            {% else %}
+                rien pour le moment    
+            {% endif %}
+            <button class="community__list__card__right__content__btn">Voir le profil</button>
+        </p>
+    </div>
+</div> #}

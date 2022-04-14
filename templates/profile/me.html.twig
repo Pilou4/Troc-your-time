@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page de profil de {{ app.user.profile.firstname ~ ' ' ~ app.user.profile.lastname}}{% endblock %}
+
+{% block body %}
+    <main class="me">
+        <h1 class="me__title">Page de profil de {{ app.user.profile.firstname ~ ' ' ~ app.user.profile.lastname}}</h1>
+        <section class="me__top">
+            <div class="me__top__left">
+                {% if app.user.profile.filename %}
+                    <img src={{ vich_uploader_asset(app.user.profile, 'imageFile')}} alt="image de profil (avatar)" class="me__top__left__img">
+                {% else %}
+                    <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil (avatar)" class="me__top__img">
+                {% endif %}
+            </div>
+            <div class="me__top__right">
+                <p class="me__top__right__text">Nom d'utilisateur : {{ app.user.profile.username }}</p>
+                <p class="me__top__right__text">Prénom : {{ app.user.profile.firstname }}</p>
+                <p class="me__top__right__text">Nom : {{ app.user.profile.lastname }}</p>
+                {% if app.user.profile.birthday %}
+                    <p class="me__top__right__text">Date de naissance : {{ app.user.profile.birthday|date('d/m/Y') }}</p>
+                {% endif %}
+                <p class="me__top__right__text">Rue : {{ app.user.profile.street }}</p>
+                <p class="me__top__right__text">Code Postal : {{ app.user.profile.zipcode }}</p>
+                <p class="me__top__right__text">Commune : {{ app.user.profile.city }}</p>
+                <p class="me__top__right__text">Départment : {{ app.user.profile.department }}</p>
+                <p class="me__top__right__text">Région : {{ app.user.profile.region }}</p>
+            </div>
+        </section>
+        <section class="me__content">
+            <div class="me__content__block">
+                <h2 class="me__content__block__title">Annonces</h2>
+                <p class="me__content__block__content">Gérer mes annonces déposées</p>
+                <a href="{{ path('announcement_me') }}" class="me__content__block__link">Voir mes annonces</a>
+            </div>
+            <div class="me__content__block">
+                <h2 class="me__content__block__title">Messagerie</h2>
+                <p class="me__content__block__content">Accéder à ma messagerie</p>
+                <a href="{{ path('message_list') }}" class="me__content__block__link">Voir ma messagerie</a>
+            </div>
+            <div class="me__content__block">
+                <h2 class="me__content__block__title">Favoris</h2>
+                <p class="me__content__block__content">Voir mes favoris</p>
+                <a href="{{ path('announcement_favorite') }}" class="me__content__block__link">Voir mes favoris</a>
+            </div>
+            <div class="me__content__block">
+                <h2 class="me__content__block__title">Profile</h2>
+                <p class="me__content__block__content">Modifier mes informations personnelles</p>
+                <a href="{{ path('profile_update', { 'id': app.user.profile.id }) }}" class="me__content__block__link">Modifier mon profile</a>
+            </div>
+            <div class="me__content__block">
+            
+            </div>
+            <div class="me__content__block">
+            
+            </div>
+        </section>
+    </main>
+{% endblock %}

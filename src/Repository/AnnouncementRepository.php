@@ -55,6 +55,7 @@ class AnnouncementRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('announcement')
                         ->leftjoin('announcement.subCategory', 'category')
                         ->addSelect('category');
+                        
         if ($search->getCategory()) {
             $query
                 ->andWhere('category IN(:category)')
@@ -75,6 +76,14 @@ class AnnouncementRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    public function findAllOrderedByDate()
+    {
+        $queryBuilder = $this->createQueryBuilder('announcement');
+        $queryBuilder->orderBy('announcement.createdAt', 'desc');
+        $query = $queryBuilder->getQuery();
+
+        return $query->getResult();
+    }
 
     // /**
     //  * @return Query

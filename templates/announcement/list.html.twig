@@ -50,13 +50,13 @@
 								{% endif %}    
 							{% endfor %}
                             {% if isFavorite %}
-								<a href="{{ path('announcement_remove_favorite', {id: announcement.id}) }}"><i class="las la-heart la-lg"></i></a>
+								<a href="{{ path('announcement_remove_favorite', {id: announcement.id}) }}"><i class="las la-heart"></i></a>
                             {% else %}
-								<a href="{{ path('announcement_add_favorite', {id: announcement.id}) }}"><i class="lar la-heart la-lg"></i></a>
+								<a href="{{ path('announcement_add_favorite', {id: announcement.id}) }}"><i class="lar la-heart"></i></a>
                             {% endif %}
 
 						{% else %}
-							<i class="lar la-heart la-lg"></i>
+							<i class="lar la-heart"></i>
 						{% endif %}
                     </h1>
                     {# <button class="search__announcement__footer__button">Voir l'annonce</button> #}

@@ -6,16 +6,33 @@ use App\Entity\Profile;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\HiddenType;
-use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\BirthdayType;
 
 class ProfileType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add(
+                'imageFile',
+                FileType::class, [
+                    'required' => false,
+                    'label' => 'image de profil'
+                    // 'mapped' => false
+                ]
+            )
+            ->add('gender', ChoiceType::class, [
+                'label' => 'genre',
+                'choices' => [
+                    'masculin' => 'masculin',
+                    'feminin' => 'feminin'
+                ]
+            ])
             ->add(
                 'username',
                 TextType::class,
@@ -60,39 +77,42 @@ class ProfileType extends AbstractType
                 ]
             )
             ->add(
-                'street',
+                'address',
                 TextType::class,
                 [
-                    'label' => 'numéro et rue',
+                    'mapped' => false,
+                    'label' => 'adresse compléte',
                     'label_attr' => ['class' => 'profileAdd__form__label'],
                     'attr' => ['class' => 'profileAdd__form__input']
                 ]
             )
             ->add(
-                'zipcode',
+                'research',
                 TextType::class,
                 [
-                    'label' => 'code postal',
+                    'label' => 'recherche',
                     'label_attr' => ['class' => 'profileAdd__form__label'],
-                    'attr' => ['class' => 'profileAdd__form__input']
-                ]
-            )
-            ->add(
-                'city',
-                TextType::class,
-                [
-                    'label' => 'ville',
-                    'label_attr' => ['class' => 'profileAdd__form__label'],
-                    'attr' => ['class' => 'profileAdd__form__input']
-                ]
-            )
-            ->add(
-                'imageFile',
-                FileType::class, [
+                    'attr' => ['class' => 'profileAdd__form__input'],
                     'required' => false,
-                    // 'mapped' => false
                 ]
             )
+            ->add(
+                'propose',
+                TextType::class,
+                [
+                    'label' => 'propose',
+                    'label_attr' => ['class' => 'profileAdd__form__label'],
+                    'attr' => ['class' => 'profileAdd__form__input'],
+                    'required' => false,
+                ]
+            )
+            ->add('street', HiddenType::class)
+            ->add('city', HiddenType::class)
+            ->add('zipcode', HiddenType::class)
+            ->add('department', HiddenType::class)
+            ->add('region', HiddenType::class)
+            ->add('lat', HiddenType::class)
+            ->add('lng', HiddenType::class)
         ;
     }
 

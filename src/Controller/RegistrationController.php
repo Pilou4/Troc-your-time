@@ -66,6 +66,7 @@ class RegistrationController extends AbstractController
             // );
         }
 
+
         return $this->render('registration/create-account.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
@@ -88,7 +89,7 @@ class RegistrationController extends AbstractController
         $user->setRoles(["ROLE_USER_VALIDATE"]);
         $this->entityManager->persist($user);
         $this->entityManager->flush();
-        $this->addFlash("success", "Compte actif !");
+        $this->addFlash("success", "Email vérifier, merci de compléter votre profil !");
         return $userAuthenticator->authenticateUser(
                 $user,
                 $authenticator,

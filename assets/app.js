@@ -29,7 +29,22 @@ if (category !== null) {
     });
 }
 
-
+let profileAddress = document.querySelector('#profile_address');
+if (profileAddress) {
+    let place = Places({
+        container: profileAddress
+    })
+    place.on('change', e => {
+        console.log(e.suggestion);
+        document.querySelector('#profile_zipcode').value = e.suggestion.postcode
+        document.querySelector('#profile_city').value = e.suggestion.city
+        document.querySelector('#profile_street').value = e.suggestion.name
+        document.querySelector('#profile_department').value = e.suggestion.county
+        document.querySelector('#profile_region').value = e.suggestion.administrative
+        document.querySelector('#profile_lat').value = e.suggestion.latlng.lat
+        document.querySelector('#profile_lng').value = e.suggestion.latlng.lng
+    })
+}
 
 let inputAddress = document.querySelector('#announcement_address');
 if (inputAddress) {
@@ -59,6 +74,17 @@ if (searchAddress !== null) {
     })
 }
 
+let searchAddressProfile = document.querySelector('#search_address_profile')
+if (searchAddressProfile !== null) {
+    let place = Places({
+        container: searchAddressProfile
+    })
+    place.on('change', e => {
+        console.log(e.suggestion);
+        document.querySelector('#lat').value = e.suggestion.latlng.lat
+        document.querySelector('#lng').value = e.suggestion.latlng.lng
+    })
+}
 /*
  * Welcome to your app's main JavaScript file!
  *
@@ -71,6 +97,8 @@ import './js/modules/carousel';
 
 // any CSS you import will output into a single css file (app.css in this case)
 import './styles/styles.scss';
+import './styles/profile.scss';
+import './styles/form.scss';
 import './styles/admin.scss';
 
 // start the Stimulus application

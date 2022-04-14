@@ -2,8 +2,13 @@
 
 namespace App\Controller;
 
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use App\Entity\Profile;
 use App\Form\ProfileType;
+use App\Entity\ProfileSearch;
+use App\Form\ProfileSearchType;
+use App\Form\PictureProfileType;
 use App\Repository\ProfileRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,9 +16,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Form\PictureProfileType;
-use Dompdf\Dompdf;
-use Dompdf\Options;
 
 #[Route('/profile', name: 'profile_'), IsGranted("ROLE_USER")]
 class ProfileController extends AbstractController
@@ -23,10 +25,23 @@ class ProfileController extends AbstractController
         
     }
 
-    #[Route('/list', name: 'list')]
-    public function list(): Response
+    #[Route('/me', name: 'me')]
+    public function me(): Response
     {
-        return $this->render('profile/list.html.twig');
+        return $this->render('profile/me.html.twig');
+    }
+
+    #[Route('/list', name: 'list')]
+    public function list(ProfileRepository $profileRepository, Request$request): Response
+    {
+        $search = new ProfileSearch();
+        $form = $this->createForm(ProfileSearchType::class, $search);
+        $form->handleRequest($request);
+
+        return $this->render('profile/list.html.twig', [
+            'profiles' => $profileRepository->findAllVisibleQuery($search),
+            'form' => $form->createView()
+        ]);
     }
 
     #[Route('/data', name: 'data')]
@@ -88,7 +103,7 @@ class ProfileController extends AbstractController
         /** @var $user instanceof User */
         $user = $this->getUser();
         if ($user->isVerified() === false) {
-            $this->addFlash('error', "Adresse email non vérifié");
+            $this->addFlash('error', "Vous devez confirmer votre adresse email pour pouvoir compléter votre profil");
             return $this->redirectToRoute('homepage');
         }
 

@@ -95,6 +95,27 @@ class Profile
     #[ORM\ManyToMany(targetEntity: Announcement::class, mappedBy: 'favorites')]
     private $favorites;
 
+    #[ORM\Column(type: 'string', length: 50)]
+    private $gender;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $research;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $propose;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $department;
+
+    #[ORM\Column(type: 'string', length: 255)]
+    private $region;
+
+    #[ORM\Column(type: 'float', scale:4, precision:6)]
+    private $lat;
+
+    #[ORM\Column(type: 'float', scale:4, precision:7)]
+    private $lng;
+
     public function __construct()
     {
         $this->sent = new ArrayCollection();
@@ -143,7 +164,6 @@ class Profile
 
         return $this;
     }
-
 
     public function getZipcode(): ?string
     {
@@ -406,6 +426,107 @@ class Profile
         if ($this->favorites->removeElement($favorite)) {
             $favorite->removeFavorite($this);
         }
+
+        return $this;
+    }
+
+    public function getGender(): ?string
+    {
+        return $this->gender;
+    }
+
+    public function setGender(string $gender): self
+    {
+        $this->gender = $gender;
+
+        return $this;
+    }
+
+
+    public function getResearch(): ?string
+    {
+        return $this->research;
+    }
+
+    public function setResearch(?string $research): self
+    {
+        $this->research = $research;
+
+        return $this;
+    }
+
+    public function getPropose(): ?string
+    {
+        return $this->propose;
+    }
+
+    public function setPropose(?string $propose): self
+    {
+        $this->propose = $propose;
+
+        return $this;
+    }
+
+    public function getDepartment(): ?string
+    {
+        return $this->department;
+    }
+
+    public function setDepartment(string $department): self
+    {
+        $this->department = $department;
+
+        return $this;
+    }
+
+    public function getRegion(): ?string
+    {
+        return $this->region;
+    }
+
+    public function setRegion(string $region): self
+    {
+        $this->region = $region;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of lat
+     */ 
+    public function getLat()
+    {
+        return $this->lat;
+    }
+
+    /**
+     * Set the value of lat
+     *
+     * @return  self
+     */ 
+    public function setLat($lat)
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of lng
+     */ 
+    public function getLng()
+    {
+        return $this->lng;
+    }
+
+    /**
+     * Set the value of lng
+     *
+     * @return  self
+     */ 
+    public function setLng($lng)
+    {
+        $this->lng = $lng;
 
         return $this;
     }

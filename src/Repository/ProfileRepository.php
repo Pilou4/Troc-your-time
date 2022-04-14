@@ -3,10 +3,11 @@
 namespace App\Repository;
 
 use App\Entity\Profile;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\OptimisticLockException;
+use App\Entity\ProfileSearch;
 use Doctrine\ORM\ORMException;
+use Doctrine\ORM\OptimisticLockException;
 use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 
 /**
  * @method Profile|null find($id, $lockMode = null, $lockVersion = null)
@@ -43,6 +44,27 @@ class ProfileRepository extends ServiceEntityRepository
         if ($flush) {
             $this->_em->flush();
         }
+    }
+
+    /**
+     * @return Query
+     */
+    public function findAllVisibleQuery(ProfileSearch $search)
+    {
+        $query = $this->createQueryBuilder('profile');
+
+        if ($search->getLat() && $search->getLng() && $search->getDistance()) {
+            $query = $query
+                ->select('profile')
+                ->andWhere('(6353 * 2 * ASIN(SQRT( POWER(SIN((profile.lat - :lat) *  pi()/180 / 2), 2) +COS(profile.lat * pi()/180) * COS(:lat * pi()/180) * POWER(SIN((profile.lng - :lng) * pi()/180 / 2), 2) ))) <= :distance')
+                ->setParameter('lng', $search->getLng())
+                ->setParameter('lat', $search->getLat())
+                ->setParameter('distance', $search->getDistance());
+        }
+
+        // $query = $query->getQuery();
+
+        return $query->getQuery()->getResult();
     }
 
     

@@ -1,13 +1,18 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AnnouncementController!{% endblock %}
+{% block title %}{{ announcement.title }}{% endblock %}
 
 {% block body %}
-<main class="announcement">
-    <h1 class="announcement__title">Titre de l'annonce {{ announcement.title }}</h1>
-    <p class="announcement__title">Annonces de {{ announcement.profile.username }}</p>
-    <p class="announcement__title">{{ announcement.description }}</p>
+<main class="announce">
+    <h1 class="announce__title">{{ announcement.title }}</h1>
+    {% for picture in announcement.pictures %}
+        <img class="homepage__announcement__middle__left__img" src="{{ vich_uploader_asset(picture, 'imageFile')}}" alt="image de l'annonce {{ announcement.title }}">
+    {% else %}
+        <img class="homepage__announcement__middle__left__img" src="{{ asset('images/empty.jpg') }}" alt="image annonce vide">
+    {% endfor %}
+    <div id="map" style="width: 400px; height: 400px" data-lat="{{ announcement.lat }}" data-lng="{{ announcement.lng}}"></div>
+    <p class="announce__title">Annonces de {{ announcement.profile.username }}</p>
+    <p class="announce__title">{{ announcement.description }}</p>
     <p><a href="{{ path('message_contact', {'username': announcement.profile.username})}}">contacter</a></p>
-    <div id="map" style="width: 500px; height: 400px" data-lat="{{ announcement.lat }}" data-lng="{{ announcement.lng}}"></div>
 </main>
 {% endblock %}

@@ -11,6 +11,7 @@ html, body {
 body {
     margin: 0;
     padding: 0;
+    background-color: rgb(248, 247, 247);
     // background: linear-gradient(45deg, #f37646, #f3e946) center center no-repeat;
     // background: linear-gradient(45deg, rgb(184, 12, 104), blue, orange, yellow)  center center no-repeat;
     // line-height: 1.4;
@@ -88,8 +89,14 @@ body {
 /* ---- PAGE D'ACCUEIL ---- */
 .homepage {
     min-height: 80vh;
+    max-width: 1300px;
+    margin: 0 auto;
     &__title {
         text-align: center;
+        padding: 20px;
+    }
+    &__subtitle {
+        padding: 20px;
     }
     &__presentation {
         border: 1px solid blue;
@@ -101,53 +108,96 @@ body {
     &__announcements {
         width: 100%;
         display: flex;
+        flex-wrap: wrap;
+        padding: 0 20px;
     }
     &__announcement {
-        width: 300px;
-        border: 2px solid blue;
+        width: 550px;
+        border: 1px solid lightblue;
         border-radius: 5px;
-        padding: 10px;
         margin: 10px;
+        display: flex;
+        flex-direction: column;
+        &:hover {
+            transform: translate3d(0, -10px, 0);
+        }
         &__link {
             text-decoration: none;
             color: black;
         }
-        &__author {
+        &__top {
+            width: 100%;
             display: flex;
             align-items: center;
-            border-bottom: 1px solid lightgrey;
-            &__picture {
-                width: 50px;
-                border-radius: 50%;
-                margin: 0 10px;
+            justify-content: space-between;
+            background-color: lightblue;
+            &__profile {
+                display: flex;
+                align-items: center;
+                &__img {
+                    width: 40px;
+                    border-radius: 50%;
+                    margin-left: 10px;
+                }
+                &__username {
+                    margin-top: 15px;
+                    margin-left: 10px;
+                }
             }
-            &__name {
-                font-size: 1.2em;
-                margin-right: 55px;
-                // text-transform: uppercase;
-            }
-            &__category {
-                font-size: 1.2em;
-                background-color: red;
-                border-radius: 5px;
-                padding: 2px 5px;
-                color: white;
-            }
-        }
-        &__content {
-            &__title {
-                font-size: 1.2em;
-                text-align: center;
+            &__date {
+                margin-right: 10px;
+                margin-top: 15px;
             }
         }
-        &__date {
-            border-top: 1px solid lightgrey;
-            text-align: center;
+        &__middle {
+            display: flex;
+            width: 100%;
+            min-height: 200px;
+            padding: 20px;
+            &__left {
+                &__img {
+                    width: 200px;
+                    height: 150px;
+                }
+            }
+            &__right {
+                padding: 0 20px;
+                &__title {
+                    font-size: 1.5em;
+                    text-align: center;
+                    color: blue;
+                    padding: 0 0 0 10px;
+                }
+                &__description {
+
+                }
+            }
+        }
+        &__bottom {
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: lightblue;
+            &__content {
+                &__propose {
+                    margin: 3px 0;
+                }
+                &__category {
+                    margin: 3px 0;
+                }
+                &__city {
+                    margin: 3px 0;
+                }
+            }
         }
     }
     &__categories {}
 }
-
+.la-heart {
+    color: rgb(251, 94, 120);
+}
 /* ---- PAGE MESSAGE LIST ---- */
 .search {
     min-height: 80vh;
@@ -452,19 +502,23 @@ body {
         padding: 20px;
         box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
         border-radius: 5px;
-        &__header {
+        &__top {
             text-align: center;
             width: 100%;
         }
-        &__footer {
+        &__bottom {
             width: 100%;
             text-align: center;
             margin-top: 20px;
         }
-        &__link {
-            display: block;
+        &__forgotten {
             width: 100%;
-            padding: 0 10px;
+            display: flex;
+            justify-content: center;
+        }
+        &__link {
+            width: 100%;
+            
         }
         &__label {
             width: 100%;
@@ -522,79 +576,7 @@ body {
 
 
 
-/* ---- PAGE VUE DU PROFILE ---- */
-.profile {
-    &__header {
-        width: 100%;
-        display: flex;
-        border-bottom: 3px solid lightblue;
-        padding: 20px;
-        &__username {
-            text-transform: uppercase;
-        }
-        &__img {
-            border-radius: 50%;
-        }
-    }
-    &__main {
-        width: 100%;
-        display: flex;
-        flex-wrap: wrap;
-        &__card {
-            width: 35%;
-            padding: 10px;
-            margin: 10px;
-            border: 2px solid rgb(184, 12, 104);
-            &__title {
-                margin: 0;
-            }
-        }
-    }
-}
 
-/* ---- PAGE FORMULAIRE PROFILE ---- */
-.profileAdd {
-    min-height: 80VH;
-    &__title {
-        text-align: center;
-    }
-    &__form {
-        max-width: 600px;
-        // border: 2px solid aqua;
-        margin: 0 auto;
-        margin-top: 50px;
-        padding: 20px;
-        box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
-        border-radius: 5px;
-        margin-bottom: 50px;
-        &__header {
-            text-align: center;
-            width: 100%;
-        }
-        &__footer {
-            width: 100%;
-            text-align: center;
-            margin-top: 20px;
-        }
-        &__input {
-            width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 10px;
-        }
-        &__label {
-            width: 100%;
-            margin: 0 10px;
-        }
-        &__button {
-            display: block;
-            margin: 0 auto;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 20px;
-        }
-    }
-}
 
 .announcementAdd {
     min-height: 80VH;

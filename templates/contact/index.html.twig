@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Nous contacter !{% endblock %}
+
+{% block body %}
+    <main class="contact">
+        <h1 class="contact__title">Nous contacter</h1>
+        {{ form_start(form) }}
+            {{ form_row(form.object) }}
+            <div class="home__contact__form__name">
+                {{ form_row(form.firstname) }}
+                {{ form_row(form.lastname) }}
+            </div>
+            {{ form_row(form.email) }}
+            {{ form_row(form.message) }}
+            <div class="home__contact__form__authorize">
+                {{ form_row(form.agreeTerms, { 'attr': {'class': 'home__contact__form__authorize'} }) }}
+                <p class="home__contact__form__authorize__text">
+                    Pour connaître et exercer vos droits, veuillez consultez la
+                    <a href="{{ path('confidentiality') }}" class="home__contact__form__authorize__link">Politique de confidentialité.</a>
+                </p>
+            </div>
+            <button class="home__contact__form__button">Envoyer</button>
+        {{ form_end(form) }}
+    </main>
+{% endblock %}

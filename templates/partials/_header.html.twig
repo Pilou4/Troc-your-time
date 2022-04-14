@@ -5,11 +5,14 @@
             <button class="header__nav__button">
                 <a href="{{ path('announcement_add') }}" class="header__nav__button__link"></i><i class="las la-plus-circle"></i> Ajouter une annonce</a>
             </button>
-            <button class="header__nav__button">
-                <a href="{{ path('announcement_list') }}" class="header__nav__button__link"><i class="las la-search"></i> Rechercher</a>
-            </button>
         </div>
         <div class="header__nav__right">
+            <div class="header__nav__right__link">
+                <p class="header__nav__right__icone"><i class="las la-envelope la-2x"></i></p>
+                <a href="{{ path('contact') }}" class="header__nav__link">
+                    contact
+                </a>
+            </div>
             <div class="header__nav__right__link">
                 <p class="header__nav__right__icone"><i class="lar la-heart la-2x"></i></p>
                 <a href="{{ path('announcement_favorite') }}" class="header__nav__link">
@@ -26,7 +29,11 @@
                     {% else %}
                         <div class="header__nav__right__link">
                             <p class="header__nav__right__icone"><i class="las la-user-tie la-2x"></i></p>
-                            <a href="{{ path('profile_list') }}" class="header__nav__link">Profil</a>
+                            <a href="{{ path('profile_me') }}" class="header__nav__link">Profil</a>
+                        </div>
+                        <div class="header__nav__right__link">
+                            <p class="header__nav__right__icone"><i class="las la-user-tie la-2x"></i></p>
+                            <a href="{{ path('app_logout') }}" class="header__nav__link">Se déconnecter</a>
                         </div>
                 {% endif %}
             {% else %}

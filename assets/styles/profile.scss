@@ -1,0 +1,168 @@
+/* ---- PAGE VUE DU PROFILE ME ---- */
+.me {
+    min-height: 80vh;
+    max-width: 1300px;
+    margin: 0 auto;
+    &__title {
+        text-align: center;
+        padding: 20px;
+    }
+    &__top {
+        max-width: 600px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        background-color: lightblue;
+        border: 1px solid lightblue;
+        border-radius: 10px;
+        padding: 20px;
+        &__left {
+            &__img {
+                border-radius: 50%;
+                margin: 10px;
+                // float: left;
+            }
+        }
+        &__right {
+            &__text {
+                margin: 0;
+            }
+        }
+    }
+    &__content {
+        display: flex;
+        flex-wrap: wrap;
+        margin-top: 50px;
+        &__block {
+            width: 48%;
+            margin: 10px;
+            border: 1px solid lightblue;
+            padding: 10px;
+            box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
+            border-radius: 10px;
+            &__title {
+                text-align: center;
+            }
+        }
+    }
+}
+
+/* ---- PAGE FORMULAIRE PROFILE LIST (COMMUNAUTÉ) ---- */
+.community {
+    max-width: 1300px;
+    margin: 0 auto;
+    min-height: 80vh;
+    &__title {
+        text-align: center;
+        padding: 20px;
+    }
+    &__form {
+        width: 600px;
+        margin: 0 auto;
+        &__input {
+            margin: 0 20px;
+        }
+        &__button {
+            margin-bottom: 15px;
+            padding: 4px;
+            border-radius: 5px;
+            margin-left: 30px;
+        }
+    }
+    &__list {
+        display: flex;
+        flex-wrap: wrap;
+        &__card {
+            width: 48%;
+            border: 1px solid lightblue;
+            border-radius: 10px;
+            margin: 10px;
+            // display: flex;
+            &__top {
+                display: flex;
+                align-items: center;
+                flex-wrap: wrap;
+                width: 100%;
+                border-bottom: 1px solid lightblue;
+                padding: 10px;
+                &__username {
+                    margin: 0;
+                    margin-left: 10px;
+                }
+                &__city {
+                    margin: 0;
+                    margin-left: 10px;
+                }
+                &__img {
+                    width: 100px;
+                    border-radius: 50%;
+                }
+            }
+            &__bottom {
+                padding: 10px;
+                &__propose {
+                    margin: 0;
+                    margin-left: 10px;
+                }
+                &__research {
+                    margin: 0;
+                    margin-left: 10px;
+                }
+                &__btn {
+                    display: block;
+                    margin: 0 auto;
+                    border-radius: 20px;
+                    padding: 0 10px;
+                    margin-top: 25px;
+                    background-color: lightblue;
+                } 
+            }
+        }
+    }
+}
+
+
+/* ---- PAGE FORMULAIRE PROFILE ---- */
+.profileAdd {
+    min-height: 80VH;
+    &__title {
+        text-align: center;
+    }
+    &__form {
+        max-width: 600px;
+        // border: 2px solid aqua;
+        margin: 0 auto;
+        margin-top: 50px;
+        padding: 20px;
+        box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
+        border-radius: 5px;
+        margin-bottom: 50px;
+        &__header {
+            text-align: center;
+            width: 100%;
+        }
+        &__footer {
+            width: 100%;
+            text-align: center;
+            margin-top: 20px;
+        }
+        &__input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 10px;
+        }
+        &__label {
+            width: 100%;
+            margin: 0 10px;
+        }
+        &__button {
+            display: block;
+            margin: 0 auto;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+    }
+}
