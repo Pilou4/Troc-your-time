@@ -73,7 +73,10 @@ class ProfileController extends AbstractController
         $dompdf->setPaper('A4', 'portrait');
         $dompdf->render();
 
-        $file = 'profil-data-' . $this->getUser()->getId() . '.pdf';
+        /** @var $user instanceof User */
+        $user = $this->getUser();
+
+        $file = 'profil-data-' . $user->getId() . '.pdf';
 
         $dompdf->stream($file, [
             'Attachement' => true

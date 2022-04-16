@@ -12,13 +12,11 @@
                 Vous avez la possibilité de poster des annonces où de contacter directement
                 les membres de la communité via la messagerie privé.
             </p>
+            {# <p class="homepage__presentation__content">
+            
+            </p> #}
         </section>
-        <button class="header__nav__button">
-            <a href="{{ path('announcement_list') }}" class="header__nav__button__link"><i class="las la-search"></i> Recherche par annonce</a>
-        </button>
-        <button class="header__nav__button">
-            <a href="{{ path('profile_list') }}" class="header__nav__button__link"><i class="las la-search"></i> Rechercher membre de la communauté</a>
-        </button>
+        
         {# <h2 class="homepage__subtitle">Liste des catégories</h2>
         <ul>
             {% for category in categories %}
@@ -93,5 +91,11 @@
                 </a>
             {% endfor %}
         </section>
+        <button class="header__nav__button">
+            <a href="{{ path('announcement_list') }}" class="header__nav__button__link"><i class="las la-search"></i> Recherche par annonce</a>
+        </button>
+        <button class="header__nav__button">
+            <a href="{{ path('profile_list') }}" class="header__nav__button__link"><i class="las la-search"></i> Rechercher membre de la communauté</a>
+        </button>
     </main>
 {% endblock %}

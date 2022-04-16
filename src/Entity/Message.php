@@ -16,7 +16,7 @@ class Message
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Assert\NotBlank]
+    // #[Assert\NotBlank]
     private $title;
 
     #[ORM\Column(type: 'text')]
@@ -42,6 +42,9 @@ class Message
 
     #[ORM\Column(type: 'boolean')]
     private $isBasket = 0;
+
+    #[ORM\ManyToOne(targetEntity: Announcement::class, inversedBy: 'message')]
+    private $announcement;
 
     public function getId(): ?int
     {
@@ -128,6 +131,18 @@ class Message
     public function setIsBasket(bool $isBasket): self
     {
         $this->isBasket = $isBasket;
+
+        return $this;
+    }
+
+    public function getAnnouncement(): ?Announcement
+    {
+        return $this->announcement;
+    }
+
+    public function setAnnouncement(?Announcement $announcement): self
+    {
+        $this->announcement = $announcement;
 
         return $this;
     }

@@ -13,6 +13,6 @@
     <div id="map" style="width: 400px; height: 400px" data-lat="{{ announcement.lat }}" data-lng="{{ announcement.lng}}"></div>
     <p class="announce__title">Annonces de {{ announcement.profile.username }}</p>
     <p class="announce__title">{{ announcement.description }}</p>
-    <p><a href="{{ path('message_contact', {'username': announcement.profile.username})}}">contacter</a></p>
+    <p><a href="{{ path('announcement_contact', {'username': announcement.profile.username})}}">contacter</a></p>
 </main>
 {% endblock %}

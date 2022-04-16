@@ -1,0 +1,71 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Politique de confidentialité !{% endblock %}
+
+{% block body %}
+<main class="test">
+    <h1 class="test__title">Test mise en forme card profile et card annonce</h1>
+    <h2 class="test__subtitle">Test mise en forme card profile</h2>
+    <section class="annonces">
+        {% for announce in announcements %}
+            <article class="annonce">
+                <aside class="annonce__profile">
+                    <p class="annonce__profile__username">
+                        {% if announce.profile.filename %}
+                            <img src={{ vich_uploader_asset(announce.profile, 'imageFile')}} alt="image de profil de {{ announce.profile.username }})" class="annonce__profile__picture">
+                        {% else %}
+                            <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil vide (grisé)" class="annonce__profile__picture">
+                        {% endif %}
+                        {{ announce.profile.username }}
+                    </p>
+                    <p class="annonce__profile__date">
+                        {{ announce.createdAt|date('d/m/Y') }}
+                        <i class="lar la-heart la-lg"></i>
+                        {# {% if is_granted("ROLE_USER") %}
+                            {% if app.user.profile %}
+                                {% set isFavorite = false %}
+                                {% for favoris in announce.favorites %}
+                                    {% if favoris.id == app.user.profile.id %}
+                                        {% set isFavorite = true %}
+                                    {% endif %}    
+                                {% endfor %}
+                                {% if isFavorite %}
+                                    <a href="{{ path('announcement_remove_favorite', {id: announce.id}) }}"><i class="las la-heart la-lg"></i></a>
+                                {% else %}
+                                    <a href="{{ path('announcement_add_favorite', {id: announce.id}) }}"><i class="lar la-heart la-lg"></i></a>
+                            {% endif %}
+                            {% else %}
+                                <i class="lar la-heart la-lg"></i>
+                            {% endif %}
+                        {% endif %} #}
+                    </p>
+                </aside>
+                <h3 class="annonce__title">{{ announce.title }}</h3>
+                {% if announce.pictures %}
+                    {% for picture in announce.pictures %}
+                        {% if loop.first %}
+                            <img class="annonce__picture" src="{{ vich_uploader_asset(picture, 'imageFile')}}" alt="image de l'annonce {{ announce.title }}">
+                        {% endif %}
+                    {% else %}
+                        <img class="annonce__picture" src="{{ asset('images/empty.jpg') }}" alt="image annonce vide">
+                    {% endfor %}
+                {% endif %}
+                    <p class="annonce__description">{{ announce.description }}</p>
+                    <ul class="annonce__categories">
+                        <li class="annonce__propose"><i class="las la-exchange-alt"></i> Je propose en échange : {{ announce.propose }}</li>
+                        <li class="annonce__category"><i class="las la-tag"></i> {{ announce.subCategory.category.name }} / {{ announce.subCategory.name }}</li>
+                        <li class="annonce__city"><i class="las la-map-marker-alt"></i> {{ announce.region }} / {{ announce.department }} / {{ announce.city }}</li>
+                    </ul>
+            </article>
+        {% endfor %}
+    </section>
+    <h2 class="test__subtitle">Test mise en forme card annonce</h2>
+    <section class="profiles">
+        {% for profile in profiles %}
+            <article class="user">
+                <h3 class="user__username">{{ profile.username }}</h3>
+            </article>
+        {% endfor %}
+    </section>
+</main>
+{% endblock %}

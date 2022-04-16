@@ -93,6 +93,7 @@ if (searchAddressProfile !== null) {
  */
 import './js/formCategory';
 import './js/formAnnouncement';
+import './js/test';
 import './js/modules/carousel';
 
 // any CSS you import will output into a single css file (app.css in this case)

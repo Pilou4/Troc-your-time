@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello AnnouncementController!{% endblock %}
+
+{% block body %}
+<main class="announcementAdd">
+    <h1 class="announcementAdd__title">Contacter</h1>
+    <div class="profileAdd__form">        
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        <input type="submit" value="Valider" class="profileAdd__form__button">
+        {{ form_end(form) }}
+    </div>
+</main>
+{% endblock %}

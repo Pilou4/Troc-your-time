@@ -12,6 +12,7 @@ body {
     margin: 0;
     padding: 0;
     background-color: rgb(248, 247, 247);
+    font-size: 1.2em;
     // background: linear-gradient(45deg, #f37646, #f3e946) center center no-repeat;
     // background: linear-gradient(45deg, rgb(184, 12, 104), blue, orange, yellow)  center center no-repeat;
     // line-height: 1.4;
@@ -99,10 +100,11 @@ body {
         padding: 20px;
     }
     &__presentation {
-        border: 1px solid blue;
+        // background-color: lightblue;
         border-radius: 5px;
         &__content {
             padding: 20px;
+            // color: white;
         }
     }
     &__announcements {
@@ -195,9 +197,7 @@ body {
     }
     &__categories {}
 }
-.la-heart {
-    color: rgb(251, 94, 120);
-}
+
 /* ---- PAGE MESSAGE LIST ---- */
 .search {
     min-height: 80vh;
@@ -288,15 +288,7 @@ body {
         }
     }
 }
-.la-tags {
-    margin-right: 5px;
-}
-.la-map-marker-alt {
-    margin-right: 5px;
-}
-.la-exchange-alt{
-    margin-right: 5px;
-}
+
 
 /** ----- CAROUSEL ----- */
 .item {

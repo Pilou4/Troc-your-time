@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AnnouncementRepository::class)]
@@ -15,11 +16,13 @@ class Announcement
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(["announce:list"])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 150)]
     #[Assert\NotBlank]
     #[Assert\Length(min:3, max:150, minMessage:"Le titre doit contenir au minimun {{ limit }} caractères", maxMessage:"Le titre ne doit pas dépasser {{ limit }} caractères")]
+    #[Groups(["announce:list"])]
     private $title;
 
     #[ORM\Column(type: 'string', length: 180)]
@@ -78,10 +81,14 @@ class Announcement
     #[ORM\ManyToMany(targetEntity: Profile::class, inversedBy: 'favorites')]
     private $favorites;
 
+    #[ORM\OneToMany(mappedBy: 'announcement', targetEntity: Message::class)]
+    private $message;
+
     public function __construct()
     {
         $this->favorites = new ArrayCollection();
         $this->pictures = new ArrayCollection();
+        $this->message = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -333,6 +340,36 @@ class Announcement
     public function removeFavorite(Profile $favorite): self
     {
         $this->favorites->removeElement($favorite);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getMessage(): Collection
+    {
+        return $this->message;
+    }
+
+    public function addMessage(Message $message): self
+    {
+        if (!$this->message->contains($message)) {
+            $this->message[] = $message;
+            $message->setAnnouncement($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): self
+    {
+        if ($this->message->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getAnnouncement() === $this) {
+                $message->setAnnouncement(null);
+            }
+        }
 
         return $this;
     }

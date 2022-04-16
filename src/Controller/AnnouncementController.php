@@ -2,10 +2,13 @@
 
 namespace App\Controller;
 
+use App\Entity\Message;
 use App\Entity\Announcement;
 use App\Form\AnnouncementType;
 use App\Entity\AnnouncementSearch;
 use App\Form\AnnouncementSearchType;
+use App\Form\AnnouncementMessageType;
+use App\Repository\ProfileRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\AnnouncementRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -70,6 +73,44 @@ class AnnouncementController extends AbstractController
     {
         return $this->render('announcement/view.html.twig', [
             'announcement' => $announcementRepository->find($id),
+        ]);
+    }
+
+    #[Route('/contact/{username}', name: 'contact')]
+    public function contact($username, Request $request, ProfileRepository $profileRepository, AnnouncementRepository $announcementRepository): Response
+    {
+        /** @var $user instanceof User */
+        $user = $this->security->getuser();
+
+        if (!$user->getProfile()) {
+            $this->addFlash('message', "Vous devez compléter votre profil pour envoyer un message");
+            return $this->redirectToRoute('profile_add');
+        }
+        
+        $message = new Message();
+        $recpient = $profileRepository->findOneBy(['username' => $username]);
+        foreach ($recpient->getAnnouncements() as $announcement) {
+            $announce = $announcementRepository->findOneBy(['title' => $announcement->getTitle()]);
+            $title = $announce->getTitle();
+        }
+        
+        $form = $this->createForm(AnnouncementMessageType::class, $message);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $message->setSender($user->getProfile());
+            $message->setTitle("contact au sujet de l'annonce : " . $title);
+            $message->setRecipient($recpient);
+            $message->setAnnouncement($announce);
+            $this->entityManager->persist($message);
+            $this->entityManager->flush();
+
+            $this->addFlash('success', "Votre message à bien été envoyer");
+            return $this->redirectToRoute('announcement_list');
+        }
+
+        return $this->render('announcement/contact.html.twig', [
+            'form' => $form->createView(),
         ]);
     }
 

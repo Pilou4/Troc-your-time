@@ -1,3 +1,98 @@
-.search__form__input {
-    // width: 500px;
+.test {
+    padding: 50px;
+    &__title {
+        text-align: center;
+        padding: 10px;
+    }
+    &__subtitle {
+        font-size: 1.5em;
+        color: red;
+    }
+}
+.la-exchange-alt {
+    position: relative;
+    top: 3px;
+}
+.la-tag {
+    position: relative;
+    top: 1px;
+}
+.la-map-marker-alt {
+    position: relative;
+    top: 0px;
+}
+.la-heart {
+    margin-left: 10px;
+    color: rgb(251, 94, 120);
+}
+
+.annonces {
+    display: flex;
+}
+.annonce {
+    width: 500px;
+    border: 1px solid lightblue;
+    border-radius: 10px;
+    margin: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
+    &__profile {
+        width: 100%;
+        margin: 0;
+        padding: 10px;
+        // background-color: lightgreen;
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        border-bottom: 1px solid lightcoral;
+        &__picture {
+            width: 50px;
+            border-radius: 50%;
+        }
+        &__username {
+            margin: 0;
+            // margin: 8px;
+        }
+        &__date {
+            margin: 0;
+            // margin: 5px;
+        }
+    }
+    &__title {
+        width: 100%;
+        padding: 20px 0 10px;
+        font-size: 1.2em;
+        font-weight: normal;
+        color: blue;
+        text-align: center;
+    }
+    &__picture {
+        width: 30%;
+        float: left;
+        margin: 5px 10px 10px 15px;
+    }
+    &__description {
+        font-size: 1em;
+    }
+    &__categories {
+        list-style-type: none;
+        padding: 0 15px;
+    }
+    &__propose {
+        margin: 0;
+        font-size: .9em;
+    }
+    &__category {
+        margin: 0;
+        font-size: .9em;
+    }
+    &__city {
+        margin: 0;
+        font-size: .9em;
+    }
+}
+
+.user {
+
 }
