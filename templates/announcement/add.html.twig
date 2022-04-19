@@ -7,7 +7,13 @@
         <h1 class="announcementAdd__title">Ajouter une annonces</h1>
         <div class="announcementAdd__form">        
             {{ form_start(form) }}
-            {{ form_widget(form) }}
+            {{ form_row(form.category) }}
+            {{ form_row(form.subCategory) }}
+            {{ form_row(form.title) }}
+            {{ form_row(form.description) }}
+            {{ form_row(form.propose) }}
+            {{ form_row(form.address) }}
+            {{ form_row(form.pictureFiles) }}
             <input type="submit" value="Valider" class="announcementAdd__form__button">
             {{ form_end(form) }}
         </div>

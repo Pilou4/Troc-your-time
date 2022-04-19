@@ -32,6 +32,7 @@ class Picture
     private $filename;
 
     #[ORM\ManyToOne(targetEntity: Announcement::class, inversedBy: 'pictures')]
+    #[ORM\JoinColumn(nullable:false)]
     private $announcement;
 
 
@@ -45,7 +46,7 @@ class Picture
         return $this->filename;
     }
 
-    public function setFilename(string $filename): self
+    public function setFilename(?string $filename): self
     {
         $this->filename = $filename;
 
@@ -57,7 +58,7 @@ class Picture
      *
      * @return  File|null
      */ 
-    public function getImageFile()
+    public function getImageFile(): ?File
     {
         return $this->imageFile;
     }
@@ -69,7 +70,7 @@ class Picture
      *
      * @return  self
      */ 
-    public function setImageFile($imageFile)
+    public function setImageFile($imageFile): self
     {
         $this->imageFile = $imageFile;
 

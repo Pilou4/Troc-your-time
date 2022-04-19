@@ -62,9 +62,27 @@ class ProfileRepository extends ServiceEntityRepository
                 ->setParameter('distance', $search->getDistance());
         }
 
+        if ($search->getUsername()) {
+            $query->where(
+                $query->expr()->orX(
+                    $query->expr()->like('profile.username', ':username'),
+                )
+            );
+            $query->setParameter('username', "%{$search->getUsername()}%");
+        }
         // $query = $query->getQuery();
 
         return $query->getQuery()->getResult();
+    }
+
+    public function findAllOrderedByDate()
+    {
+        $queryBuilder = $this->createQueryBuilder('announcement');
+        $queryBuilder->orderBy('announcement.createdAt', 'desc');
+        $queryBuilder->setMaxResults('6');
+        $query = $queryBuilder->getQuery();
+
+        return $query->getResult();
     }
 
     

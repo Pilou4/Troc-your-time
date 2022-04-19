@@ -5,12 +5,18 @@
 {% block body %}
 <main class="announce">
     <h1 class="announce__title">{{ announcement.title }}</h1>
-    {% for picture in announcement.pictures %}
-        <img class="homepage__announcement__middle__left__img" src="{{ vich_uploader_asset(picture, 'imageFile')}}" alt="image de l'annonce {{ announcement.title }}">
-    {% else %}
-        <img class="homepage__announcement__middle__left__img" src="{{ asset('images/empty.jpg') }}" alt="image annonce vide">
-    {% endfor %}
-    <div id="map" style="width: 400px; height: 400px" data-lat="{{ announcement.lat }}" data-lng="{{ announcement.lng}}"></div>
+        <div class="announce__pictures">
+            {% if announcement.pictures %}
+                <div id="carousel3">
+                    {% for picture in announcement.pictures %}
+                    <img class="announce__picture" src="{{ vich_uploader_asset(picture, 'imageFile')}}" alt="image de l'annonce {{ announcement.title }}">
+                    {% endfor %}
+                </div>
+            {% else %}
+                <img class="announce__picture" src="{{ asset('images/empty.jpg') }}" alt="image annonce vide">
+            {% endif %}
+        </div>
+    <div id="map" class="announce__map" style="width: 400px; height: 400px" data-lat="{{ announcement.lat }}" data-lng="{{ announcement.lng}}"></div>
     <p class="announce__title">Annonces de {{ announcement.profile.username }}</p>
     <p class="announce__title">{{ announcement.description }}</p>
     <p><a href="{{ path('announcement_contact', {'username': announcement.profile.username})}}">contacter</a></p>

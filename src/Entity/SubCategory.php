@@ -32,6 +32,11 @@ class SubCategory
         $this->announcements = new ArrayCollection();
     }
 
+    // public function __toString()
+    // {
+    //     $this->name;
+    // }
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -89,5 +94,10 @@ class SubCategory
         }
 
         return $this;
+    }
+    
+    public function __toString()
+    {
+        return $this->name;
     }
 }

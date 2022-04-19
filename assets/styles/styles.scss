@@ -16,13 +16,26 @@ body {
     // background: linear-gradient(45deg, #f37646, #f3e946) center center no-repeat;
     // background: linear-gradient(45deg, rgb(184, 12, 104), blue, orange, yellow)  center center no-repeat;
     // line-height: 1.4;
+    // background-color: orange;
 }
 
+h1 {
+    font-family: "Quicksand";
+}
 /* ---- HEADER ---- */
 .header {
     padding: 25px;
-    background: linear-gradient(90deg, rgb(230, 25, 25), purple, blue )  center center no-repeat;
+    // background: linear-gradient(45deg, rgb(184, 12, 104), blue, yellow)  center center no-repeat;
+    // background: linear-gradient(90deg, rgb(230, 25, 25), purple, blue )  center center no-repeat;
     // background-color: rgb(184, 12, 104);
+    // background-color: rgb(207, 89, 46);
+    background: linear-gradient(45deg, #f3e946, #f37646) center center no-repeat;
+    // background-color: white;
+    box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 2;
     &__nav {
         display: flex;
         justify-content: space-between;
@@ -48,10 +61,11 @@ body {
             display: block;
             font-size: 1.2em;
             text-decoration: none;
-            color: white;
-            transition: all 1s ease-out;
+            // color: white;
+            color: black;
             padding: 0 10px;
             border-radius: 5px;
+            transition: all 1s ease-out;
             &:hover,:focus {
                 color: #333;
                 background-color: lightgrey;
@@ -79,32 +93,48 @@ body {
                     color: white;
                 }
             }
-            &__link {
-                color: blue;
-                text-decoration: none;
-            }
         }
     }
 }
 
 /* ---- PAGE D'ACCUEIL ---- */
 .homepage {
+    position: relative;
+    top: 90px;
     min-height: 80vh;
     max-width: 1300px;
     margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    margin-bottom: 150px;
     &__title {
         text-align: center;
-        padding: 20px;
+        padding: 10px;
+        letter-spacing: .2em;
+        font-family: "Quicksand";
     }
     &__subtitle {
-        padding: 20px;
+        padding: 10px;
+        font-family: "parisienne";
+        font-size: 2.5em;
+        color: orangered;
     }
     &__presentation {
+        // letter-spacing: .1em;
         // background-color: lightblue;
         border-radius: 5px;
         &__content {
-            padding: 20px;
+            letter-spacing: .1em;
             // color: white;
+        }
+    }
+    &__button {
+        width: 100%;
+        border-radius: 10px;
+        margin: 10px;
+        display: inline-block;
+        &__link {
+            text-decoration: none;
         }
     }
     &__announcements {
@@ -113,89 +143,25 @@ body {
         flex-wrap: wrap;
         padding: 0 20px;
     }
-    &__announcement {
-        width: 550px;
-        border: 1px solid lightblue;
-        border-radius: 5px;
-        margin: 10px;
+    &__users {
         display: flex;
-        flex-direction: column;
-        &:hover {
-            transform: translate3d(0, -10px, 0);
-        }
-        &__link {
-            text-decoration: none;
-            color: black;
-        }
-        &__top {
-            width: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: lightblue;
-            &__profile {
-                display: flex;
-                align-items: center;
-                &__img {
-                    width: 40px;
-                    border-radius: 50%;
-                    margin-left: 10px;
-                }
-                &__username {
-                    margin-top: 15px;
-                    margin-left: 10px;
-                }
-            }
-            &__date {
-                margin-right: 10px;
-                margin-top: 15px;
-            }
-        }
-        &__middle {
-            display: flex;
-            width: 100%;
-            min-height: 200px;
-            padding: 20px;
-            &__left {
-                &__img {
-                    width: 200px;
-                    height: 150px;
-                }
-            }
-            &__right {
-                padding: 0 20px;
-                &__title {
-                    font-size: 1.5em;
-                    text-align: center;
-                    color: blue;
-                    padding: 0 0 0 10px;
-                }
-                &__description {
-
-                }
-            }
-        }
-        &__bottom {
-            width: 100%;
-            padding: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: lightblue;
-            &__content {
-                &__propose {
-                    margin: 3px 0;
-                }
-                &__category {
-                    margin: 3px 0;
-                }
-                &__city {
-                    margin: 3px 0;
-                }
-            }
+        flex-wrap: wrap;
+    }
+    &__categories {
+        display: flex;
+    }
+    &__category {
+        width: 300px;
+        box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
+        border-radius: 10px;
+        border: 1px solid lightblue;
+        margin: 10px;
+        &__title {
+            text-align: center;
+            padding: 10px;
+            letter-spacing: 0;
         }
     }
-    &__categories {}
 }
 
 /* ---- PAGE MESSAGE LIST ---- */
@@ -289,297 +255,40 @@ body {
     }
 }
 
-
-/** ----- CAROUSEL ----- */
-.item {
-    margin: 40px 20px;
-    background-color: #fff;
-    box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
-    transition: transform .3s;
-    transform: translate3d(0, 1px ,0);
-    &:hover {
-        transform: translate3d(0, -10px, 0);
-    }
-}
-
-.item img {
-    display: block;
-    width: 100%;
-    height: auto;
-}
-
-.item__body {
-    padding: 25px;
-}
-
-.item__title {
-    // font-size: 24px;
-    // margin-bottom: 5px;
-    // font-weight: bold;
-    // color: #232323;
-    position: absolute;
-    bottom: 0;
-    color: white;
-    font-size: 1.2em;
-    left: 46%;
-}
-
-.item__description {
-    color: #585858;
-}
-
-.items {
-    position: relative;
-}
-
-.carousel {
-    position: relative;
-}
-
-.carousel__container {
-    transition: transform 2s;
-    transform: translate3d(0, 0, 0);
-}
-
-.carousel__container::after {
-    content: '';
-    clear: both;
-    display: table;
-}
-
-.carousel__item {
-    float: left;
-}
-
-.carousel__next, .carousel__prev {
-    position: absolute;
-    width: 40px;
-    height: 40px;
-    background-color: #FFF;
-    border-radius: 50%;
-    top: 50%;
-    margin-top: -20px;
-    right: 20px;
-    box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
-    cursor: pointer;
-    transition: transform .3s, opacity .3s;
-    background: #FFF url(right.svg) center center no-repeat;
-    background-size:  20px 20px;
-}
-
-.carousel__next:hover, .carousel__prev:hover {
-    transform: scale(1.2);
-}
-
-.carousel__prev {
-    background-image: url(left.svg);
-    right: auto;
-    left: 20px; 
-}
-
-.carousel__prev--hidden, .carousel__next--hidden {
-    opacity: 0;
-}
-
-.carousel__pagination {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    text-align: center;
-    display: none;
-}
-
-.carousel__pagination__button {
-    display: inline-block;
-    background-color: #fff;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    margin: 0 3px;
-    box-shadow: 0 2px 5px #3232321a;
-    border: 1px solid rebeccapurple;
-    transition: transform .3s;
-    cursor: pointer;
-}
-
-.carousel__pagination__button--active, .carousel__pagination__button--active:hover {
-    transform: scale(1.4);
-}
-
-// @media screen and (min-width: 800px) {
-//     .carousel__pagination {
-//         display: block;
-//     }
-// }
-
-/* ---- ANIMATIONS ---- */
-@keyframes buttonAnimate {
-    from {
-        transform: scale(1);
-    }
-    to {
-        transform: scale(1.2);
-        background-color: rgb(47, 37, 75);
-        color: white;
-    }
-    
-}
-
 /* ---- FOOTER ---- */
 .footer {
+    position: relative;
     border-top: 1px solid blue;
     padding: 20px;
     display: flex;
+    bottom: 0;
     justify-content: center;
-    background: linear-gradient(90deg, blue, purple, rgb(230, 25, 25) )  center center no-repeat;
+    // background: linear-gradient(90deg, blue, purple, rgb(230, 25, 25) )  center center no-repeat;
+    background: linear-gradient(45deg, #f3e946, #f37646) center center no-repeat;
+    margin-top: 50px;
     &__link {
         margin: 0 20px;
-        color: white;
+        color: black;
         text-decoration: none;
     }
 }
 
-/* ---- PAGE CREATE-ACCOUNT ---- */
-.register {
-    &__form {
-        max-width: 600px;
-        // border: 2px solid aqua;
-        margin: 0 auto;
-        margin-top: 50px;
-        display: flex;
-        flex-wrap: wrap;
-        padding: 20px;
-        box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
-        border-radius: 5px;
-        &__header {
-            text-align: center;
-            width: 100%;
-        }
-        &__footer {
-            width: 100%;
-            text-align: center;
-            margin-top: 20px;
-        }
-        &__input {
-            width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 10px;
-        }
-        &__label {
-            width: 100%;
-            margin: 0 10px;
-        }
-        &__button {
-            display: block;
-            margin: 0 auto;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 20px;
-        }
-    }
-}
-
-/* ---- PAGE LOGIN ---- */
-.login {
-    min-height: 80vh;
-    &__form {
-        max-width: 600px;
-        // border: 2px solid aqua;
-        margin: 0 auto;
-        margin-top: 150px;
-        display: flex;
-        flex-wrap: wrap;
-        padding: 20px;
-        box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
-        border-radius: 5px;
-        &__top {
-            text-align: center;
-            width: 100%;
-        }
-        &__bottom {
-            width: 100%;
-            text-align: center;
-            margin-top: 20px;
-        }
-        &__forgotten {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-        }
-        &__link {
-            width: 100%;
-            
-        }
-        &__label {
-            width: 100%;
-            margin: 0 10px;
-        }
-        &__input {
-            width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 10px;
-        }
-        &__button {
-            display: block;
-            margin: 0 auto;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 20px;
-        }
-    }
-}
-
-/* ---- PAGE FORGOTTEN PASSWORD ---- */
-.forgotten, .reset {
-    min-height: 68vh;
-    &__title {
-        text-align: center;
-        padding: 10px;
-    }
-    &__form {
-        max-width: 600px;
-        margin: 0 auto;
-        margin-top: 150px;
-        padding: 20px;
-        box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
-        border-radius: 5px;
-        &__label {
-            width: 100%;
-            margin: 0 10px;
-        }
-        &__input {
-            width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 10px;
-        }
-        &__button {
-            display: block;
-            margin: 0 auto;
-            padding: 10px;
-            border-radius: 5px;
-            margin-top: 20px;
-        }
-    }
-}
-
-
-
 
 
 .announcementAdd {
-    min-height: 80VH;
+    min-height: 80vh;
+    position: relative;
+    top: 90px;
+    margin-bottom: 200px;
     &__title {
         text-align: center;
+        padding: 20px;
     }
     &__form {
         max-width: 600px;
         // border: 2px solid aqua;
         margin: 0 auto;
-        margin-top: 50px;
+        margin-top: 40px;
         padding: 20px;
         box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
         border-radius: 5px;

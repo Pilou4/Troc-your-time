@@ -7,6 +7,11 @@ class ProfileSearch
     /**
      * @var string|null
      */
+    private $username;
+
+    /**
+     * @var string|null
+     */
     private $address;
     
     /**
@@ -116,6 +121,30 @@ class ProfileSearch
     public function setAddress($address)
     {
         $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of username
+     *
+     * @return  string|null
+     */ 
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
+    /**
+     * Set the value of username
+     *
+     * @param  string|null  $username
+     *
+     * @return  self
+     */ 
+    public function setUsername($username)
+    {
+        $this->username = $username;
 
         return $this;
     }

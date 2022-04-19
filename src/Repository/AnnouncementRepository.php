@@ -71,6 +71,15 @@ class AnnouncementRepository extends ServiceEntityRepository
                 ->setParameter('distance', $search->getDistance());
         }
 
+        if ($search->getTitle()) {
+            $query->where(
+                $query->expr()->orX(
+                    $query->expr()->like('announcement.title', ':title'),
+                )
+            );
+            $query->setParameter('title', "%{$search->getTitle()}%");
+        }
+
         // $query = $query->getQuery();
 
         return $query->getQuery()->getResult();
@@ -80,6 +89,7 @@ class AnnouncementRepository extends ServiceEntityRepository
     {
         $queryBuilder = $this->createQueryBuilder('announcement');
         $queryBuilder->orderBy('announcement.createdAt', 'desc');
+        $queryBuilder->setMaxResults('10');
         $query = $queryBuilder->getQuery();
 
         return $query->getResult();

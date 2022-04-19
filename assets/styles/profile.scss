@@ -3,53 +3,87 @@
     min-height: 80vh;
     max-width: 1300px;
     margin: 0 auto;
+    padding: 10px;
     &__title {
         text-align: center;
         padding: 20px;
+        font-family: "Satisfy", "sans-serif";
     }
-    &__top {
-        max-width: 600px;
-        margin: 0 auto;
-        display: flex;
-        align-items: center;
-        justify-content: space-around;
-        background-color: lightblue;
-        border: 1px solid lightblue;
-        border-radius: 10px;
-        padding: 20px;
-        &__left {
-            &__img {
-                border-radius: 50%;
-                margin: 10px;
-                // float: left;
-            }
-        }
-        &__right {
-            &__text {
+    &__user {
+        &__info {
+            border: 1px solid orangered;
+            border-radius: 10px;
+            margin: 10px;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            flex-wrap: wrap;
+            box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
+            &__title {
+                width: 100%;
+                color: orangered;
+                padding: 10px 10px 0 10px;
                 margin: 0;
+                letter-spacing: .1em;
+                font-family: 'parisienne', Courier, monospace;
+                font-weight: bold;
+                font-size: 1.5em;
+            }
+            &__picture {
+                width: 150px;
+                border-radius: 50%;
+            }
+            &__list {
+                margin-top: 8px;
+                list-style: none;
+            }
+            &__text {
+                width: 100%;
             }
         }
     }
-    &__content {
+    &__links {
         display: flex;
         flex-wrap: wrap;
-        margin-top: 50px;
-        &__block {
-            width: 48%;
-            margin: 10px;
-            border: 1px solid lightblue;
+    }
+    &__link {
+        width: 48%;
+        border: 1px solid orangered;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
+        padding: 10px;
+        margin: 10px;
+        text-decoration: none;
+        color: black;
+        transition: all .3s ease-out;
+        cursor: pointer;
+        &:hover {
+            transform: translate3d(0, -10px, 0);
+            color: initial;
+        }
+        &__name {
+            color: orangered;
+            font-weight: 500;
+            font-family: "parisienne";
+            font-size: 2em;
+            padding: 10px 0 0 0;
+            text-align: center;
+        }
+        &__text {
+            margin: 0;
             padding: 10px;
-            box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
-            border-radius: 10px;
-            &__title {
-                text-align: center;
-            }
+            font-family: 'Satisfy';
+            font-size: 1.2em;
+            font-weight: normal;
         }
     }
 }
 
 /* ---- PAGE FORMULAIRE PROFILE LIST (COMMUNAUTÉ) ---- */
 .community {
+    position: relative;
+    top: 90px;
     max-width: 1300px;
     margin: 0 auto;
     min-height: 80vh;
@@ -58,7 +92,7 @@
         padding: 20px;
     }
     &__form {
-        width: 600px;
+        width: 100%;
         margin: 0 auto;
         &__input {
             margin: 0 20px;
@@ -125,7 +159,9 @@
 
 /* ---- PAGE FORMULAIRE PROFILE ---- */
 .profileAdd {
-    min-height: 80VH;
+    position: relative;
+    top: 90px;
+    margin-bottom: 150px;
     &__title {
         text-align: center;
     }

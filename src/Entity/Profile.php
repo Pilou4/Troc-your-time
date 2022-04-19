@@ -373,9 +373,6 @@ class Profile
     public function setFilename($filename)
     {
         $this->filename = $filename;
-        if ($this->imageFile instanceof UploadedFile) {
-            $this->updatedAt = new \DateTimeImmutable('now');
-        }
         return $this;
     }
 
@@ -399,6 +396,9 @@ class Profile
     public function setImageFile($imageFile)
     {
         $this->imageFile = $imageFile;
+        if ($this->imageFile instanceof UploadedFile) {
+            $this->updatedAt = new \DateTimeImmutable('now');
+        }
 
         return $this;
     }

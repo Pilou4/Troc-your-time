@@ -158,6 +158,18 @@ class AnnouncementController extends AbstractController
         return $this->render('announcement/favorite.html.twig');
     }
 
+
+    #[Route('/online/{id}', name: 'online', requirements: ['id' => '\d+'])]
+    public function online(Announcement $announce)
+    {
+        $announce->setIsOnline(($announce->getIsOnline()) ? false : true);
+
+        $this->entityManager->persist($announce);
+        $this->entityManager->flush();
+
+        return new Response("true");
+    }
+
     #[Route('/add', name: 'add')]
     #[IsGranted("ROLE_USER")]
     public function add(Request $request): Response
@@ -182,10 +194,8 @@ class AnnouncementController extends AbstractController
             return $this->redirectToRoute('homepage');
         }
 
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->entityManager->persist($announcement);
-            // dd($announcement);
             $this->entityManager->flush();
             $this->addFlash('success', "Votre annonce à bien été enregistrer");
             return $this->redirectToRoute('announcement_list');
@@ -195,7 +205,7 @@ class AnnouncementController extends AbstractController
         ]);
     }
 
-    #[Route('/upadte/{id}', name: 'update', requirements: ['id' => '\d+'])]
+    #[Route('/update/{id}', name: 'update', requirements: ['id' => '\d+'])]
     public function upadte(Request $request, Announcement $announcement): Response
     {
         $form = $this->createForm(AnnouncementType::class, $announcement);
@@ -217,6 +227,7 @@ class AnnouncementController extends AbstractController
     #[Route('/delete/{id}', name: 'delete', requirements: ['id' => '\d+'])]
     public function delete(Announcement $announcement)
     {
+        // dd($announcement);
         $this->entityManager->remove($announcement);
         $this->entityManager->flush();
 

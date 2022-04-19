@@ -16,11 +16,15 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Security;
 
-#[Route('/profile', name: 'profile_'), IsGranted("ROLE_USER")]
+#[Route('/profile', name: 'profile_')]
 class ProfileController extends AbstractController
 {
-    public function __construct(private EntityManagerInterface $entityManager)
+    public function __construct(
+        private EntityManagerInterface $entityManager,
+        private Security $security
+        )
     {
         
     }
@@ -31,14 +35,14 @@ class ProfileController extends AbstractController
         return $this->render('profile/me.html.twig');
     }
 
-    #[Route('/list', name: 'list')]
-    public function list(ProfileRepository $profileRepository, Request$request): Response
+    #[Route('/community', name: 'community')]
+    public function community(ProfileRepository $profileRepository, Request$request): Response
     {
         $search = new ProfileSearch();
         $form = $this->createForm(ProfileSearchType::class, $search);
         $form->handleRequest($request);
 
-        return $this->render('profile/list.html.twig', [
+        return $this->render('profile/community.html.twig', [
             'profiles' => $profileRepository->findAllVisibleQuery($search),
             'form' => $form->createView()
         ]);
@@ -125,9 +129,18 @@ class ProfileController extends AbstractController
         ]);
     }
 
-    #[Route('/avatar/{id}', name: 'avatar')]
-    public function avatar(Request $request, Profile $profile): Response
+    #[Route('/avatar/{username}', name: 'avatar')]
+    public function avatar($username, Request $request, Profile $profile): Response
     {
+        /** @var $user instanceof User */
+        $user = $this->security->getuser();
+        // dd($user->getProfile()->getId());
+        
+        if ($username !== $user->getProfile()->getUsername()) {
+                $this->addFlash('error', "Vous ne pouvez pas modifier un autre profile");
+            return $this->redirectToRoute('homepage');
+        }
+
         $form = $this->createForm(PictureProfileType::class, $profile);
         $form->handleRequest($request);
 
@@ -138,7 +151,7 @@ class ProfileController extends AbstractController
             $this->entityManager->flush();
 
             $this->addFlash('success', "Votre image à bien été enregistrer");
-            return $this->redirectToRoute('homepage');
+            return $this->redirectToRoute('profile_me');
         }
 
         return $this->render('profile/avatar.html.twig', [
@@ -153,13 +166,13 @@ class ProfileController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            
             $this->entityManager->persist($profile);
             $this->entityManager->flush();
 
 
             $this->addFlash('success', "Votre profile à bien été modifié");
-            return $this->redirectToRoute('profile_list');
+            return $this->redirectToRoute('profile_me');
         }
         return $this->render('profile/update.html.twig', [
             'form' => $form->createView(),

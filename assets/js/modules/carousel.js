@@ -244,12 +244,40 @@ if (document.getElementById('carousel1')) {
     document.addEventListener('DOMContentLoaded', function () {
         new Carousel(document.getElementById('carousel1'), {
             slidesToScroll: 1,
-            slidesVisible: 1,
+            slidesVisible: 2,
             // loop: true,
             pagination: false,
             // infinite: true,
             navigation: true,
-            turnInfinite: false
+            turnInfinite: true
+        })
+    })
+}
+
+if (document.getElementById('carousel2')) {
+    document.addEventListener('DOMContentLoaded', function () {
+        new Carousel(document.getElementById('carousel2'), {
+            slidesToScroll: 1,
+            slidesVisible: 2,
+            // loop: true,
+            pagination: false,
+            // infinite: true,
+            navigation: true,
+            turnInfinite: true
+        })
+    })
+}
+
+if (document.getElementById('carousel3')) {
+    document.addEventListener('DOMContentLoaded', function () {
+        new Carousel(document.getElementById('carousel3'), {
+            slidesToScroll: 1,
+            slidesVisible: 2,
+            // loop: true,
+            pagination: false,
+            // infinite: true,
+            navigation: true,
+            turnInfinite: true
         })
     })
 }

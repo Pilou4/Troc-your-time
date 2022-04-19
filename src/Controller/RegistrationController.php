@@ -34,6 +34,10 @@ class RegistrationController extends AbstractController
     #[Route('/create-account', name: 'create_account')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, UserAuthenticator $authenticator): Response
     {
+        if ($this->getUser()) {
+            $this->addFlash("message", "Vous ne pouvez pas créer un compte car vous êtes déjà membres");
+            return $this->redirectToRoute('homepage');
+        }
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -57,7 +61,7 @@ class RegistrationController extends AbstractController
             $this->mailer->sendEmail($user->getEmail(), $user->getToken(),$message, $template);
 
             $this->addFlash("success", "Un email vous été envoyé. Merci de valider votre compte !");
-            return $this->redirectToRoute('app_login');
+            return $this->redirectToRoute('profile_add');
 
             // return $userAuthenticator->authenticateUser(
             //     $user,
@@ -158,7 +162,7 @@ class RegistrationController extends AbstractController
         }
 
         return $this->render(
-            'user/change-password.html.twig',
+            'registration/change-password.html.twig',
             [
                 "form" => $form->createView()
             ]

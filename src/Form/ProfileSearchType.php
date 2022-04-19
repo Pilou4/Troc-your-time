@@ -8,12 +8,22 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
 
 class ProfileSearchType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+        ->add('username', SearchType::class, [
+            'label' => false,
+            'required' => false,
+            'attr' => [
+                'class' => 'community__form__input',
+                'placeholder' => "nom d'utilisateur",
+            ],
+        ])
+
         ->add('address', null, [
             'label' => false,
             'required' => false,

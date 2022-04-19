@@ -2,20 +2,29 @@
 
 namespace App\Form;
 
-use App\Entity\AnnouncementSearch;
 use App\Entity\SubCategory;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use App\Entity\AnnouncementSearch;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
 
 class AnnouncementSearchType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+        ->add('title', SearchType::class, [
+            'label' => false,
+            'required' => false,
+            'attr' => [
+                'class' => 'community__form__input',
+                'placeholder' => "titre",
+            ],
+        ])
         ->add('category', EntityType::class, [
             'class' => SubCategory::class,
             'placeholder' => 'catégorie',

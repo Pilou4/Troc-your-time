@@ -27,7 +27,7 @@
         {% for announce in app.user.profile.announcements %}
             <p>Titre : {{ announce.title }}</p>
             <p>Slug : {{ announce.slug }}</p>
-            <p>Catégorie : {{ announce.category.name }}</p>
+            <p>Catégorie : {{ announce.subCategory.name }}</p>
             <p>Contenue : {{ announce.description }}</p>
             <p>Date de création : {{ announce.createdAt|date('d-m-Y') }}</p>
         {% endfor %}

@@ -1,0 +1,136 @@
+/* ---- CAROUSEL ---- */
+.item {
+    margin: 40px 20px;
+    background-color: #fff;
+    box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
+    transition: transform .3s;
+    transform: translate3d(0, 1px ,0);
+    &:hover {
+        transform: translate3d(0, -10px, 0);
+    }
+}
+
+// .item img {
+//     display: block;
+//     width: 100%;
+//     height: auto;
+// }
+
+// .item__body {
+//     padding: 25px;
+// }
+
+// .item__title {
+//     // font-size: 24px;
+//     // margin-bottom: 5px;
+//     // font-weight: bold;
+//     // color: #232323;
+//     position: absolute;
+//     bottom: 0;
+//     color: white;
+//     font-size: 1.2em;
+//     left: 46%;
+// }
+
+// .item__description {
+//     color: #585858;
+// }
+
+// .items {
+//     position: relative;
+// }
+
+.carousel {
+    position: relative;
+    overflow: hidden;
+}
+
+.carousel__container {
+    transition: transform 2s;
+    transform: translate3d(0, 0, 0);
+}
+
+.carousel__container::after {
+    content: '';
+    clear: both;
+    display: table;
+}
+
+.carousel__item {
+    float: left;
+}
+
+.carousel__next, .carousel__prev {
+    position: absolute;
+    width: 40px;
+    height: 40px;
+    background-color: #FFF;
+    border-radius: 50%;
+    top: 50%;
+    margin-top: -20px;
+    right: 20px;
+    box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
+    cursor: pointer;
+    transition: transform .3s, opacity .3s;
+    background: #FFF url(right.svg) center center no-repeat;
+    background-size:  20px 20px;
+}
+
+.carousel__next:hover, .carousel__prev:hover {
+    transform: scale(1.2);
+}
+
+.carousel__prev {
+    background-image: url(left.svg);
+    right: auto;
+    left: 20px; 
+}
+
+.carousel__prev--hidden, .carousel__next--hidden {
+    opacity: 0;
+}
+
+.carousel__pagination {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    display: none;
+}
+
+.carousel__pagination__button {
+    display: inline-block;
+    background-color: #fff;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin: 0 3px;
+    box-shadow: 0 2px 5px #3232321a;
+    border: 1px solid rebeccapurple;
+    transition: transform .3s;
+    cursor: pointer;
+}
+
+.carousel__pagination__button--active, .carousel__pagination__button--active:hover {
+    transform: scale(1.4);
+}
+
+@media screen and (min-width: 800px) {
+    .carousel__pagination {
+        display: block;
+    }
+}
+
+/* ---- ANIMATIONS ---- */
+@keyframes buttonAnimate {
+    from {
+        transform: scale(1);
+    }
+    to {
+        transform: scale(1.2);
+        background-color: rgb(47, 37, 75);
+        color: white;
+    }
+    
+}

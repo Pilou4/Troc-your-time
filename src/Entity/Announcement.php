@@ -45,6 +45,7 @@ class Announcement
     private $profile;
     
     #[ORM\ManyToOne(targetEntity: SubCategory::class, inversedBy: 'announcements')]
+    // #[Assert\NotBlank]
     private $subCategory;
 
     #[ORM\Column(type: 'float', scale:4, precision:6)]
@@ -68,7 +69,7 @@ class Announcement
     #[ORM\Column(type: 'string', length: 255)]
     private $region;
 
-    #[ORM\OneToMany(mappedBy: 'announcement', targetEntity: Picture::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'announcement', targetEntity: Picture::class, orphanRemoval:true, cascade: ['persist', 'remove'])]
     private $pictures;
 
     /**
@@ -83,6 +84,9 @@ class Announcement
 
     #[ORM\OneToMany(mappedBy: 'announcement', targetEntity: Message::class)]
     private $message;
+
+    #[ORM\Column(type: 'boolean')]
+    private $isOnline = false;
 
     public function __construct()
     {
@@ -370,6 +374,18 @@ class Announcement
                 $message->setAnnouncement(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getIsOnline(): ?bool
+    {
+        return $this->isOnline;
+    }
+
+    public function setIsOnline(bool $isOnline): self
+    {
+        $this->isOnline = $isOnline;
 
         return $this;
     }

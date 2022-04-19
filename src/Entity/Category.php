@@ -111,9 +111,6 @@ class Category
     public function setFilename(?string $filename): self
     {
         $this->filename = $filename;
-        if ($this->imageFile instanceof UploadedFile) {
-            $this->updatedAt = new \DateTimeImmutable('now');
-        }
 
         return $this;
     }
@@ -138,6 +135,9 @@ class Category
     public function setImageFile($imageFile)
     {
         $this->imageFile = $imageFile;
+        if ($this->imageFile instanceof UploadedFile) {
+            $this->updatedAt = new \DateTimeImmutable('now');
+        }
 
         return $this;
     }
@@ -170,5 +170,10 @@ class Category
         }
 
         return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

@@ -9,19 +9,19 @@
         </div>
         <div class="header__nav__right">
             <div class="header__nav__right__link">
-                <p class="header__nav__right__icone"><i class="las la-envelope la-2x"></i></p>
+                {# <p class="header__nav__right__icone"><i class="las la-envelope la-2x"></i></p> #}
                 <a href="{{ path('contact') }}" class="header__nav__link">
                     contact
                 </a>
             </div>
             <div class="header__nav__right__link">
-                <p class="header__nav__right__icone"><i class="lar la-heart la-2x"></i></p>
+                {# <p class="header__nav__right__icone"><i class="lar la-heart la-2x"></i></p> #}
                 <a href="{{ path('announcement_favorite') }}" class="header__nav__link">
                     Favoris
                 </a>
             </div>
             <div class="header__nav__right__link">
-                <p class="header__nav__right__icone"><i class="las la-comment la-2x"></i></p>
+                {# <p class="header__nav__right__icone"><i class="las la-comment la-2x"></i></p> #}
                 <a href="{{ path('message_list') }}" class="header__nav__link">Messages</a>
             </div>
             {% if app.user %}
@@ -29,13 +29,13 @@
                     <a href="{{ path('profile_add') }}" class="header__nav__link">Compléter profil</a>
                     {% else %}
                         <div class="header__nav__right__link">
-                            <p class="header__nav__right__icone"><i class="las la-user-tie la-2x"></i></p>
+                            {# <p class="header__nav__right__icone"><i class="las la-user-tie la-2x"></i></p> #}
                             <a href="{{ path('profile_me') }}" class="header__nav__link">Profil</a>
                         </div>
-                        <div class="header__nav__right__link">
+                        {# <div class="header__nav__right__link">
                             <p class="header__nav__right__icone"><i class="las la-user-tie la-2x"></i></p>
                             <a href="{{ path('app_logout') }}" class="header__nav__link">Se déconnecter</a>
-                        </div>
+                        </div> #}
                 {% endif %}
             {% else %}
                 <a href="{{ path('app_login') }}" class="header__nav__link">Se connecter</a>

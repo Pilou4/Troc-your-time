@@ -18,18 +18,26 @@ class DefaultController extends AbstractController
         AnnouncementRepository $announcementRepository,
         CategoryRepository $categoryRepository,
         PaginatorInterface $paginator,
+        ProfileRepository $profileRepository,
         Request $request
         ): Response
     {
-        $announcement = $paginator->paginate(
-            $announcementRepository->findAllOrderedByDate(),
-            $request->query->getInt('page', 1),
-            2
-        );
+        // $announcement = $paginator->paginate(
+        //     $announcementRepository->findAllOrderedByDate(),
+        //     $request->query->getInt('page', 1),
+        //     6
+        // );
+
+        // $profile = $paginator->paginate(
+        //     $profileRepository->findAll(),
+        //     $request->query->getInt('page', 1),
+        //     6
+        // );
 
         return $this->render('default/homepage.html.twig', [
-            'announcements' => $announcement,
-            'categories' => $categoryRepository->findAll()
+            'announcements' => $announcementRepository->findAllOrderedByDate(),
+            'categories' => $categoryRepository->findAllOrderedByName(),
+            'profiles' => $profileRepository->findAllOrderedByDate(),
         ]);
     }
 

@@ -6,64 +6,90 @@
 <main class="test">
     <h1 class="test__title">Test mise en forme card profile et card annonce</h1>
     <h2 class="test__subtitle">Test mise en forme card profile</h2>
+    <article class="test__float">
+        <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil vide (grisé)" class="test__float__img">
+        <p class="test__float__text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Blanditiis, temporibus possimus doloribus fugiat ut sequi itaque ab soluta dolorem dolor molestiae velit delectus adipisci minima veritatis odio neque accusantium earum totam vero commodi asperiores. Corrupti ut saepe, voluptatum eius nisi voluptate dolorem quos earum. Officia iste quidem fuga vero similique.</p>
+    </article>
+
     <section class="annonces">
         {% for announce in announcements %}
-            <article class="annonce">
-                <aside class="annonce__profile">
-                    <p class="annonce__profile__username">
+            <article class="announces">
+                <aside class="announces__profile">
+                    <p class="announces__profile__username">
                         {% if announce.profile.filename %}
-                            <img src={{ vich_uploader_asset(announce.profile, 'imageFile')}} alt="image de profil de {{ announce.profile.username }})" class="annonce__profile__picture">
+                            <img src={{ vich_uploader_asset(announce.profile, 'imageFile')}} alt="image de profil de {{ announce.profile.username }})" class="announces__profile__picture">
                         {% else %}
-                            <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil vide (grisé)" class="annonce__profile__picture">
+                            <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil vide (grisé)" class="announces__profile__picture">
                         {% endif %}
                         {{ announce.profile.username }}
                     </p>
-                    <p class="annonce__profile__date">
+                    {% if announce.favorites %}
+                        {% set favoris = "" %}
+                        {% for favories in announce.favorites %}
+                            {% if favories.id == app.user.profile.id %}
+                                {% set favoris = favories.id %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    <p class="announces__profile__date">
                         {{ announce.createdAt|date('d/m/Y') }}
-                        <i class="lar la-heart la-lg"></i>
-                        {# {% if is_granted("ROLE_USER") %}
-                            {% if app.user.profile %}
-                                {% set isFavorite = false %}
-                                {% for favoris in announce.favorites %}
-                                    {% if favoris.id == app.user.profile.id %}
-                                        {% set isFavorite = true %}
-                                    {% endif %}    
-                                {% endfor %}
-                                {% if isFavorite %}
-                                    <a href="{{ path('announcement_remove_favorite', {id: announce.id}) }}"><i class="las la-heart la-lg"></i></a>
+                        <i 
+                            class="lar la-heart"
+                            data-announce={{ announce.id }}
+                            data-profile=
+                                {% if app.user %}
+                                    {% if app.user.profile %}
+                                        {{ app.user.profile.id }}
+                                    {% else %}
+                                        "00"
+                                    {% endif %}                                    
                                 {% else %}
-                                    <a href="{{ path('announcement_add_favorite', {id: announce.id}) }}"><i class="lar la-heart la-lg"></i></a>
-                            {% endif %}
-                            {% else %}
-                                <i class="lar la-heart la-lg"></i>
-                            {% endif %}
-                        {% endif %} #}
+                                    "0"
+                                {% endif %}
+                            data-favoris=
+                                {% if announce.favorites %}
+                                    {{ favoris }}
+                                {% endif %}
+                            >
+                        </i>
                     </p>
                 </aside>
-                <h3 class="annonce__title">{{ announce.title }}</h3>
+                <h3 class="announces__title">{{ announce.title }}</h3>
                 {% if announce.pictures %}
                     {% for picture in announce.pictures %}
                         {% if loop.first %}
-                            <img class="annonce__picture" src="{{ vich_uploader_asset(picture, 'imageFile')}}" alt="image de l'annonce {{ announce.title }}">
+                            <img class="announces__picture" src="{{ vich_uploader_asset(picture, 'imageFile')}}" alt="image de l'announces {{ announce.title }}">
                         {% endif %}
                     {% else %}
-                        <img class="annonce__picture" src="{{ asset('images/empty.jpg') }}" alt="image annonce vide">
+                        <img class="announces__picture" src="{{ asset('images/empty.jpg') }}" alt="image announces vide">
                     {% endfor %}
                 {% endif %}
-                    <p class="annonce__description">{{ announce.description }}</p>
-                    <ul class="annonce__categories">
-                        <li class="annonce__propose"><i class="las la-exchange-alt"></i> Je propose en échange : {{ announce.propose }}</li>
-                        <li class="annonce__category"><i class="las la-tag"></i> {{ announce.subCategory.category.name }} / {{ announce.subCategory.name }}</li>
-                        <li class="annonce__city"><i class="las la-map-marker-alt"></i> {{ announce.region }} / {{ announce.department }} / {{ announce.city }}</li>
+                    <p class="announces__description">{{ announce.description }}</p>
+                    <ul class="announces__categories">
+                        <li class="announces__propose"><i class="las la-exchange-alt"></i> Je propose en échange : {{ announce.propose }}</li>
+                        <li class="announces__category"><i class="las la-tag"></i> {{ announce.subCategory.category.name }} / {{ announce.subCategory.name }}</li>
+                        <li class="announces__city"><i class="las la-map-marker-alt"></i> {{ announce.region }} / {{ announce.department }} / {{ announce.city }}</li>
                     </ul>
             </article>
         {% endfor %}
     </section>
     <h2 class="test__subtitle">Test mise en forme card annonce</h2>
-    <section class="profiles">
+    <section class="users">
         {% for profile in profiles %}
             <article class="user">
-                <h3 class="user__username">{{ profile.username }}</h3>
+                <aside class="user__infos">
+                    {% if profile.filename %}
+                        <img src={{ vich_uploader_asset(profile, 'imageFile')}} alt="image de profil {{ profile.username }}" class="user__info__picture">
+                    {% else %}
+                        <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil vide" class="user__info__picture">
+                    {% endif %}
+                    <ul class="user__info">
+                        <li class="user__info__city"><i class="las la-map-marker-alt"></i> {{ app.user.profile.region }} / {{ app.user.profile.department }} / {{ app.user.profile.city }}</li>
+                        <li class="user__info__username"><i class="las la-user-tie"></i> {{ profile.username }}</li>
+                    </ul>
+                </aside>
+                <p class="user__propose">Je propose : {{ app.user.profile.propose }}</p>
+                <p class="user__research">Je recherche : {{ app.user.profile.research }}</p>
             </article>
         {% endfor %}
     </section>
