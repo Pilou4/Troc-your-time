@@ -80,6 +80,166 @@
     }
 }
 
+/* ---- PAGE MESSAGE LIST ---- */
+.message {
+    position: relative;
+    top: 90px;
+    display: flex;
+    min-height: 5000px;
+    &__nav {
+        position: fixed;
+        margin-top: 10px;
+        width: 250px;
+        height: 800px;
+        border: 1px solid lightgrey;
+        // transform: translateX(-250px);
+        box-shadow: 0 15px 50px #3232321a, 0 5px 15px #0000001a;
+        display: flex;
+        flex-direction: column;
+        transition: all 1s ease-out;
+        border-top-right-radius: 10px;
+        border-bottom-right-radius: 10px;
+        &__close {
+            text-align: end;
+            margin: 0;
+            cursor: grab;
+            border-bottom: 1px solid lightgrey;
+            padding: 5px;
+        }
+        &__open {
+            margin: 0;
+            cursor: grab;
+        }
+        &__link {
+            border-bottom: 1px solid lightgrey;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+            text-decoration: none;
+            color: black;
+            transition: all 1s ease-out;
+            &:hover,:focus{
+                background-color: #f37646;
+                color: whitesmoke;
+            }
+        }
+    }
+    &__contents {
+        position: relative;
+        transform: translateX(250px);
+        padding: 10px;
+        // left: 250px;
+        width: calc(100% - 250px);
+        transition: all 1s ease-out;
+        &__title {
+            text-align: center;
+            box-shadow: 0 15px 30px #3232321a, 0 5px 15px #0000001a;
+            margin: 0 20px;
+            padding: 20px;
+            border-top-left-radius: 10px;
+            border-top-right-radius: 10px;
+        }
+    }
+    &__content {
+        margin: 10px 20px;
+        padding: 20px;
+        // border: 1px solid red;
+        border-bottom-left-radius: 10px;
+        border-bottom-right-radius: 10px;
+        box-shadow: 0 15px 30px #3232321a, 0 5px 15px #0000001a;
+        &__title {
+            font-family: "parisienne";
+            font-size: 2em;
+            color: #f37646;
+            font-weight: bold;
+            padding: 20px 10px;
+        }
+        &__received {
+            padding: 0px 20px;
+        }
+        &__sent {
+            padding: 0 20px;
+        }
+    }
+    &__table {
+        width: 100%;
+        border: 1px solid #f37646;
+        &__thead {
+            &__row {
+                border: 2px solid #f37646;
+            }
+            &__username {
+                border: 2px solid #f37646;
+                width: 15%;
+                text-align: center;
+            }
+            &__subject {
+                border: 2px solid #f37646;
+                width: 60%;
+                text-align: center;
+            }
+            &__date {
+                border: 2px solid #f37646;
+                width: 15%;
+                text-align: center;
+            }
+            &__actions {
+                border: 2px solid #f37646;
+                text-align: center;
+                width: 10%;
+            }
+        }
+        &__tbody {
+            &__row {
+                box-shadow: 0 15px 30px #3232321a, 0 5px 15px #0000001a;
+            }
+            &__username {
+                // width: 15%;
+                text-align: center;
+            }
+            &__subject {
+                // width: 60%;
+                padding: 0 10px;
+                overflow: hidden;
+            }
+            &__date {
+                // width: 15%;
+                text-align: center;
+
+            }
+            &__actions {
+                // width: 10%;
+            }
+        }
+    }
+}
+.width--is_open {
+    width: 100%;
+    // transform: translateX(250px);
+    .message {
+        // width: 100%;
+        background-color: #f37646;
+    }
+}
+#message-close {
+    cursor: pointer;
+    padding-right: 10px;
+    &:hover {
+        color: #f37646;
+    }
+}
+#message-open {
+    position: fixed;
+    z-index: 5;
+    opacity: 0;
+    cursor: grab;
+}
+.bold {
+    font-weight: bold;
+    color: black;
+}
+
+
 /* ---- PAGE FORMULAIRE PROFILE LIST (COMMUNAUTÉ) ---- */
 .community {
     position: relative;
@@ -158,47 +318,62 @@
 
 
 /* ---- PAGE FORMULAIRE PROFILE ---- */
-.profileAdd {
+.profile-add {
     position: relative;
     top: 90px;
     margin-bottom: 150px;
     &__title {
+        width: 100%;
+        font-family: "parisienne";
         text-align: center;
+        padding: 10px 30px;
+        font-size: 2.5em;
+        letter-spacing: .1em;
+        color: rgb(42, 42, 148);
+        // color: purple;
+        text-shadow: 1px 1px 1px;
     }
     &__form {
         max-width: 600px;
+        background-color: white;
         // border: 2px solid aqua;
         margin: 0 auto;
-        margin-top: 50px;
+        margin-top: 150px;
+        display: flex;
+        flex-wrap: wrap;
         padding: 20px;
         box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
-        border-radius: 5px;
-        margin-bottom: 50px;
-        &__header {
-            text-align: center;
-            width: 100%;
-        }
-        &__footer {
-            width: 100%;
-            text-align: center;
-            margin-top: 20px;
-        }
+        border-bottom: 7px solid #f37646;
+        border-top: 7px solid #f37646;
+        border-left: 3px solid #f37646;
+        border-right: 3px solid #f37646;
+        border-radius: 20px;
         &__input {
             width: 100%;
-            padding: 10px;
+            font-size: 1.2em;
             border-radius: 5px;
-            margin: 10px;
         }
         &__label {
             width: 100%;
-            margin: 0 10px;
+            font-size: 1.2em;
         }
         &__button {
             display: block;
             margin: 0 auto;
             padding: 10px;
-            border-radius: 5px;
+            border-bottom: 5px solid #f37646;
+            box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
+            border-top: 5px solid #f37646;
+            // border-left: 3px solid #f37646;
+            // border-right: 3px solid #f37646;
+            border-radius: 10px;
             margin-top: 20px;
+            letter-spacing: .1em;
+            background-color: white;
+            transition: all 1s ease-out;
+            &:hover {
+                animation: buttonAnimate 1s forwards;
+            }
         }
     }
 }

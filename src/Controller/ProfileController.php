@@ -108,7 +108,7 @@ class ProfileController extends AbstractController
         $form->handleRequest($request);
 
         /** @var $user instanceof User */
-        $user = $this->getUser();
+        $user = $this->security->getUser();
         if ($user->isVerified() === false) {
             $this->addFlash('error', "Vous devez confirmer votre adresse email pour pouvoir compléter votre profil");
             return $this->redirectToRoute('homepage');

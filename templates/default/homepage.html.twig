@@ -4,9 +4,8 @@
 
 {% block body %}
     <main class="homepage">
-        <h1 class="homepage__title">Bienvenue sur Troc servives</h1>
-        <h2 class="homepage__subtitle">Présentation</h2>
-
+        <h1 class="homepage__title">Bienvenue !</h1>
+        <img src="{{ asset('images/logo/troc-service6-sf.png') }}" alt="logo troc service" class="homepage__logo">
         <section class="homepage__presentation">
             <p class="homepage__presentation__content">
                 Troc Services et une application spécialisé dans la mise en relation entre personne vivant
@@ -15,6 +14,33 @@
                 les membres de la communité via la messagerie privé. <br/>
                 Vous pouvez vous inscrire en suivant ce lien <a href="{{ path('create_account')}}">inscription gratuite.</a>
             </p>
+        </section>
+
+        <h2 class="homepage__subtitle">Dernières membres inscrits</h2>
+        <section class="homepage__users">
+            <div id="carousel2">
+                {% for profile in profiles %}
+                    <article class="user">
+                        <aside class="user__infos">
+                            {% if profile.filename %}
+                                <img src={{ vich_uploader_asset(profile, 'imageFile')}} alt="image de profil {{ profile.username }}" class="user__info__picture">
+                            {% else %}
+                                <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil vide" class="user__info__picture">
+                            {% endif %}
+                            <ul class="user__info">
+                                <li class="user__info__city"><i class="las la-map-marker-alt"></i> {{ profile.region }} / {{ profile.department }}</li>
+                                <li class="user__info__username"><i class="las la-user-tie"></i> {{ profile.username }}</li>
+                            </ul>
+                        </aside>
+                        <p class="user__propose">Je propose : {{ profile.propose }}</p>
+                        <p class="user__research">Je recherche : {{ profile.research }}</p>
+                        <button class="announce__button"><a href="{{ path('profile_view', {'id': profile.id}) }}" class="announce__button__link"> Consulter</a></button>
+                    </article>
+                {% endfor %}
+            </div>
+            <button class="homepage__button">
+                <a href="{{ path('profile_community') }}" class="homepage__button__link"><i class="las la-search"></i> Rechercher un membre de la communauté</a>
+            </button>
         </section>
 
         <h2 class="homepage__subtitle">Dernières annonces publiées</h2>
@@ -89,37 +115,12 @@
             </button>
         </section>
 
-        <h2 class="homepage__subtitle">Dernières membres inscrits</h2>
-        <section class="homepage__users">
-            <div id="carousel2">
-                {% for profile in profiles %}
-                    <article class="user">
-                        <aside class="user__infos">
-                            {% if profile.filename %}
-                                <img src={{ vich_uploader_asset(profile, 'imageFile')}} alt="image de profil {{ profile.username }}" class="user__info__picture">
-                            {% else %}
-                                <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil vide" class="user__info__picture">
-                            {% endif %}
-                            <ul class="user__info">
-                                <li class="user__info__city"><i class="las la-map-marker-alt"></i> {{ profile.region }} / {{ profile.department }} / {{ profile.city }}</li>
-                                <li class="user__info__username"><i class="las la-user-tie"></i> {{ profile.username }}</li>
-                            </ul>
-                        </aside>
-                        <p class="user__propose">Je propose : {{ profile.propose }}</p>
-                        <p class="user__research">Je recherche : {{ profile.research }}</p>
-                        <button class="announce__button"><a href="{{ path('profile_view', {'id': profile.id}) }}" class="announce__button__link"> Consulter</a></button>
-                    </article>
-                {% endfor %}
-            </div>
-            <button class="homepage__button">
-                <a href="{{ path('profile_community') }}" class="homepage__button__link"><i class="las la-search"></i> Rechercher un membre de la communauté</a>
-            </button>
-        </section>
+        
 
         <h2 class="homepage__subtitle">Listes des catégories</h2>
         <section class="homepage__categories">
             {% for category in categories %}
-                <article class="homepage__category">
+                <article class="homepage__category" data-filename={{ category.filename }}>
                     <h3 class="homepage__category__title">{{ category.name }}</h3>
                     <ul class="homepage__category__name">
                         {% for subCategory in category.subCategories %}

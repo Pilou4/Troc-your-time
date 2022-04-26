@@ -16,11 +16,11 @@ body {
     // background: linear-gradient(45deg, #f37646, #f3e946) center center no-repeat;
     // background: linear-gradient(45deg, rgb(184, 12, 104), blue, orange, yellow)  center center no-repeat;
     // line-height: 1.4;
-    // background-color: orange;
+    // background-color: lighten($color: #f37646, $amount: 15%);
 }
 
 h1 {
-    font-family: "Quicksand";
+    // font-family: "Quicksand";
 }
 /* ---- HEADER ---- */
 .header {
@@ -29,8 +29,11 @@ h1 {
     // background: linear-gradient(90deg, rgb(230, 25, 25), purple, blue )  center center no-repeat;
     // background-color: rgb(184, 12, 104);
     // background-color: rgb(207, 89, 46);
-    background: linear-gradient(45deg, #f3e946, #f37646) center center no-repeat;
-    // background-color: white;
+    // background: linear-gradient(45deg, #f3e946, #f37646) center center no-repeat;
+    // background-color: #f37646;
+    background-color: white;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
     box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
     position: fixed;
     top: 0;
@@ -41,6 +44,9 @@ h1 {
         justify-content: space-between;
         align-items: center;
         // box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
+        &__logo {
+            width: 200px;
+        }
         &__left {
             display: flex;
             align-items: center;
@@ -64,6 +70,7 @@ h1 {
             // color: white;
             color: black;
             padding: 0 10px;
+            margin: 0 5px;
             border-radius: 5px;
             transition: all 1s ease-out;
             &:hover,:focus {
@@ -104,26 +111,46 @@ h1 {
     min-height: 80vh;
     max-width: 1300px;
     margin: 0 auto;
+    margin-top: 20px;
     padding: 20px;
     background-color: white;
+    box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
     margin-bottom: 150px;
+    border-radius: 10px;
+    &__logo {
+        display: block;
+        margin: 0 auto;
+        padding: 20px;
+        border-bottom: 5px solid #f37646;
+        border-top: 5px solid #f37646;
+        // border-left: 1px solid #f37646;
+        // border-right: 1px solid #f37646;
+        border-radius: 20px;
+        margin-bottom: 50px;
+        // background-color: #f3e946;
+    }
     &__title {
         text-align: center;
-        padding: 10px;
-        letter-spacing: .2em;
-        font-family: "Quicksand";
+        margin: 20px;
+        padding: 20px;
+        letter-spacing: .1em;
+        font-family: 'Satisfy';
+        font-size: 3em;
     }
     &__subtitle {
-        padding: 10px;
         font-family: "parisienne";
         font-size: 2.5em;
-        color: orangered;
+        color: #f37646;
+        padding: 20px 10px 0px;
     }
     &__presentation {
+        
         // letter-spacing: .1em;
         // background-color: lightblue;
+        
         border-radius: 5px;
         &__content {
+            padding: 0 20px;
             letter-spacing: .1em;
             // color: white;
         }
@@ -324,41 +351,6 @@ h1 {
 
 
 
-/* ---- PAGE MESSAGE LIST ---- */
-.message {
-    display: flex;
-    min-height: 80vh;
-    &__nav {
-        width: 250px;
-        border: 2px solid rgb(184, 12, 104);
-        border-top: none;
-        border-left: none;
-        // transform: translateX(-250px);
-        display: flex;
-        flex-direction: column;
-        &__link {
-            border-bottom: 2px solid blue;
-            width: 100%;
-            padding: 20px;
-            text-align: center;
-            text-decoration: none;
-        }
-    }
-    &__content {
-        width: calc(100% - 250px);
-        &__title {
-            text-align: center;
-        }
-        &__block {
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid red;
-        }
-    }
-}
-.bold {
-    font-weight: bold;
-}
 
 /* ---- PAGE MES ANNONCES ---- */
 .myAnnouncement {
@@ -389,6 +381,8 @@ h1 {
 
 /* ---- MESSAGES FLASH ---- */
 .alert-error {
+    position: relative;
+    top: 90px;
     background-color: red;
     font-size: 1.3em;
     padding: 20px;
@@ -396,6 +390,8 @@ h1 {
 }
 
 .alert-success {
+    position: relative;
+    top: 90px;
     background-color: green;
     font-size: 1.3em;
     padding: 20px;
@@ -403,13 +399,17 @@ h1 {
 }
 
 .alert-message {
+    position: relative;
+    top: 90px;
     background-color: grey;
     font-size: 1.3em;
     padding: 20px;
     margin-bottom: 20px;
 }
 
-.alert-warning {/* ---- PAGE FORMULAIRE PROFILE ---- */
+.alert-warning {
+    position: relative;
+    top: 90px;
     background-color: orange;
     font-size: 1.3em;
     padding: 20px;

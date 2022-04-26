@@ -45,7 +45,7 @@ class Announcement
     private $profile;
     
     #[ORM\ManyToOne(targetEntity: SubCategory::class, inversedBy: 'announcements')]
-    // #[Assert\NotBlank]
+    #[Assert\NotBlank]
     private $subCategory;
 
     #[ORM\Column(type: 'float', scale:4, precision:6)]
@@ -105,7 +105,7 @@ class Announcement
         return $this->title;
     }
 
-    public function setTitle(string $title): self
+    public function setTitle(?string $title): self
     {
         $this->title = $title;
 
@@ -153,7 +153,7 @@ class Announcement
         return $this->description;
     }
 
-    public function setDescription(string $description): self
+    public function setDescription(?string $description): self
     {
         $this->description = $description;
 
@@ -189,7 +189,7 @@ class Announcement
         return $this->lat;
     }
 
-    public function setLat(float $lat): self
+    public function setLat(?float $lat): self
     {
         $this->lat = $lat;
 
@@ -201,7 +201,7 @@ class Announcement
         return $this->lng;
     }
 
-    public function setLng(float $lng): self
+    public function setLng(?float $lng): self
     {
         $this->lng = $lng;
 
@@ -213,7 +213,7 @@ class Announcement
         return $this->propose;
     }
 
-    public function setPropose(string $propose): self
+    public function setPropose(?string $propose): self
     {
         $this->propose = $propose;
 
@@ -225,7 +225,7 @@ class Announcement
         return $this->city;
     }
 
-    public function setCity(string $city): self
+    public function setCity(?string $city): self
     {
         $this->city = $city;
 
@@ -237,7 +237,7 @@ class Announcement
         return $this->department;
     }
 
-    public function setDepartment(string $department): self
+    public function setDepartment(?string $department): self
     {
         $this->department = $department;
 
@@ -249,7 +249,7 @@ class Announcement
         return $this->zipcode;
     }
 
-    public function setZipcode(string $zipcode): self
+    public function setZipcode(?string $zipcode): self
     {
         $this->zipcode = $zipcode;
 
@@ -261,7 +261,7 @@ class Announcement
         return $this->region;
     }
 
-    public function setRegion(string $region): self
+    public function setRegion(?string $region): self
     {
         $this->region = $region;
 
@@ -389,4 +389,5 @@ class Announcement
 
         return $this;
     }
+
 }

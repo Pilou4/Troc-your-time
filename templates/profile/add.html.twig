@@ -3,13 +3,13 @@
 {% block title %}Hello ProfileController!{% endblock %}
 
 {% block body %}
-    <main class="profileAdd">
-        <div class="profileAdd__form">
-            <h1 class="profileAdd__title">compléter votre profile</h1>
+    <main class="profile-add">
+        <div class="profile-add__form">
+            <h1 class="profile-add__title">compléter votre profile</h1>
         
             {{ form_start(form) }}
             {{ form_widget(form) }}
-            <input type="submit" value="Valider" class="profileAdd__form__button">
+            <input type="submit" value="Valider" class="profile-add__form__button">
             {{ form_end(form) }}
         </div>
     </main>

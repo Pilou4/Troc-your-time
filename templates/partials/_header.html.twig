@@ -1,11 +1,13 @@
 <header class="header">
     <nav class="header__nav">
         <div class="header__nav__left">
-            <a href="{{ path('homepage') }}" class="header__nav__link">Accueil</a>
+            <a href="{{ path('homepage') }}" class="header__nav__link">
+                <img src="{{ asset('images/logo/troc-service6-sf.png') }}" alt="logo troc service" class="header__nav__logo">
+            </a>
             <a href="{{ path('test') }}" class="header__nav__link">Test</a>
-            <button class="header__nav__button">
+            {# <button class="header__nav__button">
                 <a href="{{ path('announcement_add') }}" class="header__nav__button__link"></i><i class="las la-plus-circle"></i> Ajouter une annonce</a>
-            </button>
+            </button> #}
         </div>
         <div class="header__nav__right">
             <div class="header__nav__right__link">

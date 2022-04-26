@@ -1,23 +1,19 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Messagerie !{% endblock %}
+{% block title %}Messagere de {{ app.user.profile.username }}!{% endblock %}
 
 {% block body %}
-    <main class="message">
-        <nav class="message__nav">
-            <a href="{{ path('message_list') }}" class="message__nav__link">Accueil</a>
-            <a href="{{ path('message_received') }}" class="message__nav__link">Messages reçus ({{ app.user.profile.received|length }})</a>
-            <a href="{{ path('message_sent') }}" class="message__nav__link">Messages Envoyés ({{ app.user.profile.sent|length }})</a>
-            <a href="{{ path('message_basket') }}" class="message__nav__link">Corbeille</a>
-        </nav>
-        <section class="message__content">
-            <h1 class="message__content__title">Messagerie de {{ app.user.profile.firstname ~ " " ~ app.user.profile.lastname}}</h1>
-            <div class="message__content__block">
-                <h2>Résume de la messagerie</h2>
-                <p>Reçus: {{ app.user.profile.received|length }}</p>
-                <p>Envoyés: {{ app.user.profile.sent|length }}</p>
-                <button class="message__content__button">Voirs mes dossiers</button>
-                <button class="message__content__button"><a href="{{ path('message_send') }}" class="message__content__button__link">Envoyé un message</a></button>
+    <main class="message" id="messagerie">
+        {% include "message/partials/_nav.html.twig" %}
+        <i class="las la-caret-square-right la-lg message__open" id="message-open"></i>
+        <section class="message__contents">    
+            <h1 class="message__contents__title">Messagerie de {{ app.user.profile.username }}</h1>
+            <div class="message__content">
+                <h2 class="message__content__title">Résumer de ta messagerie</h2>
+                <p class="message__content__received">Vous avez reçus {{ app.user.profile.received|length }} message{{ app.user.profile.received|length < 1 ? '' : 's'}}</p>
+                <p class="message__content__sent">Vous avez envoyer {{ app.user.profile.sent|length }} message{{ app.user.profile.sent|length < 1 ? '' : 's'}}</p>
+                {# <button class="message__content__button">Voirs mes dossiers</button> #}
+                {# <button class="message__content__button"><a href="{{ path('message_send') }}" class="message__content__button__link">Envoyé un message</a></button> #}
             </div>
         </section>
     </main>

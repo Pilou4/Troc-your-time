@@ -4,7 +4,41 @@
 
 {% block body %}
 <main class="test">
-    <h1 class="test__title">Test mise en forme card profile et card annonce</h1>
+    <h1 class="test__title">Bienvenue sur troc service</h1>
+    <section class="test__categories">
+        {% for category in categories %}
+            <article class="test__category" data-filename={{ category.filename }}>
+                <h3 class="test__category__title">{{ category.name }}</h3>
+                <ul class="test__category__list">
+                    {% for subCategory in category.subCategories %}
+                        <li class="test__category__list__name">{{ subCategory.name }}</li>
+                    {% endfor %}
+                </ul>
+            </article>
+        {% endfor %}
+    </section>
+    <section class="test__end">
+        <div class="test__end__block">
+            <i class="las la-user la-3x"></i>
+            <h3>Créer votre profil</h3>
+        </div>
+        <div class="test__end__block">
+            <i class="las la-user la-3x"></i>
+            <h3>Publiez vos annonces</h3>
+        </div>
+        <div class="test__end__block">
+            <i class="las la-user la-3x"></i>
+            <h3>Mise en relation</h3>
+        </div>
+        <div class="test__end__block">
+            <i class="las la-user la-3x"></i>
+            <h3>Avis et Notes</h3>
+        </div>
+    </section>
+</main>
+{% endblock %}
+
+{# <h1 class="test__title">Test mise en forme card profile et card annonce</h1>
     <h2 class="test__subtitle">Test mise en forme card profile</h2>
     <article class="test__float">
         <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil vide (grisé)" class="test__float__img">
@@ -92,6 +126,4 @@
                 <p class="user__research">Je recherche : {{ app.user.profile.research }}</p>
             </article>
         {% endfor %}
-    </section>
-</main>
-{% endblock %}
+    </section> #}

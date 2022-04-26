@@ -1,63 +1,15 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Page profil utilisateur !{% endblock %}
+{% block title %}Vue du profil de {{ profile.username }}{% endblock %}
 
 {% block body %}
 <main class="profile">
-    <h1 class="profile__title">Profil de {{ profile.firstname ~ ' ' ~ profile.lastname}}</h1>
-    
-    <section class="profile__header">
-        <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil (avatar)" class="profile__header__img">
-        <table>
-            <tr>
-                <td>Nom d'utilisateur : </td>
-                <td>{{ profile.username }}</td>
-            </tr>
-            <tr>
-                <td>Prénom : </td>
-                <td>{{ profile.firstname }}</td>
-            </tr>
-            <tr>
-                <td>Nom : </td>
-                <td>{{ profile.lastname }}</td>
-            </tr>
-            <tr>
-                <td>Date de naissance : </td>
-                <td>{{ profile.birthday | date('d-m-Y') }}</td>
-            </tr>
-            <tr>
-                <td>Adresse : </td>
-                <td>{{ profile.street }}</td>
-            </tr>
-            <tr>
-                <td>Code postal : </td>
-                <td>{{ profile.zipcode }}</td>
-            </tr>
-            <tr>
-                <td>Commune : </td>
-                <td>{{ profile.city }}</td>
-            </tr>
-        </table>
-    </section>
     <section>
-        <div>
-            <h2>annonces</h2>
-        </div>
-        <div>
-            <h2>messages</h2>
-        </div>
-        <div>
-            <h2>paramètres</h2>
-        </div>
-        <div>
-            <h2></h2>
-        </div>
+        {% if profile.filename %}
+            <img src={{ vich_uploader_asset(profile, 'imageFile')}} alt="image de profil {{ profile.username }}" class="user__info__picture">
+        {% else %}
+            <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil vide" class="user__info__picture">
+        {% endif %}
     </section>
-
-    <p>Email : {{ app.user.email }}</p>
-    <a href="{{ path('profile_update', {'id': profile.id}) }}">
-        <i class="las la-edit la-2x"></i>
-    </a>
-    {# <p>Nom d'utilisateur : {{ app.user.profile.username }}</p> #}
 </main>
 {% endblock %}

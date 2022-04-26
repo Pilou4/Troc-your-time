@@ -24,8 +24,8 @@ class RegistrationFormType extends AbstractType
                 EmailType::class,
                 [
                     "label" => "Adresse email",
-                    'label_attr' => ['class' => 'register__form__label'],
-                    'attr' => ['class' => 'register__form__input'],
+                    'label_attr' => ['class' => 'form__label'],
+                    'attr' => ['class' => 'form__input'],
                 ]                
             )
             ->add(
@@ -36,13 +36,13 @@ class RegistrationFormType extends AbstractType
                     'invalid_message' => 'Les deux mot de passe ne sont pas identiques',
                     'first_options'  => [
                         'label' => 'Mot de passe',
-                        'label_attr' => ['class' => 'register__form__label'],
-                        'attr' => ['class' => 'register__form__input'],
+                        'label_attr' => ['class' => 'form__label'],
+                        'attr' => ['class' => 'form__input'],
                     ],
                     'second_options' => [
                         'label' => 'Repeter le mot de passe',
-                        'label_attr' => ['class' => 'register__form__label'],
-                        'attr' => ['class' => 'register__form__input'],
+                        'label_attr' => ['class' => 'form__label'],
+                        'attr' => ['class' => 'form__input'],
                     ],
                 ]
             )
@@ -64,6 +64,7 @@ class RegistrationFormType extends AbstractType
             //     ],
             // ])
             ->add('agreeTerms', CheckboxType::class, [
+                'label_attr' => ['class' => 'register__form__agree'],
                 'mapped' => false,
                 'label' => "En soumettant ce formulaire, j'accepte 
                 que mes données personnelles soient utilisées pour 

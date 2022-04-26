@@ -55,7 +55,8 @@ class Profile
     #[ORM\OneToOne(mappedBy: 'profile', targetEntity: User::class, cascade: ['persist', 'remove'])]
     private $user;
 
-    #[ORM\Column(type: 'string', length: 30)]
+    #[ORM\Column(type: 'string', length: 40)]
+    #[Assert\Length(min:3, max:40, minMessage:"Le prénom doit contenir au minimun {{ limit }} caractères", maxMessage:"Le prénom ne peut pas dépasser {{ limit }} caractères")]
     private $username;
 
     #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Message::class, orphanRemoval: true)]

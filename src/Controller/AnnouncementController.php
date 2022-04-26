@@ -11,6 +11,7 @@ use App\Form\AnnouncementMessageType;
 use App\Repository\ProfileRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\AnnouncementRepository;
+use App\Repository\SubCategoryRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
@@ -179,6 +180,7 @@ class AnnouncementController extends AbstractController
         /** @var $user instanceof User */
         $user = $this->security->getuser();
         
+        
         if (!$user->getProfile()) {
             $this->addFlash('message', "Vous devez compléter votre profil pour enregistrer une annonce");
             return $this->redirectToRoute('profile_add');
@@ -195,6 +197,7 @@ class AnnouncementController extends AbstractController
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
+            
             $this->entityManager->persist($announcement);
             $this->entityManager->flush();
             $this->addFlash('success', "Votre annonce à bien été enregistrer");

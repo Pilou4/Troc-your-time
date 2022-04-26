@@ -29,12 +29,13 @@ class User implements Serializable, UserInterface, PasswordAuthenticatedUserInte
 
     #[ORM\Column(type: 'string')]
     #[Assert\NotBlank]
+    #[Assert\Length(min:8, minMessage:"Le mot de passe doit contenir au minimun {{ limit }} caractères")]
     private $password;
 
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
-    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $token;
 
     #[ORM\OneToOne(inversedBy: 'user', targetEntity: Profile::class, cascade: ['persist', 'remove'])]

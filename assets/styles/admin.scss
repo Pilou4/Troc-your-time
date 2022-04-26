@@ -1,5 +1,7 @@
 /* ---- DASHBOARD ---- */
 .admin {
+    position: relative;
+    top: 90px;
     min-height: 80vh;
     display: flex;
     &__nav {

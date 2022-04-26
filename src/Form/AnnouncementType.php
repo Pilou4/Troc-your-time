@@ -154,7 +154,7 @@ class AnnouncementType extends AbstractType
                 EntityType::class, [
                     'class' => SubCategory::class,
                     'label' => 'sous-catégorie',
-                    'mapped'          => false,
+                    'mapped'          => true,
                     'required'        => false,
                     'auto_initialize' => false,
                     'placeholder' => $category ? 'Sélectionnez une sous catégorie' : 'selectionnez une catégorie',

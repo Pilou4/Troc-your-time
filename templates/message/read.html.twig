@@ -1,21 +1,21 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Messagerie !{% endblock %}
+{% block title %}Message de {{ app.user.profile.username }} !{% endblock %}
 
 {% block body %}
     <main class="message">
-        <nav class="message__nav">
-            <a href="#" class="message__nav__link">Accueil</a>
-            <a href="{{ path('message_received') }}" class="message__nav__link">Messages reçus</a>
-            <a href="#" class="message__nav__link">Messages Envoyés</a>
-        </nav>
-        <h1 class="message__title">Messagerie</h1>
-        <h2>{{ message.title }}</h2>
-        <p>Message de {{ message.sender.username }}</p>
-        <p>Le {{ message.createdAt|date }}</p>
-        <p>{{ message.message }}</p>
-        
-        <button class="message__button">Voirs mes dossiers</button>
-        <button class="message__button"><a href="{{ path('message_received') }}" class="message__button__link">Retour à laboite de réception</a></button>
+    {% include "message/partials/_nav.html.twig" %}
+        <i class="las la-caret-square-right la-lg message__open" id="message-open"></i>
+        <section class="message__contents">    
+            <h1 class="message__contents__title">Messagerie de {{ app.user.profile.username }}</h1>
+            <div class="message__content">
+                <h2 class="message__content__title">{{ message.title }}</h2>
+                <p class="message__content__received">Message de {{ message.sender.username }}</p>
+                <p class="message__content__sent">Le {{ message.createdAt|date }}</p>
+                <p>{{ message.message }}</p>
+                <button class="message__content__button">Supprimer</button>
+                <button class="message__content__button"><a href="{{ path('message_contact',{'username': message.sender.username }) }}" class="message__content__button__link">Répondre</a></button>
+            </div>
+        </section>
     </main>
 {% endblock %}

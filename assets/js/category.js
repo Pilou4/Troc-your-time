@@ -61,4 +61,21 @@ if (collection !== null) {
     }
 }
 
+/**
+ * Ajout image au categorie
+ */
+let categories = document.querySelectorAll('.homepage__category');
+
+if (categories) {
+    categories.forEach(category => {
+        let filename = category.dataset.filename;
+        category.style.backgroundImage = "url(/images/category/picture/" + filename + ")";
+        category.style.backgroundRepeat = "no-repeat";
+        category.style.backgroundSize = "contain";
+        category.style.backgroundPosition = "10px bottom";
+        // 'public/images/category/picture625f144275ba7_mains.jpeg'
+        console.log(filename)
+    });
+}
+
 

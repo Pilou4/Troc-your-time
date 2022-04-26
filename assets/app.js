@@ -6,6 +6,7 @@ Map.init();
 
 let category = document.querySelector('#announcement_category');
 
+
 $(document).on('change', '#announcement_category', function () {
     let $field = $(this); // category
     let $catgoryField = $('#announcement_category');
@@ -14,12 +15,14 @@ $(document).on('change', '#announcement_category', function () {
     let data = {};
     data[$field.attr('name')] = $field.val();
     data[$catgoryField.attr('name')] = $field.val();
+    console.log(data[$catgoryField.attr('name')] = $field.val());
     $.post($form.attr('action'), data).then(function (data) {
-
+        
         let $input = $(data).find(target);
         $(target).replaceWith($input);
     })
 })
+// http://localhost:8000/sub/category/list/byCategory
 // category.addEventListener('change', function () {
 //     let field = this;
 //     let form = field.closest('form');
@@ -124,8 +127,9 @@ if (searchAddressProfile !== null) {
  * We recommend including the built version of this JavaScript file
  * (and its CSS file) in your base layout (base.html.twig).
  */
-import './js/formCategory';
+import './js/category';
 import './js/formAnnouncement';
+import './js/message';
 import './js/test';
 import './js/modules/carousel';
 

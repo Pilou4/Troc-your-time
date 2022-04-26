@@ -61,7 +61,7 @@ class RegistrationController extends AbstractController
             $this->mailer->sendEmail($user->getEmail(), $user->getToken(),$message, $template);
 
             $this->addFlash("success", "Un email vous été envoyé. Merci de valider votre compte !");
-            return $this->redirectToRoute('profile_add');
+            return $this->redirectToRoute('app_login');
 
             // return $userAuthenticator->authenticateUser(
             //     $user,
@@ -76,6 +76,35 @@ class RegistrationController extends AbstractController
         ]);
     }
 
+    #[Route('/send-back', name: 'send__back')]
+    public function sendBack(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, UserAuthenticator $authenticator): Response
+    {
+        /** @var $user instanceof User */
+        $user = $this->getUser();
+
+        if (!$user) {
+            $this->addFlash("error", "Vous devez être connecté pour accéder à cette page");
+            return $this->redirectToRoute('homepage');
+        }
+        
+        
+        if($user->isVerified()){
+            $this->addFlash('warning', 'Cet utilisateur est déjà activé');
+            return $this->redirectToRoute('profile_index');    
+        }
+
+            // $user->setToken($this->generateToken());
+            $message = 'merci de confirmer votre addresse email';
+            $template ='registration/confirm-account.html.twig';
+
+            // do anything else you need here, like send an email
+
+            $this->mailer->sendEmail($user->getEmail(), $user->getToken(),$message, $template);
+
+            $this->addFlash("success", "Un email vous été envoyé. Merci de valider votre compte !");
+            return $this->redirectToRoute('homepage');
+    }
+    
     /**
      * @param string $token
      */

@@ -33,6 +33,11 @@
                 </div>
             {% endfor %}
         {% endfor %}
+        {% if app.user and app.user.isVerified == false %}
+            <div class="alert alert-warning">
+                Vous n'avez pas encore activer votre compte, un email de validation vous a été envoyer <button><a href="{{ path('send__back') }}">Renvoyer email</a></button>
+            </div>     
+        {% endif %}
         {% block body %}{% endblock %}
         {% include "./partials/_footer.html.twig" %}
 

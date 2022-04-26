@@ -45,6 +45,7 @@ class DefaultController extends AbstractController
     public function test(
         AnnouncementRepository $announcementRepository,
         ProfileRepository $profileRepository,
+        CategoryRepository $categoryRepository,
         PaginatorInterface $paginator,
         Request $request
         ): Response
@@ -57,6 +58,7 @@ class DefaultController extends AbstractController
 
         return $this->render('default/test.html.twig', [
             'announcements' => $announcement,
+            'categories' => $categoryRepository->findAllOrderedByName(),
             'profiles' => $profileRepository->findAll()
         ]);
     }

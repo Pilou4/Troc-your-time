@@ -21,19 +21,21 @@
         <section class="community__list">
             {% for profile in profiles %}
                 <article class="user">
-                    <aside class="user__infos">
-                        {% if profile.filename %}
-                            <img src={{ vich_uploader_asset(profile, 'imageFile')}} alt="image de profil {{ profile.username }}" class="user__info__picture">
-                        {% else %}
-                            <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil vide" class="user__info__picture">
-                        {% endif %}
-                        <ul class="user__info">
-                            <li class="user__info__city"><i class="las la-map-marker-alt"></i> {{ profile.region }} / {{ profile.department }} / {{ profile.city }}</li>
-                            <li class="user__info__username"><i class="las la-user-tie"></i> {{ profile.username }}</li>
-                        </ul>
-                    </aside>
-                    <p class="user__propose">Je propose : {{ profile.propose }}</p>
-                    <p class="user__research">Je recherche : {{ profile.research }}</p>
+                    <a href="{{ path('message_contact',{'username': profile.username }) }}">
+                        <aside class="user__infos">
+                            {% if profile.filename %}
+                                <img src={{ vich_uploader_asset(profile, 'imageFile')}} alt="image de profil {{ profile.username }}" class="user__info__picture">
+                            {% else %}
+                                <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil vide" class="user__info__picture">
+                            {% endif %}
+                            <ul class="user__info">
+                                <li class="user__info__city"><i class="las la-map-marker-alt"></i> {{ profile.region }} / {{ profile.department }} / {{ profile.city }}</li>
+                                <li class="user__info__username"><i class="las la-user-tie"></i> {{ profile.username }}</li>
+                            </ul>
+                        </aside>
+                        <p class="user__propose">Je propose : {{ profile.propose }}</p>
+                        <p class="user__research">Je recherche : {{ profile.research }}</p>
+                    </a>
                 </article>
             {% endfor %}
         </section>

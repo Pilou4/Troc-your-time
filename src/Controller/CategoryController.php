@@ -28,4 +28,12 @@ class CategoryController extends AbstractController
         ]);
     }
 
+    #[Route('/view/{name}', name: 'view')]
+    public function view($name, CategoryRepository $categoryRepository): Response
+    {
+        return $this->render('category/view.html.twig', [
+            'categories' => $categoryRepository->findOneBy(['name' => $name])
+        ]);
+    }
+
 }

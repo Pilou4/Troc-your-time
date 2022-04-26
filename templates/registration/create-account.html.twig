@@ -5,9 +5,9 @@
 {% block body %}
     <main class="register">
         <div class="register__form">
-            <div class="register__form__header">
-                <h1 class="register__form__header__title">Création de compte !</h1>
-                <p class="register__form__header__text">Renseigner votre email et votre mot de passe.</p>
+            <div class="register__form__top">
+                <h1 class="register__form__top__title">Création de compte !</h1>
+                <p class="register__form__top__text">Renseigner votre email et votre mot de passe.</p>
             </div>
             {{ form_start(registrationForm) }}
                 {{ form_row(registrationForm.email) }}
@@ -15,13 +15,12 @@
                     label: 'Password'
                 }) }}
                 {{ form_row(registrationForm.agreeTerms) }}
+                <p class="register__form__text">
+                    Pour connaître et exercer vos droits, veuillez consultez 
+                    <a href="{{ path('confidentiality') }}" class="register__form__link">la Politique de confidentialité</a>
+                </p>
                 <button type="submit" class="register__form__button">s'inscrire</button>
             {{ form_end(registrationForm) }}
-            <div class="register__form__footer">
-                <p class="register__form__footer__text">
-                    Me renseigner sur les finalités du traitement de mes données personnelles, les destinataires, le responsable de traitement, les durées de conservation, les coordonnées du DPO et mes droits.
-                </p>           
-            </div>
         </div>
 
     </main>
