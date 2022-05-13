@@ -1,5 +1,9 @@
 let collection = document.querySelector("#announcement_pictureFiles");
 
+
+/**
+ * FORMULAIRES ANNONCES
+ */
 if (collection !== null) {
     let buttonAdd;
     buttonAdd = document.createElement("button");
@@ -61,4 +65,46 @@ if (collection !== null) {
     }
 }
 
+const filtersForm = document.querySelector('#filters');
 
+/**
+ * FILTRE DES ANNONCES PAR SOUS CATÉGORIES
+ */
+
+if (filtersForm) {
+    document.querySelectorAll("#filters input").forEach(input => {
+        input.addEventListener('change', (evt) => {
+            // evt.preventDefault();
+            const form = new FormData(filtersForm);
+            const params = new URLSearchParams(); // queryString
+            const title = document.querySelector('#title');
+
+
+            console.log(title);
+            form.forEach((value, key) => {
+                params.append(key, value)
+                console.log(params.toString());
+            });
+
+            const url = new URL(window.location.href); // url active
+            
+            fetch(url.pathname + '?' + params.toString() + "&ajax=1", {
+                headers: {
+                    'x-Requested-With': 'XMLHttpRequest'
+                }
+            })
+            .then(response => 
+                response.json())
+            .then(data => {
+                const content = document.querySelector("#content");
+
+                // On remplace le contenu
+                content.innerHTML = data.content;
+
+                // On met à jour l'url
+                history.pushState({}, null, url.pathname + "?" + params.toString());
+            })
+            .catch(error => alert(error))
+        });
+    });
+}

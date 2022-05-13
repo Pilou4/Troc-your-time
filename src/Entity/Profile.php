@@ -25,6 +25,14 @@ class Profile
     #[ORM\Column(type: 'integer')]
     private $id;
 
+    #[ORM\Column(type: 'string', length: 50)]
+    private $gender;
+
+    #[ORM\Column(type: 'string', length: 40)]
+    #[Assert\Length(min:3, max:40, minMessage:"Le prénom doit contenir au minimun {{ limit }} caractères", maxMessage:"Le prénom ne peut pas dépasser {{ limit }} caractères")]
+    #[Assert\Regex("/^[A-Za-z0-9]+[^\s!?\/.*#|]+(?:[A-Za-z0-9]+)*$/")] // [^\s!?\/.*#|]
+    private $username;
+
     #[ORM\Column(type: 'string', length: 100)]
     #[Assert\NotBlank]
     #[Assert\Length(min:2, max:100, minMessage:"Le prénom doit contenir au minimun {{ limit }} caractères", maxMessage:"Le prénom ne peut pas dépasser {{ limit }} caractères")]
@@ -37,6 +45,9 @@ class Profile
 
     #[ORM\Column(type: 'date', nullable: true)]
     private $birthday;
+
+    #[ORM\Column(type: 'integer')]
+    private $number;
 
     #[ORM\Column(type: 'string', length: 255)]
     #[Assert\NotBlank]
@@ -52,21 +63,17 @@ class Profile
     #[Assert\NotBlank]
     private $city;
 
-    #[ORM\OneToOne(mappedBy: 'profile', targetEntity: User::class, cascade: ['persist', 'remove'])]
-    private $user;
+    #[ORM\Column(type: 'string', length: 255)]
+    private $department;
 
-    #[ORM\Column(type: 'string', length: 40)]
-    #[Assert\Length(min:3, max:40, minMessage:"Le prénom doit contenir au minimun {{ limit }} caractères", maxMessage:"Le prénom ne peut pas dépasser {{ limit }} caractères")]
-    private $username;
+    #[ORM\Column(type: 'string', length: 255)]
+    private $region;
 
-    #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Message::class, orphanRemoval: true)]
-    private $sent;
+    #[ORM\Column(type: 'float', scale:4, precision:6)]
+    private $lat;
 
-    #[ORM\OneToMany(mappedBy: 'recipient', targetEntity: Message::class, orphanRemoval: true)]
-    private $received;
-
-    #[ORM\OneToMany(mappedBy: 'profile', targetEntity: Announcement::class)]
-    private $announcements;
+    #[ORM\Column(type: 'float', scale:4, precision:7)]
+    private $lng;
 
     #[ORM\Column(type: 'datetime_immutable')]
     
@@ -93,29 +100,26 @@ class Profile
      */
     private $imageFile;
 
+    #[ORM\OneToOne(mappedBy: 'profile', targetEntity: User::class, cascade: ['persist', 'remove'])]
+    private $user;
+
+    #[ORM\OneToMany(mappedBy: 'sender', targetEntity: Message::class, orphanRemoval: true)]
+    private $sent;
+
+    #[ORM\OneToMany(mappedBy: 'recipient', targetEntity: Message::class, orphanRemoval: true)]
+    private $received;
+
+    #[ORM\OneToMany(mappedBy: 'profile', targetEntity: Announcement::class)]
+    private $announcements;
+
     #[ORM\ManyToMany(targetEntity: Announcement::class, mappedBy: 'favorites')]
     private $favorites;
 
-    #[ORM\Column(type: 'string', length: 50)]
-    private $gender;
-
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $research;
-
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\ManyToMany(targetEntity: SubCategory::class, inversedBy: 'profilePropose')]
     private $propose;
 
-    #[ORM\Column(type: 'string', length: 255)]
-    private $department;
-
-    #[ORM\Column(type: 'string', length: 255)]
-    private $region;
-
-    #[ORM\Column(type: 'float', scale:4, precision:6)]
-    private $lat;
-
-    #[ORM\Column(type: 'float', scale:4, precision:7)]
-    private $lng;
+    #[ORM\ManyToMany(targetEntity: SubCategory::class, mappedBy: 'profileResearch')]
+    private $research;
 
     public function __construct()
     {
@@ -123,6 +127,8 @@ class Profile
         $this->received = new ArrayCollection();
         $this->announcements = new ArrayCollection();
         $this->favorites = new ArrayCollection();
+        $this->propose = new ArrayCollection();
+        $this->research = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -443,31 +449,6 @@ class Profile
         return $this;
     }
 
-
-    public function getResearch(): ?string
-    {
-        return $this->research;
-    }
-
-    public function setResearch(?string $research): self
-    {
-        $this->research = $research;
-
-        return $this;
-    }
-
-    public function getPropose(): ?string
-    {
-        return $this->propose;
-    }
-
-    public function setPropose(?string $propose): self
-    {
-        $this->propose = $propose;
-
-        return $this;
-    }
-
     public function getDepartment(): ?string
     {
         return $this->department;
@@ -531,4 +512,74 @@ class Profile
 
         return $this;
     }
+
+    public function getNumber(): ?int
+    {
+        return $this->number;
+    }
+
+    public function setNumber(int $number): self
+    {
+        $this->number = $number;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SubCategory>
+     */
+    public function getPropose(): Collection
+    {
+        return $this->propose;
+    }
+
+    public function addPropose(SubCategory $propose): self
+    {
+        if (!$this->propose->contains($propose)) {
+            $this->propose[] = $propose;
+        }
+
+        return $this;
+    }
+
+    public function removePropose(SubCategory $propose): self
+    {
+        $this->propose->removeElement($propose);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SubCategory>
+     */
+    public function getResearch(): Collection
+    {
+        return $this->research;
+    }
+
+    public function addResearch(SubCategory $research): self
+    {
+        if (!$this->research->contains($research)) {
+            $this->research[] = $research;
+            $research->addProfileResearch($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResearch(SubCategory $research): self
+    {
+        if ($this->research->removeElement($research)) {
+            $research->removeProfileResearch($this);
+        }
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->username;
+    }
+
+
 }

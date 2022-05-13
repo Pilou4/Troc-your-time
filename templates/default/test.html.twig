@@ -4,8 +4,146 @@
 
 {% block body %}
 <main class="test">
-    <h1 class="test__title">Bienvenue sur troc service</h1>
-    <section class="test__categories">
+    <div class="div">
+        <article>
+            <div class="div-1"></div>
+            <div class="div-2"></div>
+        </article>
+    {% for profile in profiles %}
+            <article class="user">
+                <aside class="user__infos">
+                    {% if profile.filename %}
+                        <img src={{ vich_uploader_asset(profile, 'imageFile')}} alt="image de profil {{ profile.username }}" class="user__info__picture">
+                    {% else %}
+                        <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil vide" class="user__info__picture">
+                    {% endif %}
+                    <ul class="user__info">
+                        <li class="user__info__username"><i class="las la-user-tie la-lg"></i> {{ profile.username }}</li>
+                        <li class="user__info__city"><i class="las la-map-marker-alt la-lg"></i> {{ profile.department }} / {{ profile.city }}</li>
+                    </ul>
+                </aside>
+                <div class="user__change">
+                    <p class="user__propose">Je propose :
+                        {% for propose in profile.propose %}
+                            {{ propose }}
+                        {% endfor %}
+                    </p>
+                    <p class="user__research">Je recherche :
+                        {% for research in profile.research %}
+                            {{ research }}
+                        {% endfor %} 
+                    </p>
+                </div>
+            </article>
+    {% endfor %}
+    </div>
+
+    {# <section class="test__accueil">
+        <h1 class="test__title">Bienvenue sur <img src="{{ asset('images/logo/troc-service6-sf.png') }}" alt="logo troc service" class="test__logo"></h1>
+        <p class="test__text">
+            Troc Services est une application de mise en relation spécialisé dans l'échange de 
+            services et le partage de connaissances ! <br/>
+            Echanger vos services ou partager cos compétences avec les autres membres de la communautés !
+            {# <a href="{{ path('create_account')}}">s'inscrire gratuitement.</a> 
+        </p>
+    </section> #}
+    <div class="annonces">
+        {% for announce in announcements %}
+            <article class="annonce">
+                <aside class="annonce__profile">
+                    <p class="annonce__profile__username">
+                        {% if announce.profile.filename %}
+                            <img src={{ vich_uploader_asset(announce.profile, 'imageFile')}} alt="image de profil de {{ announce.profile.username }})" class="annonce__profile__picture">
+                        {% else %}
+                            <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil vide (grisé)" class="annonce__profile__picture">
+                        {% endif %}
+                        {{ announce.profile.username }}
+                    </p>
+                    {% if announce.favorites %}
+                        {% set favoris = "" %}
+                        {% for favories in announce.favorites %}
+                            {% if favories.id == app.user.profile.id %}
+                                {% set favoris = favories.id %}
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                    <p class="annonce__profile__date">
+                        {{ announce.createdAt|date('d/m/Y') }}
+                        <i 
+                            class="lar la-heart"
+                            data-announce={{ announce.id }}
+                            data-profile=
+                                {% if app.user %}
+                                    {% if app.user.profile %}
+                                        {{ app.user.profile.id }}
+                                    {% else %}
+                                        "00"
+                                    {% endif %}                                    
+                                {% else %}
+                                    "0"
+                                {% endif %}
+                            data-favoris=
+                                {% if announce.favorites %}
+                                    {{ favoris }}
+                                {% endif %}
+                            >
+                        </i>
+                    </p>
+                </aside>
+                <h2 class="annonce__title">{{ announce.title }}</h2>
+                {% if announce.pictures %}
+                    {% for picture in announce.pictures %}
+                        {% if loop.first %}
+                            <img class="annonce__picture" src="{{ vich_uploader_asset(picture, 'imageFile')}}" alt="image de l'announces {{ announce.title }}">
+                        {% endif %}
+                    {% else %}
+                        <img class="annonce__picture" src="{{ asset('images/empty.png') }}" alt="image annonces vide">
+                    {% endfor %}
+                {% endif %}
+                <p class="annonce__content">{{ announce.description }}</p>
+                <ul class="annonce__categories">
+                    <li class="search__content__announce__propose"><i class="las la-exchange-alt"></i> Je propose en échange : 
+                        {% for propose in announce.propose %}
+                            {{ propose.name }}{{ loop.last ? '.' : ','}}
+                        {% endfor %}
+                    </li>
+                    <li class="annonce__category"><i class="las la-tag"></i> {{ announce.subCategory.category.name }} / {{ announce.subCategory.name }}</li>
+                    <li class="annonce__city"><i class="las la-map-marker-alt"></i> {{ announce.region }} / {{ announce.department }} / {{ announce.city }}</li>
+                </ul>
+            </article>
+        {% endfor %}
+    </div>
+    {# <h2 class="homepage__subtitle">Dernières membres inscrits</h2>
+        <section class="homepage__users">
+            <div id="carousel2">
+                {% for profile in profiles %}
+                    <article class="user">
+                        <aside class="user__infos">
+                            {% if profile.filename %}
+                                <img src={{ vich_uploader_asset(profile, 'imageFile')}} alt="image de profil {{ profile.username }}" class="user__info__picture">
+                            {% else %}
+                                <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil vide" class="user__info__picture">
+                            {% endif %}
+                            <ul class="user__info">
+                                <li class="user__info__city"><i class="las la-map-marker-alt la-lg"></i> {{ profile.region }} / {{ profile.department }}</li>
+                                <li class="user__info__username"><i class="las la-user-tie la-lg"></i> {{ profile.username }}</li>
+                            </ul>
+                        </aside>
+                        <p class="user__propose">Je propose :
+                            {% for propose in profile.propose %}
+                                {{ propose }}
+                            {% endfor %}
+                        </p>
+                        <p class="user__research">Je recherche :
+                            {% for research in profile.research %}
+                                {{ research }}
+                            {% endfor %}
+                        </p>
+                    </article>
+                {% endfor %}
+            </div> #}
+    {# Vous pouvez vous inscrire en suivant ce lien <a href="{{ path('create_account')}}">inscription gratuite.</a> #}
+    {# <section class="test__categories">
         {% for category in categories %}
             <article class="test__category" data-filename={{ category.filename }}>
                 <h3 class="test__category__title">{{ category.name }}</h3>
@@ -34,7 +172,7 @@
             <i class="las la-user la-3x"></i>
             <h3>Avis et Notes</h3>
         </div>
-    </section>
+    </section> #}
 </main>
 {% endblock %}
 

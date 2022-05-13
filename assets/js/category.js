@@ -1,8 +1,9 @@
 let collection = document.querySelector("#category_subCategories");
 
+
 if (collection !== null) {
     let buttonAdd;
-    let span;
+    // let span;
     buttonAdd = document.createElement("button");
     buttonAdd.className = "admin__content__form__button__new";
     buttonAdd.innerText = "Ajouter une sous catégorie";
@@ -74,8 +75,51 @@ if (categories) {
         category.style.backgroundSize = "contain";
         category.style.backgroundPosition = "10px bottom";
         // 'public/images/category/picture625f144275ba7_mains.jpeg'
-        console.log(filename)
     });
 }
 
+
+$(document).on('change', '#announcement_category', function () {
+    let $field = $(this); // category
+    let $catgoryField = $('#announcement_category');
+    let $form = $field.closest('form');
+    let target = '#' + $field.attr('id').replace('category', 'subCategory');
+    let data = {};
+    data[$field.attr('name')] = $field.val();
+    data[$catgoryField.attr('name')] = $field.val();
+    // console.log(data[$catgoryField.attr('name')] = $field.val());
+    $.post($form.attr('action'), data).then(function (data) {
+        
+        let $input = $(data).find(target);
+        $(target).replaceWith($input);
+    })
+})
+
+
+// let category = document.querySelector('#announcement_category');
+// http://localhost:8000/sub/category/list/byCategory
+// category.addEventListener('change', function () {
+//     let field = this;
+//     let form = field.closest('form');
+//     let data = {};
+//     data = this.name + "=" + this.value;
+//     console.log(field);
+//     fetch(form.action, {
+//         method: form.getAttribute("method"),
+//         body: data,
+//         headers: {
+//             "Content-Type": "application/x-www-form-urlencoded;charset: UTF-8"
+//         }
+//     })
+//     .then(response => response.text())
+//     .then(html => {
+//         let content = document.createElement("html");
+//         content.innerHTML = html;
+//         let newSelectCategory = document.querySelector("#announcement_category");
+//         newSelectCategory.replaceWith(newSelectCategory);
+//         let newSelect = content.querySelector("#announcement_subCategory");
+//         document.querySelector("#announcement_subCategory").replaceWith(newSelect);
+//     })
+//     .catch(error => console.log(error));
+// })
 

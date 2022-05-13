@@ -1,48 +1,29 @@
 <header class="header">
-    <nav class="header__nav">
-        <div class="header__nav__left">
-            <a href="{{ path('homepage') }}" class="header__nav__link">
-                <img src="{{ asset('images/logo/troc-service6-sf.png') }}" alt="logo troc service" class="header__nav__logo">
-            </a>
-            <a href="{{ path('test') }}" class="header__nav__link">Test</a>
-            {# <button class="header__nav__button">
-                <a href="{{ path('announcement_add') }}" class="header__nav__button__link"></i><i class="las la-plus-circle"></i> Ajouter une annonce</a>
-            </button> #}
-        </div>
-        <div class="header__nav__right">
-            <div class="header__nav__right__link">
-                {# <p class="header__nav__right__icone"><i class="las la-envelope la-2x"></i></p> #}
-                <a href="{{ path('contact') }}" class="header__nav__link">
-                    contact
-                </a>
-            </div>
-            <div class="header__nav__right__link">
-                {# <p class="header__nav__right__icone"><i class="lar la-heart la-2x"></i></p> #}
-                <a href="{{ path('announcement_favorite') }}" class="header__nav__link">
-                    Favoris
-                </a>
-            </div>
-            <div class="header__nav__right__link">
-                {# <p class="header__nav__right__icone"><i class="las la-comment la-2x"></i></p> #}
-                <a href="{{ path('message_list') }}" class="header__nav__link">Messages</a>
-            </div>
-            {% if app.user %}
-                {% if app.user.profile == null %}
-                    <a href="{{ path('profile_add') }}" class="header__nav__link">Compléter profil</a>
-                    {% else %}
-                        <div class="header__nav__right__link">
-                            {# <p class="header__nav__right__icone"><i class="las la-user-tie la-2x"></i></p> #}
-                            <a href="{{ path('profile_me') }}" class="header__nav__link">Profil</a>
-                        </div>
-                        {# <div class="header__nav__right__link">
-                            <p class="header__nav__right__icone"><i class="las la-user-tie la-2x"></i></p>
-                            <a href="{{ path('app_logout') }}" class="header__nav__link">Se déconnecter</a>
-                        </div> #}
-                {% endif %}
-            {% else %}
-                <a href="{{ path('app_login') }}" class="header__nav__link">Se connecter</a>
+    <a href="#" class="header__icon" id="header__icon"></a>
+    <a href="{{ path('homepage') }}" class="header__link">
+        <img src="{{ asset('images/logo/troc-service6-sf.png') }}" alt="logo troc service" class="header__logo">
+    </a>
+    <nav class="header__nav">       
+        <button class="header__nav__button">
+            <a href="{{ path('announcement_add') }}" class="header__nav__button__link"></i><i class="las la-plus-circle la-lg"></i> Ajouter une annonce</a>
+        </button>
+            <a href="{{ path('profile_community') }}" class="header__nav__link">communauté</a>
+            <a href="{{ path('contact') }}" class="header__nav__link">contact</a>
+            <a href="{{ path('announcement_favorite') }}" class="header__nav__link">Favoris</a>
+            <a href="{{ path('message_list') }}" class="header__nav__link">Messages</a>
+        {% if app.user %}
+            {% if app.user.profile == null %}
+                <a href="{{ path('profile_add') }}" class="header__nav__link">Compléter profil</a>
+                {% else %}
+                        <a href="{{ path('profile_me') }}" class="header__nav__link">Profil</a>
+                    {# <div class="header__nav__right__link">
+                        <p class="header__nav__right__icone"><i class="las la-user-tie la-2x"></i></p>
+                        <a href="{{ path('app_logout') }}" class="header__nav__link">Se déconnecter</a>
+                    </div> #}
             {% endif %}
-                <a href="{{ path('admin_dashboard') }}" class="header__nav__link">Admin</a>
-        </div>
+        {% else %}
+            <a href="{{ path('app_login') }}" class="header__nav__link">Se connecter</a>
+        {% endif %}
+            {# <a href="{{ path('admin_dashboard') }}" class="header__nav__link">Admin</a> #}
     </nav>
 </header>

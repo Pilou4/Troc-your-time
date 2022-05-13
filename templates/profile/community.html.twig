@@ -1,43 +1,53 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Communauté troc service{% endblock %}
-
+{% set queryParams = app.request.query.all %}
+{% set queryString = queryParams|filter((v, k) => k != "page" and k != "ajax")|url_encode %}
 {% block body %}
     <main class="community">
-        <h1 class="community__title">Communauté</h1>
-        <section class="community__form">
-            {{ form_start(form) }}
-                <table>
-                    <tr>
-                        <td>{{ form_row(form.username) }}</td>
-                        <td>{{ form_row(form.address, {id: 'search_address_profile'}) }}</td>
-                        <td>{{ form_row(form.distance) }}</td>
-                        <td><button class="community__form__button">Rechercher</button></td>
-                    </tr>
-                </table>
-            {{ form_end(form) }}
+        <h1 class="community__title">Liste des membres de la commnuité</h1>
+        <section class="community__buttons">
+            <button class="community__buttons__item">
+                <a href="{{ path('announcement_list') }}">annonces</a>
+            </button>
+            <button class="community__buttons__item">
+                <a href="{{ path('profile_community') }}">membres</a>
+            </button>
         </section>
         <h2 class="community__subtitle">Il y a actuellement {{ profiles|length }} membres dans la communautés</h2>
-        <section class="community__list">
-            {% for profile in profiles %}
-                <article class="user">
-                    <a href="{{ path('message_contact',{'username': profile.username }) }}">
-                        <aside class="user__infos">
-                            {% if profile.filename %}
-                                <img src={{ vich_uploader_asset(profile, 'imageFile')}} alt="image de profil {{ profile.username }}" class="user__info__picture">
-                            {% else %}
-                                <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil vide" class="user__info__picture">
-                            {% endif %}
-                            <ul class="user__info">
-                                <li class="user__info__city"><i class="las la-map-marker-alt"></i> {{ profile.region }} / {{ profile.department }} / {{ profile.city }}</li>
-                                <li class="user__info__username"><i class="las la-user-tie"></i> {{ profile.username }}</li>
+        <section class="community__form">
+            {{ form_start(form) }}
+                <ul class="community__form__list">
+                    <li class="community__form__list__item">{{ form_row(form.username) }}</li>
+                    <li class="community__form__list__item">{{ form_row(form.address, {id: 'search_address_profile'}) }}</li>
+                    <li class="community__form__list__item">{{ form_row(form.distance) }}</li>
+                    {# <li class="community__form__list__item">{{ form_row(form.category) }}</li> #}
+                    <li><button class="community__form__button">Rechercher</button></li>
+                </ul>    
+            {{ form_end(form) }}
+        </section>
+        <section class="community__content">
+            <div class="search__categories">
+                <h2 class="search__categories__title">Catégories</h2>
+                {% for category in categories %}
+                    <p class="search__categories__name"><a href="{{ path('profile_community') }}?category={{ category.id }} ">{{ category.name }}</a></p>
+                    {% for subCategory in category.subCategories %}
+                        {% if queryParams and queryParams.subCategories is defined %}
+                            {% set checked = (subCategory.id in queryParams.subCategories) ? "checked" : "" %}
+                        {% else %}
+                            {% set checked = "" %}
+                        {% endif %}
+                            <ul class="search__categories__list">
+                                <li class="search__categories__list__item"><a href="{{ path('profile_community') }}?subCategory={{ subCategory.id }}">{{subCategory.name}} </a></li>
                             </ul>
-                        </aside>
-                        <p class="user__propose">Je propose : {{ profile.propose }}</p>
-                        <p class="user__research">Je recherche : {{ profile.research }}</p>
-                    </a>
-                </article>
-            {% endfor %}
+                        {% endfor %}                
+                {% endfor %}
+                <input type="hidden" name="page" value="{{page}}">
+            </div>
+
+            <div class="search__content__announces" id="content">
+                {% include "profile/_content.html.twig" %}
+            </div>
         </section>
     </main>
 {% endblock %}

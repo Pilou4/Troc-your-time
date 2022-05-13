@@ -54,9 +54,6 @@ class Announcement
     #[ORM\Column(type: 'float', scale:4, precision:7)]
     private $lng;
 
-    #[ORM\Column(type: 'text')]
-    private $propose;
-
     #[ORM\Column(type: 'string', length: 255)]
     private $city;
 
@@ -88,11 +85,15 @@ class Announcement
     #[ORM\Column(type: 'boolean')]
     private $isOnline = false;
 
+    #[ORM\ManyToMany(targetEntity: SubCategory::class, inversedBy: 'announcementPropose', cascade: ['persist', 'remove'])]
+    private $propose;
+
     public function __construct()
     {
         $this->favorites = new ArrayCollection();
         $this->pictures = new ArrayCollection();
         $this->message = new ArrayCollection();
+        $this->propose = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -204,18 +205,6 @@ class Announcement
     public function setLng(?float $lng): self
     {
         $this->lng = $lng;
-
-        return $this;
-    }
-
-    public function getPropose(): ?string
-    {
-        return $this->propose;
-    }
-
-    public function setPropose(?string $propose): self
-    {
-        $this->propose = $propose;
 
         return $this;
     }
@@ -386,6 +375,30 @@ class Announcement
     public function setIsOnline(bool $isOnline): self
     {
         $this->isOnline = $isOnline;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SubCategory>
+     */
+    public function getPropose(): Collection
+    {
+        return $this->propose;
+    }
+
+    public function addPropose(SubCategory $propose): self
+    {
+        if (!$this->propose->contains($propose)) {
+            $this->propose[] = $propose;
+        }
+
+        return $this;
+    }
+
+    public function removePropose(SubCategory $propose): self
+    {
+        $this->propose->removeElement($propose);
 
         return $this;
     }

@@ -5,21 +5,28 @@
 {% block body %}
     <main class="register">
         <div class="register__form">
-            <div class="register__form__top">
-                <h1 class="register__form__top__title">Création de compte !</h1>
-                <p class="register__form__top__text">Renseigner votre email et votre mot de passe.</p>
-            </div>
+            <h1 class="register__form__title">Création de compte !</h1>
+            <p class="register__form__info">Renseigner votre email et votre mot de passe.</p>
             {{ form_start(registrationForm) }}
                 {{ form_row(registrationForm.email) }}
                 {{ form_row(registrationForm.password, {
                     label: 'Password'
                 }) }}
+                <p class="register__form__help">Votre mot de passe doit contenir au minimun :</p>
+                <ul class="register__form__help__list">
+                    <li class="register__form__help__list__item" id="characters">8 caracères</li>
+                    <li class="register__form__help__list__item" id="min">1 minuscule</li>
+                    <li class="register__form__help__list__item" id="maj">1 mjuscule</li>
+                    <li class="register__form__help__list__item" id="number">1 chiffre</li>
+                    <li class="register__form__help__list__item" id="special">1 caractère spécial </li>
+                    <li class="register__form__help__list__item" id="confirm">Et être identique</li>
+                </ul>
                 {{ form_row(registrationForm.agreeTerms) }}
+                <button type="submit" class="register__form__button">s'inscrire</button>
                 <p class="register__form__text">
                     Pour connaître et exercer vos droits, veuillez consultez 
                     <a href="{{ path('confidentiality') }}" class="register__form__link">la Politique de confidentialité</a>
                 </p>
-                <button type="submit" class="register__form__button">s'inscrire</button>
             {{ form_end(registrationForm) }}
         </div>
 

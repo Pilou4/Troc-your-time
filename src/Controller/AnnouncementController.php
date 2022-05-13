@@ -6,11 +6,13 @@ use App\Entity\Message;
 use App\Entity\Announcement;
 use App\Form\AnnouncementType;
 use App\Entity\AnnouncementSearch;
+use App\Entity\Category;
 use App\Form\AnnouncementSearchType;
 use App\Form\AnnouncementMessageType;
 use App\Repository\ProfileRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\AnnouncementRepository;
+use App\Repository\CategoryRepository;
 use App\Repository\SubCategoryRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,6 +21,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 #[Route('/announcement', name: 'announcement_')]
@@ -51,25 +54,51 @@ class AnnouncementController extends AbstractController
     }
     
     #[Route('/list', name: 'list')]
-    public function list(PaginatorInterface $paginator, Request $request, AnnouncementRepository $announcementRepository): Response
+    public function list(
+        PaginatorInterface $paginator,
+        Request $request,
+        AnnouncementRepository $announcementRepository,
+        CategoryRepository $categoryRepository
+        ): Response
     {
         $search = new AnnouncementSearch();
+
+        $page =  $request->query->getInt('page', 1);
+
+        $limit = 2;
+
+        // $announces = $announcementRepository->getPaginate($page, $limit);
+
         $form = $this->createForm(AnnouncementSearchType::class, $search);
         $form->handleRequest($request);
 
-        $announcement = $paginator->paginate(
-            $announcementRepository->findAllVisibleQuery($search),
+        $subCategories = $request->get("subCategories");
+
+        $announces = $paginator->paginate(
+            $announcementRepository->findAllVisibleQuery($search, $subCategories),
             $request->query->getInt('page', 1),
             2
         );
 
+        if ($request->get("ajax")) {
+            return new JsonResponse([
+                'content' => $this->renderView('announcement/_content.html.twig', [
+                    'announces' => $announces,
+                    'form'          => $form->createView(),
+                    'page' => $page
+                ])
+            ]);
+        }
+
         return $this->render('announcement/list.html.twig', [
-            'announcements' => $announcement,
-            'form'          => $form->createView()
+            'announces'  => $announces,
+            'categories' => $categoryRepository->findAll(),
+            'form'       => $form->createView(),
+            'page'       => $page
         ]);
     }
 
-    #[Route('/view/{id}', name: 'view', requirements: ['id' => '\d+'])]
+    #[Route('/view/{id}/{slug}', name: 'view', requirements: ['id' => '\d+'])]
     public function view($id, AnnouncementRepository $announcementRepository): Response
     {
         return $this->render('announcement/view.html.twig', [
@@ -112,6 +141,7 @@ class AnnouncementController extends AbstractController
 
         return $this->render('announcement/contact.html.twig', [
             'form' => $form->createView(),
+            'title' => $title
         ]);
     }
 
@@ -128,6 +158,7 @@ class AnnouncementController extends AbstractController
         if(!$announce){
             throw new NotFoundHttpException('Pas d\'annonce trouvée');
         }
+        
         /** @var $user instanceof User */
         $user = $this->security->getuser();
         $announce->addFavorite($user->getProfile());
@@ -152,10 +183,18 @@ class AnnouncementController extends AbstractController
         return $this->redirectToRoute('announcement_list');
     }
 
-    #[Route('/favorite', name: 'favorite')]
     #[IsGranted("ROLE_USER")]
+    #[Route('/favorite', name: 'favorite')]
     public function favorite(): Response
     {        
+        /** @var $user instanceof User */
+        $user = $this->security->getuser();
+
+        if ($user->getProfile() == null) {
+            $this->addFlash('message', "Pour accéder au favoris vous devez compléter votre profil");
+            return $this->redirectToRoute('profile_add');
+        }
+
         return $this->render('announcement/favorite.html.twig');
     }
 

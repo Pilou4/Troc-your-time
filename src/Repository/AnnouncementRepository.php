@@ -47,19 +47,104 @@ class AnnouncementRepository extends ServiceEntityRepository
         }
     }
 
+
+    public function getPaginate($page, $limit, $subCategories = null, $title = null, $lng = null, $lat = null, $distance = null) {
+        $query = $this  ->createQueryBuilder('announce')
+                        ->leftjoin('announce.subCategory', 'subCategory')
+                        ->addSelect('subCategory')
+                        ->where('announce.isOnline = 1')
+                        ->orderBy('announce.createdAt')
+                        ->setFirstResult(($page * $limit) - $limit)
+                        ->setMaxResults($limit)
+        ;
+
+        if ($lat && $lng && $distance) {
+            $query = $query
+                ->select('announce')
+                ->andWhere('(6353 * 2 * ASIN(SQRT( POWER(SIN((announce.lat - :lat) *  pi()/180 / 2), 2) +COS(announce.lat * pi()/180) * COS(:lat * pi()/180) * POWER(SIN((announce.lng - :lng) * pi()/180 / 2), 2) ))) <= :distance')
+                ->setParameter('lng', $lng)
+                ->setParameter('lat', $lat)
+                ->setParameter('distance', $distance);
+        }
+
+        if ($title) {
+            $query->where(
+                $query->expr()->orX(
+                    $query->expr()->like('announce.title', ':title'),
+                )
+            );
+            $query->setParameter('title', "%{$title}%");
+        }
+
+        if ($subCategories) {
+            $query->andWhere('subCategory IN(:subCategories)')
+            ->setParameter(':subCategories', array_values($subCategories));
+        }
+
+        return $query->getQuery()->getResult();
+    }
+
+    public function getTotal($subCategories = null, $title = null, $lng = null, $lat = null, $distance = null)
+    {
+        $query = $this  ->createQueryBuilder('announce')
+                        ->leftjoin('announce.subCategory', 'subCategory')
+                        ->addSelect('subCategory')
+                        ->select('COUNT(announce)')
+                        ->where('announce.isOnline = 1')
+                    ;
+        
+        if ($subCategories) {
+            $query->andWhere('subCategory IN(:subCategories)')
+            ->setParameter(':subCategories', array_values($subCategories));
+        }
+
+        // if ($lat && $lng && $distance) {
+        //     $query = $query
+        //         ->select('announce')
+        //         ->andWhere('(6353 * 2 * ASIN(SQRT( POWER(SIN((announce.lat - :lat) *  pi()/180 / 2), 2) +COS(announce.lat * pi()/180) * COS(:lat * pi()/180) * POWER(SIN((announce.lng - :lng) * pi()/180 / 2), 2) ))) <= :distance')
+        //         ->setParameter('lng', $lng)
+        //         ->setParameter('lat', $lat)
+        //         ->setParameter('distance', $distance);
+        // }
+
+        if ($title) {
+            $query->where(
+                $query->expr()->orX(
+                    $query->expr()->like('announce.title', ':title'),
+                )
+            );
+            $query->setParameter('title', "%{$title}%");
+        }
+
+        return $query->getQuery()->getSingleScalarResult();
+    }   
+
+
     /**
      * @return Query
      */
-    public function findAllVisibleQuery(AnnouncementSearch $search)
+    public function findAllVisibleQuery(AnnouncementSearch $search, $subCategories = null)
     {
-        $query = $this->createQueryBuilder('announcement')
-                        ->leftjoin('announcement.subCategory', 'category')
+        $query = $this  ->createQueryBuilder('announcement')
+                        ->leftjoin('announcement.subCategory', 'subCategory')
+                        ->addSelect('subCategory')
+                        ->leftjoin('subCategory.category', 'category')
                         ->addSelect('category');
-                        
+
         if ($search->getCategory()) {
+            $query->andWhere('category IN(:categories)')
+            ->setParameter(':categories', $search->getCategory());
+        }
+                        
+        if ($subCategories) {
+            $query->andWhere('subCategory IN(:subCategories)')
+            ->setParameter(':subCategories', array_values($subCategories));
+        }
+        
+        if ($search->getSubCategory()) {
             $query
-                ->andWhere('category IN(:category)')
-                ->setParameter('category', $search->getCategory());
+                ->andWhere('subCategory IN(:subCategory)')
+                ->setParameter('subCategory', $search->getSubCategory());
         }
 
         if ($search->getLat() && $search->getLng() && $search->getDistance()) {

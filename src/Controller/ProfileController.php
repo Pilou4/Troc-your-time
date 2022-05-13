@@ -7,16 +7,20 @@ use Dompdf\Options;
 use App\Entity\Profile;
 use App\Form\ProfileType;
 use App\Entity\ProfileSearch;
+use App\Form\ProfileAdressType;
 use App\Form\ProfileSearchType;
 use App\Form\PictureProfileType;
+use App\Form\ProfileProposeType;
+use App\Form\ProfileCivilityType;
 use App\Repository\ProfileRepository;
+use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Security\Core\Security;
 
 #[Route('/profile', name: 'profile_')]
 class ProfileController extends AbstractController
@@ -36,14 +40,21 @@ class ProfileController extends AbstractController
     }
 
     #[Route('/community', name: 'community')]
-    public function community(ProfileRepository $profileRepository, Request$request): Response
+    public function community(
+        ProfileRepository $profileRepository,
+        Request $request,
+        CategoryRepository $categoryRepository
+        ): Response
     {
+        $page =  $request->query->getInt('page', 1);
         $search = new ProfileSearch();
         $form = $this->createForm(ProfileSearchType::class, $search);
         $form->handleRequest($request);
 
         return $this->render('profile/community.html.twig', [
             'profiles' => $profileRepository->findAllVisibleQuery($search),
+            'categories' => $categoryRepository->findAll(),
+            'page'       => $page,
             'form' => $form->createView()
         ]);
     }
@@ -89,10 +100,10 @@ class ProfileController extends AbstractController
         return new Response();
     }
 
-    #[Route('/view/{id}', name: 'view')]
-    public function view($id, Request $request, ProfileRepository $profileRepository): Response
+    #[Route('/view/{username}', name: 'view')]
+    public function view($username, Request $request, ProfileRepository $profileRepository): Response
     {
-        $profile = $profileRepository->findOneBy(['id' => $id]);
+        $profile = $profileRepository->findOneBy(['username' => $username]);
 
         return $this->render('profile/view.html.twig', [
             'profile' => $profile
@@ -175,6 +186,69 @@ class ProfileController extends AbstractController
             return $this->redirectToRoute('profile_me');
         }
         return $this->render('profile/update.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/update/civility/{id}', name: 'update_civility', requirements: ['id' => '\d+'])]
+    public function updateCivility(Request $request, Profile $profile): Response
+    {
+        $form = $this->createForm(ProfileCivilityType::class, $profile);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+            $this->entityManager->persist($profile);
+            $this->entityManager->flush();
+
+
+            $this->addFlash('success', "Votre profile à bien été modifié");
+            return $this->redirectToRoute('profile_me');
+        }
+
+        return $this->render('profile/update_civilty.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+    
+    #[Route('/update/address/{id}', name: 'update_address', requirements: ['id' => '\d+'])]
+    public function updateAdress(Request $request, Profile $profile): Response
+    {
+        $form = $this->createForm(ProfileAdressType::class, $profile);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+            $this->entityManager->persist($profile);
+            $this->entityManager->flush();
+
+
+            $this->addFlash('success', "Votre profile à bien été modifié");
+            return $this->redirectToRoute('profile_me');
+        }
+
+        return $this->render('profile/update_address.html.twig', [
+            'form' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/update/propose/{id}', name: 'update_propose', requirements: ['id' => '\d+'])]
+    public function updatePropose(Request $request, Profile $profile): Response
+    {
+        $form = $this->createForm(ProfileProposeType::class, $profile);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            
+            $this->entityManager->persist($profile);
+            $this->entityManager->flush();
+
+
+            $this->addFlash('success', "Votre profile à bien été modifié");
+            return $this->redirectToRoute('profile_me');
+        }
+
+        return $this->render('profile/update_propose.html.twig', [
             'form' => $form->createView(),
         ]);
     }

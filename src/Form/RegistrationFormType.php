@@ -23,9 +23,11 @@ class RegistrationFormType extends AbstractType
                 'email',
                 EmailType::class,
                 [
-                    "label" => "Adresse email",
-                    'label_attr' => ['class' => 'form__label'],
-                    'attr' => ['class' => 'form__input'],
+                    "label" => false,
+                    'attr' => [
+                        'class' => 'form__input',
+                        'placeholder' => 'Adresse email',
+                    ],
                 ]                
             )
             ->add(
@@ -35,34 +37,21 @@ class RegistrationFormType extends AbstractType
                     'type' => PasswordType::class,
                     'invalid_message' => 'Les deux mot de passe ne sont pas identiques',
                     'first_options'  => [
-                        'label' => 'Mot de passe',
-                        'label_attr' => ['class' => 'form__label'],
-                        'attr' => ['class' => 'form__input'],
+                        'label' => false,
+                        'attr' => [
+                            'class' => 'form__input',
+                            'placeholder' => 'Mot de passe'
+                        ],
                     ],
                     'second_options' => [
-                        'label' => 'Repeter le mot de passe',
-                        'label_attr' => ['class' => 'form__label'],
-                        'attr' => ['class' => 'form__input'],
+                        'label' => false,
+                        'attr' => [
+                            'class' => 'form__input',
+                            'placeholder' => 'Répeter le mot de passe'
+                        ],
                     ],
                 ]
             )
-            // ->add('plainPassword', PasswordType::class, [
-            //     // instead of being set onto the object directly,
-            //     // this is read and encoded in the controller
-            //     'mapped' => false,
-            //     'attr' => ['autocomplete' => 'new-password'],
-            //     'constraints' => [
-            //         new NotBlank([
-            //             'message' => 'Please enter a password',
-            //         ]),
-            //         new Length([
-            //             'min' => 6,
-            //             'minMessage' => 'Your password should be at least {{ limit }} characters',
-            //             // max length allowed by Symfony for security reasons
-            //             'max' => 4096,
-            //         ]),
-            //     ],
-            // ])
             ->add('agreeTerms', CheckboxType::class, [
                 'label_attr' => ['class' => 'register__form__agree'],
                 'mapped' => false,

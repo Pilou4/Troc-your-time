@@ -1,4 +1,3 @@
-import axios from 'axios';
 
 let hearts = document.querySelectorAll('.la-heart');
 var urlcourante = document.location.href; 

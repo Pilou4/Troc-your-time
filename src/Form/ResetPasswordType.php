@@ -20,14 +20,12 @@ class ResetPasswordType extends AbstractType
                 'type' => PasswordType::class,
                 'invalid_message' => 'Les deux mot de passe ne sont pas identiques',
                 'first_options'  => [
-                    'label' => 'Mot de passe',
-                    'label_attr' => ['class' => 'form-label'],
-                    'attr' => ['class' => 'form-input'],
+                    'label' => false,
+                    'attr' => ['class' => 'form__input'],
                 ],
                 'second_options' => [
-                    'label' => 'Repeter le mot de passe',
-                    'label_attr' => ['class' => 'form-label'],
-                    'attr' => ['class' => 'form-input'],
+                    'label' => false,
+                    'attr' => ['class' => 'form__input'],
                 ],
             ]
         );

@@ -101,8 +101,6 @@ class Carousel
     createNavigation () {
         let nextButton = this.createDivWithClass('carousel__next');
         let prevButton = this.createDivWithClass('carousel__prev');
-        // let buttonRight = '<i class="las la-angle-right"></i>';
-        // nextButton.appendChild(buttonRight);
         this.root.appendChild(nextButton);
         this.root.appendChild(prevButton);
         nextButton.addEventListener('click', this.next.bind(this))
@@ -244,7 +242,7 @@ if (document.getElementById('carousel1')) {
     document.addEventListener('DOMContentLoaded', function () {
         new Carousel(document.getElementById('carousel1'), {
             slidesToScroll: 1,
-            slidesVisible: 2,
+            slidesVisible: 3,
             // loop: true,
             pagination: false,
             // infinite: true,

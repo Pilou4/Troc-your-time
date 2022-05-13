@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Category;
 use App\Entity\SubCategory;
 use App\Entity\Announcement;
+use App\Form\SearchableEntityType;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\AbstractType;
@@ -18,9 +19,15 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class AnnouncementType extends AbstractType
 {
+
+    public function __construct(private UrlGeneratorInterface $url){
+
+    }
+    
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -64,11 +71,13 @@ class AnnouncementType extends AbstractType
             )
             ->add(
                 'propose',
-                TextareaType::class,
+                SearchableEntityType::class,
                 [
-                    "label" => "propose en échange",
-                    'label_attr' => ['class' => 'announcementAdd__form__label'],
-                    'attr' => ['class' => 'announcementAdd__form__textarea'],
+                    'class' => SubCategory::class,
+                    'search' => $this->url->generate('api_sub_category_search'),
+                    // 'choice_label' => 'name',
+                    'label_property' => 'name',
+                    // 'required' => false
                 ]
             )
             ->add(

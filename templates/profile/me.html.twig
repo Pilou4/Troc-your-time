@@ -6,22 +6,23 @@
     <main class="me">
         <h1 class="me__title">Page de profil de {{ app.user.profile.firstname ~ ' ' ~ app.user.profile.lastname}}</h1>
         <section class="me__user">
+            <a href="{{ path('profile_avatar', { 'username': app.user.profile.username})}}">
+                {% if app.user.profile.filename %}
+                    <img src={{ vich_uploader_asset(app.user.profile, 'imageFile')}} alt="image de profil (avatar)" class="me__user__picture">
+                {% else %}
+                    <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil (avatar)" class="me__user__picture">
+                {% endif %}
+            </a>
             <div class="me__user__info">
             <h3 class="me__user__info__title">Civilité</h3>
-                <a href="{{ path('profile_avatar', { 'username': app.user.profile.username})}}">
-                    {% if app.user.profile.filename %}
-                        <img src={{ vich_uploader_asset(app.user.profile, 'imageFile')}} alt="image de profil (avatar)" class="me__user__info__picture">
-                    {% else %}
-                        <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil (avatar)" class="me__user__info__picture">
-                    {% endif %}
-                </a>
                 <ul class="me__user__info__list">
-                    <li class="me__info__list__item">Genre : {{ app.user.profile.gender }}</li>
                     <li class="me__info__list__item">Nom d'utilisateur : {{ app.user.profile.username }}</li>
+                    <li class="me__info__list__item">Genre : {{ app.user.profile.gender }}</li>
                     <li class="me__info__list__item">Prénom : {{ app.user.profile.firstname }}</li>
                     <li class="me__info__list__item">Nom : {{ app.user.profile.lastname }}</li>
                     <li class="me__info__list__item">Date da naissances : {{ app.user.profile.birthday|date('d/m/Y') }}</li>
                 </ul>
+                <button class="me__user__info__button"><a href="{{ path('profile_update_civility', { 'id': app.user.profile.id })}}" class="me__user__info__button__link">Modifier</a></button>
             </div>
             <div class="me__user__info">
                 <h3 class="me__user__info__title">Coordonnées</h3>
@@ -32,11 +33,23 @@
                     <li class="me__info__list__item">Département {{ app.user.profile.department }}</li>
                     <li class="me__info__list__item">Region : {{ app.user.profile.region }}</li>
                 </ul>
+                <button class="me__user__info__button"><a href="{{ path('profile_update_address', { 'id': app.user.profile.id })}}" class="me__user__info__button__link">Modifier</a></button>
             </div>
             <div class="me__user__info">
                 <h3 class="me__user__info__title">Services</h3>
-                <p class="me__user__info__text">Vous proposez : {{ app.user.profile.propose ? app.user.profile.propose : "rien pour le moment"}}</p>
-                <p class="me__user__info__text">Vous recherchez : {{ app.user.profile.research ? app.user.profile.research : "rien pour le moment"}}</p>
+                <p class="me__user__info__text">
+                    Je propose :
+                    {% for propose in app.user.profile.propose %}
+                        {{ propose }}{{loop.last ? '.' : ','}}
+                    {% endfor %}
+                </p>
+                <p class="me__user__info__text">
+                    Je recherche :
+                    {% for research in app.user.profile.research %}
+                        {{ research }}{{loop.last ? '.' : ','}}
+                    {% endfor %}
+                </p>
+                <button class="me__user__info__button"><a href="{{ path('profile_update_propose', { 'id': app.user.profile.id })}}" class="me__user__info__button__link">Modifier</a></button>
             </div>
         </section>
         <section class="me__links">

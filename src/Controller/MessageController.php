@@ -71,6 +71,7 @@ class MessageController extends AbstractController
 
         return $this->render('message/contact.html.twig', [
             'form' => $form->createView(),
+            'username' => $username
         ]);
     }
 

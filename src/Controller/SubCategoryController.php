@@ -61,4 +61,10 @@ class SubCategoryController extends AbstractController
             'form' => $form->createView()
         ]);
     }
+
+    #[Route('/api/categories', name: 'api_categories')]
+    public function subCategories(Request $request, SubCategoryRepository $subCategoryRepository)
+    {
+        return $this->json($subCategoryRepository->search($request->query->get('q')));
+    }
 }

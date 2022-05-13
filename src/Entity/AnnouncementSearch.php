@@ -13,6 +13,11 @@ class AnnouncementSearch
      * @var string|null
      */
     private $category;
+
+    /**
+     * @var string|null
+     */
+    private $subCategory;
     
     /**
      * @var string|null
@@ -174,6 +179,30 @@ class AnnouncementSearch
     public function setTitle($title)
     {
         $this->title = $title;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of subCategory
+     *
+     * @return  string|null
+     */ 
+    public function getSubCategory()
+    {
+        return $this->subCategory;
+    }
+
+    /**
+     * Set the value of subCategory
+     *
+     * @param  string|null  $subCategory
+     *
+     * @return  self
+     */ 
+    public function setSubCategory($subCategory)
+    {
+        $this->subCategory = $subCategory;
 
         return $this;
     }

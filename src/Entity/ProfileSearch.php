@@ -12,6 +12,16 @@ class ProfileSearch
     /**
      * @var string|null
      */
+    private $category;
+
+    /**
+     * @var string|null
+     */
+    private $subCategory;
+
+    /**
+     * @var string|null
+     */
     private $address;
     
     /**
@@ -145,6 +155,54 @@ class ProfileSearch
     public function setUsername($username)
     {
         $this->username = $username;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of category
+     *
+     * @return  string|null
+     */ 
+    public function getCategory()
+    {
+        return $this->category;
+    }
+
+    /**
+     * Set the value of category
+     *
+     * @param  string|null  $category
+     *
+     * @return  self
+     */ 
+    public function setCategory($category)
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of subCategory
+     *
+     * @return  string|null
+     */ 
+    public function getSubCategory()
+    {
+        return $this->subCategory;
+    }
+
+    /**
+     * Set the value of subCategory
+     *
+     * @param  string|null  $subCategory
+     *
+     * @return  self
+     */ 
+    public function setSubCategory($subCategory)
+    {
+        $this->subCategory = $subCategory;
 
         return $this;
     }

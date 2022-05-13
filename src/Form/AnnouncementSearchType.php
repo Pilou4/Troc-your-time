@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Category;
 use App\Entity\SubCategory;
 use App\Entity\AnnouncementSearch;
 use Symfony\Component\Form\AbstractType;
@@ -21,30 +22,52 @@ class AnnouncementSearchType extends AbstractType
             'label' => false,
             'required' => false,
             'attr' => [
-                'class' => 'community__form__input',
                 'placeholder' => "titre",
             ],
         ])
-        ->add('category', EntityType::class, [
-            'class' => SubCategory::class,
-            'placeholder' => 'catégorie',
-            "choice_label" => function (SubCategory $subCategory) {
-                return $subCategory->getName();
-            },
-            'label' => false,
-            'required' => false,
-        ])
+        ->add('category', HiddenType::class)
+        ->add('subCategory', HiddenType::class)
+        // ->add('category', EntityType::class, [
+        //         'class' => Category::class,
+        //         "choice_label" => function (Category $category) {
+        //             return $category->getName();
+        //         },
+        //         'placeholder' => '-- Sélectionnez une catégorie --',
+        //         'label' => false,
+        //         'required' => false,
+        //         'attr' => [
+        //         ]
+        //     ])
+        // ->add('subCategory', EntityType::class, [
+        //     'class' => SubCategory::class,
+        //     'placeholder' => 'catégorie',
+        //     "choice_label" => function (SubCategory $subCategory) {
+        //         return $subCategory->getName();
+        //     },
+        //     'label' => false,
+        //     'required' => false,
+        // ])
         ->add('address', null, [
             'label' => false,
             'required' => false,
+            'attr' => [
+                'placeholder' => 'ville, régions ou département',
+            ]
         ])
+
         ->add('distance', ChoiceType::class, [
             'label' => false,
-            'placeholder' => 'distance',
+            'placeholder' => '-- distance --',
+            'attr' => [
+            ],
             'required' => false,
             'choices' => [
                 '10 km' => 10,
-                '1000 km' => 1000
+                '20 km' => 20,
+                '50 km' => 50,
+                '100 km' => 100,
+                '200 km' => 200,
+                'toute la France' => 1200
             ]
         ])
         ->add('lat', HiddenType::class)

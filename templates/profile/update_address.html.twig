@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification adresse !{% endblock %}
+
+{% block body %}
+    <main class="profile">
+        <div class="profile__form">
+            <h1 class="profile__form__title">Modifier adresse !</h1>        
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <input type="submit" value="Valider" class="profile__form__button">
+            {{ form_end(form) }}
+        </div>
+    </main>
+{% endblock %}
+

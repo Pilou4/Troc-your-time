@@ -1,73 +1,51 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AnnouncementController!{% endblock %}
-
+{% block title %}Listes des annonces{% endblock %}
+{% set queryParams = app.request.query.all %}
+{% set queryString = queryParams|filter((v, k) => k != "page" and k != "ajax")|url_encode %}
 {% block body %}
 <main class="search">
     <h1 class="search__title">Liste des annonces</h1>
+    <section class="search__buttons">
+        <button class="search__buttons__item">
+            <a href="{{ path('announcement_list') }}">annonces</a>
+        </button>
+        <button class="search__buttons__item">
+            <a href="{{ path('profile_community') }}">membres</a>
+        </button>
+    </section>
     <section class="search__form">
         {{ form_start(form) }}
-            {{ form_row(form.address, {id: 'search_address'}) }}
-            {{ form_row(form.category) }}
-            {{ form_row(form.distance) }}
-            <button class="btn btn-primary">Rechercher</button>
+            <ul class="search__form__list">
+                <li class="search__form__list__item">{{ form_row(form.title) }}</li>
+                <li class="search__form__list__item">{{ form_row(form.address, {id: 'search_address'}) }}</li>
+                <li class="search__form__list__item">{{ form_row(form.distance) }}</li>
+                {# <li class="search__form__list__item">{{ form_row(form.category) }}</li> #}
+                <li><button class="search__form__button">Rechercher</button></li>
+            </ul>    
         {{ form_end(form) }}
     </section>
-    <section class="search__announcements">
-        {% for announcement in announcements %}
-            <article class="search__announcement">
-                <aside class="search__announcement__header">
-                    <div class="search__announcement__header__user">
-                        {% if announcement.profile.filename %}
-                            <img src={{ vich_uploader_asset(announcement.profile, 'imageFile')}} alt="image de profil (avatar)" class="search__announcement__header__user__img">
-                        {% else %}
-                            <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil (avatar)" class="search__announcement__header__user__img">
-                        {% endif %}
-                        <p class="search__announcement__header__user__username">{{ announcement.profile.username }}</p>
-                        <i class="lar la-star">5</i>
-                    </div>
-                    <div class="search__announcement__header__date">
-                        <p class="search__announcement__header__date">{{ announcement.profile.createdAt|date('d/m/Y') }}</p>
-                    </div>
-                </aside>
-                <div class="search__announcement__content">
-                    <h2 class="search__announcement__content__title">{{ announcement.title }}</h2>
-                    {# <img src="{{ asset('images/empty.jpg')}}" alt="" class="search__announcement__content__img"> #}
-                    <p class="search__announcement__content__description">{{ announcement.description }}</p>
-                    <p class="search__announcement__content__propose"><i class="las la-exchange-alt la-lg"></i> Je propose en échange : {{ announcement.propose }}</p>
-                </div>
-                <div class="search__announcement__footer">
-                    <div class="search__announcement__footer__info">
-                        <p class="search__announcement__footer__info__category"><i class="las la-tags la-lg"></i> {{ announcement.subCategory.category.name }} / {{ announcement.subCategory.name }}</p>
-                        <p class="search__announcement__footer__info__city"><i class="las la-map-marker-alt la-lg"></i> {{ announcement.region }} / {{ announcement.department }} / {{ announcement.city }}</p>
-                    </div>
-                    <h1 class="search__announcement__footer__favorite">
-                        {% if is_granted("ROLE_USER") %}
-                            {% set isFavorite = false %}
-							{% for favoris in announcement.favorites %}
-								{% if favoris.id == app.user.profile.id %}
-                                    {% set isFavorite = true %}
-								{% endif %}    
-							{% endfor %}
-                            {% if isFavorite %}
-								<a href="{{ path('announcement_remove_favorite', {id: announcement.id}) }}"><i class="las la-heart"></i></a>
-                            {% else %}
-								<a href="{{ path('announcement_add_favorite', {id: announcement.id}) }}"><i class="lar la-heart"></i></a>
-                            {% endif %}
-
-						{% else %}
-							<i class="lar la-heart la-lg"></i>
-						{% endif %}
-                    </h1>
-                    {# <button class="search__announcement__footer__button">Voir l'annonce</button> #}
-                    {# <p class="search__announcement__date">{{ announcement.createdAt|date('d/m/Y') }}</p> #}
-                    
-                </div>
-            </article>
-        {% endfor %}
-    </section>
-    <div class="pagination">
-            {{ knp_pagination_render(announcements) }}
+    <section class="search__content">
+        <div class="search__categories">
+            <h2 class="search__categories__title">Catégories</h2>
+            {% for category in categories %}
+                <p class="search__categories__name"><a href="{{ path('announcement_list') }}?category={{ category.id }} ">{{ category.name }}</a></p>
+                {% for subCategory in category.subCategories %}
+                    {% if queryParams and queryParams.subCategories is defined %}
+                        {% set checked = (subCategory.id in queryParams.subCategories) ? "checked" : "" %}
+                    {% else %}
+                        {% set checked = "" %}
+                    {% endif %}
+                        <ul class="search__categories__list">
+                            <li class="search__categories__list__item"><a href="{{ path('announcement_list') }}?subCategory={{ subCategory.id }}">{{subCategory.name}} </a></li>
+                        </ul>
+                    {% endfor %}                
+            {% endfor %}
+            <input type="hidden" name="page" value="{{page}}">
         </div>
+        <div class="search__content__announces" id="content">
+            {% include "announcement/_content.html.twig" %}
+        </div>
+    </section>
 </main>
 {% endblock %}

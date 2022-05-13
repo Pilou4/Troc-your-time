@@ -3,9 +3,9 @@
 {% block title %}Modifier une annonce{% endblock %}
 
 {% block body %}
-<main class="announcementAdd">
-    <h1 class="announcementAdd__title">Modifier une annonces</h1>
-    <div class="profileAdd__form">        
+<main class="announcement">
+    <div class="profile__form">
+        <h1 class="announcement__form__title">Modifier une annonces</h1>        
         {{ form_start(form) }}
         {{ form_row(form.category) }}
         {{ form_row(form.subCategory) }}
@@ -14,7 +14,7 @@
         {{ form_row(form.propose) }}
         {{ form_row(form.address) }}
         {{ form_row(form.pictureFiles) }}
-        <input type="submit" value="Valider" class="profileAdd__form__button">
+        <input type="submit" value="Valider" class="announcement__form__button">
         {{ form_end(form) }}
     </div>
 </main>

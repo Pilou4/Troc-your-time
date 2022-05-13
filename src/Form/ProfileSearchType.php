@@ -2,9 +2,12 @@
 
 namespace App\Form;
 
+use App\Entity\Category;
+use App\Entity\SubCategory;
 use App\Entity\ProfileSearch;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
@@ -23,6 +26,29 @@ class ProfileSearchType extends AbstractType
                 'placeholder' => "nom d'utilisateur",
             ],
         ])
+        ->add('category', HiddenType::class)
+        ->add('subCategory', HiddenType::class)
+        // ->add('category', EntityType::class, [
+        //     'class' => Category::class,
+        //     "choice_label" => function (Category $category) {
+        //         return $category->getName();
+        //     },
+        //     'placeholder' => '-- Sélectionnez une catégorie --',
+        //     'label' => false,
+        //     'required' => false,
+        //     'attr' => [
+        //     ]
+        // ])
+
+        // ->add('subCategory', EntityType::class, [
+        //     'class' => SubCategory::class,
+        //     'placeholder' => '-- sous-catégorie --',
+        //     "choice_label" => function (SubCategory $subCategory) {
+        //         return $subCategory->getName();
+        //     },
+        //     'label' => false,
+        //     'required' => false,
+        // ])
 
         ->add('address', null, [
             'label' => false,

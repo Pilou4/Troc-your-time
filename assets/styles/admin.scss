@@ -2,8 +2,9 @@
 .admin {
     position: relative;
     top: 90px;
-    min-height: 80vh;
+    min-height: 90vh;
     display: flex;
+    margin-bottom: 150px;
     &__nav {
         width: 250px;
         border: 2px solid rgb(184, 12, 104);
@@ -85,6 +86,11 @@
                     cursor: pointer;
                 }
             }
+        }
+    }
+    &__category {
+        &__img {
+            width: 150px;
         }
     }
 }

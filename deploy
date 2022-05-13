@@ -1,0 +1,2 @@
+#!/bin/sh
+rsync -av ./ u106529044@access891553515.webspace-data.io:~/troc-service --include=public/build --include=public/.htaccess --include=vendor --exclude-from=.gitignore --exclude=".*" 

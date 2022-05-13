@@ -3,18 +3,76 @@
 {% block title %}Hello AnnouncementController!{% endblock %}
 
 {% block body %}
-<main class="myAnnouncement">
-    <h1 class="myAnnouncement__title">Liste de mes annonces</h1>
-    {% for announcement in app.user.profile.announcements %}
-        <article class="myAnnouncement__article">
-            {# <p class="myAnnouncement__article__category">{{ announcement.subCategory.name }}</p> #}
-            <h2 class="myAnnouncement__article__title">{{ announcement.title }}</h2>
-            <p class="myAnnouncement__article__date">crée le {{ announcement.createdAT|date('d-m-Y\\ à H\\hi\\', "Europe/Paris") }}</p>
-            <p class="myAnnouncement__article__content">{{ announcement.description }}</p>
-            <a href="{{ path('announcement_update', {'id': announcement.id}) }}">
-                <i class="las la-edit la-2x"></i>
-            </a>
-            <a href="{{ path('announcement_delete', {'id': announcement.id}) }}"  onClick="return confirm('Confirmez la suppression');"><i class="las la-trash la-2x"></i></a>
+<main class="myAnnounce">
+    <h1 class="myAnnounce__title">Liste de mes annonces</h1>
+    {% for announce in  app.user.profile.announcements %}
+        <article class="annonce">
+            <aside class="annonce__profile">
+                <p class="annonce__profile__username">
+                    {% if announce.profile.filename %}
+                        <img src={{ vich_uploader_asset(announce.profile, 'imageFile')}} alt="image de profil de {{ announce.profile.username }})" class="annonce__profile__picture">
+                    {% else %}
+                        <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil vide (grisé)" class="annonce__profile__picture">
+                    {% endif %}
+                    {{ announce.profile.username }}
+                </p>
+                {% if announce.favorites %}
+                    {% set favoris = "" %}
+                    {% for favories in announce.favorites %}
+                        {% if favories.id == app.user.profile.id %}
+                            {% set favoris = favories.id %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                <p class="annonce__profile__date">
+                    {{ announce.createdAt|date('d/m/Y') }}
+                    <i 
+                        class="lar la-heart"
+                        data-announce={{ announce.id }}
+                        data-profile=
+                            {% if app.user %}
+                                {% if app.user.profile %}
+                                    {{ app.user.profile.id }}
+                                {% else %}
+                                    "00"
+                                {% endif %}                                    
+                            {% else %}
+                                "0"
+                            {% endif %}
+                        data-favoris=
+                            {% if announce.favorites %}
+                                {{ favoris }}
+                            {% endif %}
+                        >
+                    </i>
+                </p>
+            </aside>
+            <h2 class="annonce__title">{{ announce.title }}</h2>
+            {% if announce.pictures %}
+                {% for picture in announce.pictures %}
+                    {% if loop.first %}
+                        <img class="annonce__picture" src="{{ vich_uploader_asset(picture, 'imageFile')}}" alt="image de l'announces {{ announce.title }}">
+                    {% endif %}
+                {% else %}
+                    <img class="annonce__picture" src="{{ asset('images/empty.png') }}" alt="image annonces vide">
+                {% endfor %}
+            {% endif %}
+            <p class="annonce__content">{{ announce.description }}</p>
+            <ul class="annonce__categories">
+                <li class="search__content__announce__propose"><i class="las la-exchange-alt"></i> Je propose en échange : 
+                    {% for propose in announce.propose %}
+                        {{ propose.name }}{{ loop.last ? '.' : ','}}
+                    {% endfor %}
+                </li>
+                <li class="annonce__category"><i class="las la-tag"></i> {{ announce.subCategory.category.name }} / {{ announce.subCategory.name }}</li>
+                <li class="annonce__city"><i class="las la-map-marker-alt"></i> {{ announce.region }} / {{ announce.department }} / {{ announce.city }}</li>
+            </ul>
+            <div class="annonce__buttons">
+                <a href="{{ path('announcement_update', {'id': announce.id}) }}" class="annonce__buttons__link">
+                    <i class="las la-edit la-2x"></i>
+                </a>
+                <a href="{{ path('announcement_delete', {'id': announce.id}) }}" class="annonce__buttons__link"  onClick="return confirm('Confirmez la suppression');"><i class="las la-trash la-2x"></i></a>
+            </div>
         </article>
     {% endfor %}
 </main>

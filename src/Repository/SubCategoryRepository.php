@@ -45,6 +45,16 @@ class SubCategoryRepository extends ServiceEntityRepository
         }
     }
 
+    public function search(string $name): array
+    {
+        return $this->createQueryBuilder('subCategory')
+            ->where('subCategory.name LIKE :subCategory')
+            ->setParameter('subCategory', "%$name%")
+            ->setMaxResults(15)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return SubCategory[] Returns an array of SubCategory objects
     //  */

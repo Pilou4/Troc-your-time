@@ -2,133 +2,182 @@
 
 {% block title %}Troc service accueil !{% endblock %}
 
+{% block metaTag %}
+    <meta name="description" content="Application permettant la mise en relation dans le but de s'échanger des services ainsi que des compétences">
+    <meta name="keywords" content="échange, services">
+{% endblock %}
+        
+
 {% block body %}
     <main class="homepage">
-        <h1 class="homepage__title">Bienvenue !</h1>
-        <img src="{{ asset('images/logo/troc-service6-sf.png') }}" alt="logo troc service" class="homepage__logo">
         <section class="homepage__presentation">
-            <p class="homepage__presentation__content">
-                Troc Services et une application spécialisé dans la mise en relation entre personne vivant
-                dans le même secteur afin de s'échanger des services et des compétences.
-                Vous avez la possibilité de poster des annonces où de contacter directement
-                les membres de la communité via la messagerie privé. <br/>
-                Vous pouvez vous inscrire en suivant ce lien <a href="{{ path('create_account')}}">inscription gratuite.</a>
+            <h1 class="homepage__title">Bienvenue sur <img src="{{ asset('images/logo/troc-service6-sf.png') }}" alt="logo troc service" class="test__logo"></h1>
+            <p class="homepage__presentation__text">
+                Troc Services est une application de mise en relation spécialisé dans l'échange de 
+                services et le partage de connaissances ! <br/>
+                Echanger vos services ou partager cos compétences avec les autres membres de la communautés !
+                {# <a href="{{ path('create_account')}}">s'inscrire gratuitement.</a> #}
             </p>
+            {% if app.user == null %}
+                <a href="{{ path('create_account') }}" class="homepage__presentation__link">S'inscrire</a>
+            {% endif %}
         </section>
 
-        <h2 class="homepage__subtitle">Dernières membres inscrits</h2>
         <section class="homepage__users">
+            <h2 class="homepage__subtitle">Dernières membres inscrits</h2>
             <div id="carousel2">
                 {% for profile in profiles %}
-                    <article class="user">
-                        <aside class="user__infos">
-                            {% if profile.filename %}
-                                <img src={{ vich_uploader_asset(profile, 'imageFile')}} alt="image de profil {{ profile.username }}" class="user__info__picture">
-                            {% else %}
-                                <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil vide" class="user__info__picture">
-                            {% endif %}
-                            <ul class="user__info">
-                                <li class="user__info__city"><i class="las la-map-marker-alt"></i> {{ profile.region }} / {{ profile.department }}</li>
-                                <li class="user__info__username"><i class="las la-user-tie"></i> {{ profile.username }}</li>
-                            </ul>
-                        </aside>
-                        <p class="user__propose">Je propose : {{ profile.propose }}</p>
-                        <p class="user__research">Je recherche : {{ profile.research }}</p>
-                        <button class="announce__button"><a href="{{ path('profile_view', {'id': profile.id}) }}" class="announce__button__link"> Consulter</a></button>
-                    </article>
+                    <a href="{{ path('profile_view', {'username': profile.username}) }}">
+                        <article class="user">
+                            <aside class="user__infos">
+                                {% if profile.filename %}
+                                    <img src={{ vich_uploader_asset(profile, 'imageFile')}} alt="image de profil {{ profile.username }}" class="user__info__picture">
+                                {% else %}
+                                    <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil vide" class="user__info__picture">
+                                {% endif %}
+                                <ul class="user__info">
+                                    <li class="user__info__city"><i class="las la-map-marker-alt la-lg"></i> {{ profile.region }} / {{ profile.department }}</li>
+                                    <li class="user__info__username"><i class="las la-user-tie la-lg"></i> {{ profile.username }}</li>
+                                </ul>
+                            </aside>
+                            <p class="user__propose">
+                                <strong><i class="las la-exchange-alt la-lg"></i>Je propose :</strong>
+                                {% for propose in profile.propose %}
+                                    {{ propose }}{{ loop.last ? '.' : ','}}
+                                {% endfor %}
+                            </p>
+                            <p class="user__research">
+                                <strong><i class="lab la-searchengin la-lg"></i>Je recherche :</strong>
+                                {% for research in profile.research %}
+                                    {{ research }}{{ loop.last ? '.' : ','}}
+                                {% endfor %}
+                            </p>
+                        </article>
+                    </a>
                 {% endfor %}
             </div>
             <button class="homepage__button">
-                <a href="{{ path('profile_community') }}" class="homepage__button__link"><i class="las la-search"></i> Rechercher un membre de la communauté</a>
+                <a href="{{ path('profile_community') }}" class="homepage__button__link"><i class="las la-search la-lg"></i> Rechercher un membre de la communauté</a>
             </button>
         </section>
 
-        <h2 class="homepage__subtitle">Dernières annonces publiées</h2>
-        <section class="homepage__announcements">
-            <div id="carousel1">
-                {% for announce in announcements %}
-                    <article class="announces">
-                        <aside class="announces__profile">
-                            <p class="announces__profile__username">
-                                {% if announce.profile.filename %}
-                                    <img src={{ vich_uploader_asset(announce.profile, 'imageFile')}} alt="image de profil de {{ announce.profile.username }})" class="announces__profile__picture">
-                                {% else %}
-                                    <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil vide (grisé)" class="announces__profile__picture">
-                                {% endif %}
-                                {{ announce.profile.username }}
-                            </p>
-                            {% if announce.favorites %}
-                                {% set favoris = "" %}
-                                {% if is_granted("ROLE_USER") %}
-                                    {% for favories in announce.favorites %}
-                                        {% if favories.id == app.user.profile.id %}
-                                            {% set favoris = favories.id %}
-                                        {% endif %}
-                                    {% endfor %}
-                                {% endif %}
+        <section class="homepage__members">
+            <div class="homepage__member">
+                <p class="homepage__member__text">Actuellement</p>
+                <p class="homepage__member__quantity">{{ profiles|length }}</p>
+                <p class="homepage__member__text">membre{{ profiles|length > 1 ? 's' : '' }} inscrit{{ profiles|length > 1 ? 's' : '' }}</p>
+            </div>
+            <div class="homepage__announce">
+                <p class="homepage__announce__text">Actuellement</p>
+                <p class="homepage__announce__quantity">{{ announcements|length }}</p>
+                <p class="homepage__announce__text">annonce{{ announcements|length > 1 ? 's' : '' }} en ligne{{ announcements|length > 1 ? 's' : '' }}</p>
+            </div>
+        </section>
+
+        <section class="homepage__announces">
+            <h2 class="homepage__subtitle">Dernières annonces publiées</h2>
+            {% for announce in announcements %}
+                <article class="announce">
+                    <aside class="announce__profile">
+                        <p class="announce__profile__username">
+                            {% if announce.profile.filename %}
+                                <img src={{ vich_uploader_asset(announce.profile, 'imageFile')}} alt="image de profil de {{ announce.profile.username }})" class="announce__profile__picture">
+                            {% else %}
+                                <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil vide (grisé)" class="announce__profile__picture">
                             {% endif %}
-                            <p class="announces__profile__date">
-                                {{ announce.createdAt|date('d/m/Y') }}
-                                <i
-                                    class="lar la-heart"
-                                    data-announce={{ announce.id }}
-                                    data-profile=
-                                        {% if app.user %}
-                                            {% if app.user.profile %}
-                                                {{ app.user.profile.id }}
-                                            {% else %}
-                                                "00"
-                                            {% endif %}
+                            {{ announce.profile.username }}
+                        </p>
+                        {% if announce.favorites %}
+                            {% set favoris = "" %}
+                            {% for favories in announce.favorites %}
+                                {% if favories.id == app.user.profile.id %}
+                                    {% set favoris = favories.id %}
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                        <p class="announce__profile__date">
+                            {{ announce.createdAt|date('d/m/Y') }}
+                            <i 
+                                class="lar la-heart"
+                                data-announce={{ announce.id }}
+                                data-profile=
+                                    {% if app.user %}
+                                        {% if app.user.profile %}
+                                            {{ app.user.profile.id }}
                                         {% else %}
-                                            "0"
-                                        {% endif %}
-                                    data-favoris=
-                                        {% if announce.favorites %}
-                                            {{ favoris }}
-                                        {% endif %}
-                                    >
-                                </i>
-                            </p>
-                        </aside>
-                        <h3 class="announces__title">{{ announce.title }}</h3>
+                                            "00"
+                                        {% endif %}                                    
+                                    {% else %}
+                                        "0"
+                                    {% endif %}
+                                data-favoris=
+                                    {% if announce.favorites %}
+                                        {{ favoris }}
+                                    {% endif %}
+                                >
+                            </i>
+                        </p>
+                    </aside>
+                    <h2 class="announce__title">{{ announce.title }}</h2>
+                    <div class="announce__content">
                         {% if announce.pictures %}
                             {% for picture in announce.pictures %}
                                 {% if loop.first %}
-                                    <img class="announces__picture" src="{{ vich_uploader_asset(picture, 'imageFile')}}" alt="image de l'announce {{ announce.title }}">
+                                    <img class="announce__content__picture" src="{{ vich_uploader_asset(picture, 'imageFile')}}" alt="image de l'announces {{ announce.title }}">
                                 {% endif %}
                             {% else %}
-                                <img class="announces__picture" src="{{ asset('images/empty.jpg') }}" alt="image announce vide">
+                                <img class="announce__content__picture" src="{{ asset('images/empty.png') }}" alt="image announces vide">
                             {% endfor %}
                         {% endif %}
-                        <p class="announces__description">{{ announce.description }}</p>
-                        <ul class="announces__categories">
-                            <li class="announces__propose"><i class="las la-exchange-alt"></i> Je propose en échange : {{ announce.propose }}</li>
-                            {# <li class="announces__category"><i class="las la-tag"></i> {{ announce.subCategory.category.name }} / {{ announce.subCategory.name }}</li> #}
-                            <li class="announces__city"><i class="las la-map-marker-alt"></i> {{ announce.region }} / {{ announce.department }} / {{ announce.city }}</li>
-                        </ul>
-                        <button class="announces__button"><a href="{{ path('announcement_view', {'id': announce.id}) }}" class="announces__button__link"> Consulter l'annonce</a></button>
-                    </article>
-                {% endfor %}
-            </div>
-            <button class="homepage__button">
-                <a href="{{ path('announcement_list') }}" class="homepage__button__link"><i class="las la-search"></i> Recherche une annonce</a>
-            </button>
+                        <p class="announce__content__text">{{ announce.description }}</p>
+                    </div>
+                    <p class="announce__propose"><strong><i class="las la-exchange-alt"></i> Je propose en échange :</strong> 
+                        {% for propose in announce.propose %}
+                            {{ propose.name }}{{ loop.last ? '.' : ','}}
+                        {% endfor %}
+                    </p>
+                    <button class="announce__button"><a href="{{ path('announcement_view', { 'id': announce.id, 'slug': announce.slug }) }}" class="announce__button__link">Consulter</a></button>
+                    <p class="announce__category"><i class="las la-tag"></i> {{ announce.subCategory.category.name }} / {{ announce.subCategory.name }}</p>
+                    <p class="announce__city"><i class="las la-map-marker-alt"></i> {{ announce.region }} / {{ announce.department }} / {{ announce.city }}</p>
+                </article>
+            {% endfor %}
         </section>
 
-        
+        <button class="homepage__button">
+            <a href="{{ path('announcement_list') }}" class="homepage__button__link"><i class="las la-search la-lg"></i> Rechercher une annonce</a>
+        </button>
 
-        <h2 class="homepage__subtitle">Listes des catégories</h2>
+        {# <h2 class="homepage__subtitle">Listes des catégories</h2> #}
         <section class="homepage__categories">
             {% for category in categories %}
-                <article class="homepage__category" data-filename={{ category.filename }}>
-                    <h3 class="homepage__category__title">{{ category.name }}</h3>
-                    <ul class="homepage__category__name">
+                <article class="homepage__category" data-filename={{ category.filename ? category.filename : '' }}>
+                    <a href="{{ path('announcement_list') }}?category={{ category.id }} " class="homepage__category__title">{{ category.name }}</a>
+                    <ul class="homepage__category__list">
                         {% for subCategory in category.subCategories %}
-                            <li>{{ subCategory.name }}</li>
+                            <li class="homepage__category__list__name"><a href="{{ path('announcement_list') }}?subCategory={{ subCategory.id }}" class="homepage__category__list__name__link">{{ subCategory.name }}</a></li>
                         {% endfor %}
                     </ul>
                 </article>
             {% endfor %}
         </section>
+
+        <section class="homepage__infos">
+            <div class="homepage__info">
+                <h3 class="homepage__info__title">Créer Votre profil</h3>
+                <p class="homepage__info__content">Inscrivez-vous et indiquez les servives que vous recherchez et ceux que vous proposez.</p>
+                <a href="{{ path('create_account') }}" class="homepage__info__content">S'incrire</a>
+            </div>
+            <div class="homepage__info">
+                <h3 class="homepage__info__title">Publiez vos annonces</h3>
+                <p class="homepage__info__content">Créez votre annonce pour échanger et troquer des services et des compétences</p>
+                <a href="{{ path('announcement_add') }}" class="homepage__info__content">Ajouter une annonce</a>
+            </div>
+            <div class="homepage__info">
+                <h3 class="homepage__info__title">Mise en relation</h3>
+                <p class="homepage__info__content">Contactez les membres de votre département ou votre ville grâce à la messagerie interne pour vous rencontrer.</p>
+                <a href="{{ path('profile_community') }}" class="homepage__info__content">Rechercher</a>
+            </div>
+        </section>
+
     </main>
 {% endblock %}

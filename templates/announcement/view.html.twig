@@ -1,24 +1,39 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ announcement.title }}{% endblock %}
+{% block title %}Détail de l'annonce {{ announcement.title }}{% endblock %}
 
 {% block body %}
-<main class="announce">
-    <h1 class="announce__title">{{ announcement.title }}</h1>
-        <div class="announce__pictures">
-            {% if announcement.pictures %}
-                <div id="carousel3">
-                    {% for picture in announcement.pictures %}
-                    <img class="announce__picture" src="{{ vich_uploader_asset(picture, 'imageFile')}}" alt="image de l'annonce {{ announcement.title }}">
+<main class="announcement">
+    <h1 class="announcement__title">{{ announcement.title }}</h1>
+    <section class="announcement__pictures">
+        {% if announcement.pictures %}
+            <div id="carousel3">
+                {% for picture in announcement.pictures %}
+                <img class="announcement__picture" src="{{ vich_uploader_asset(picture, 'imageFile')}}" alt="image de l'annonce {{ announcement.title }}">
+                {% endfor %}
+            </div>
+        {% else %}
+            <img class="announcement__picture" src="{{ asset('images/empty.jpg') }}" alt="image annonce vide">
+        {% endif %}
+    </section>
+    <p class="announcement__description">{{ announcement.description }}</p>
+    <section class="announcement__place">
+        <div class="announcement__place__contact">
+            <p class="announcement__place__contact__username">Annonces de {{ announcement.profile.username }}</p>
+            <p class="announcement__place__contact__propose">
+                <strong>Je propose en échange : </strong>
+                <ul class="announcement__place__contact__propose__list">
+                    {% for propose in announcement.propose %}
+                        <li class="announcement__place__contact__propose__list__item">{{ propose.name }}</li>
                     {% endfor %}
-                </div>
-            {% else %}
-                <img class="announce__picture" src="{{ asset('images/empty.jpg') }}" alt="image annonce vide">
-            {% endif %}
+                </ul>
+            </p>
+            <button class="announcement__place__contact__button"><a href="{{ path('announcement_contact', {'username': announcement.profile.username}) }}" class="announcement__place__contact__button__link">contacter</a></button>
         </div>
-    <div id="map" class="announce__map" style="width: 400px; height: 400px" data-lat="{{ announcement.lat }}" data-lng="{{ announcement.lng}}"></div>
-    <p class="announce__title">Annonces de {{ announcement.profile.username }}</p>
-    <p class="announce__title">{{ announcement.description }}</p>
-    <p><a href="{{ path('announcement_contact', {'username': announcement.profile.username})}}">contacter</a></p>
+        <div class="announcement__place__map">
+            <div id="map" style="width: 400px; height: 400px" data-lat="{{ announcement.lat }}" data-lng="{{ announcement.lng}}"></div>
+            <p class="announcement__place__map__city"><i class="las la-map-marker-alt"></i> {{ announcement.profile.region ~ ' / ' ~ announcement.profile.department ~ ' / ' ~ announcement.profile.city }}</p>
+        </div>
+    </section>
 </main>
 {% endblock %}

@@ -22,9 +22,11 @@ class UserPasswordUpdateType extends AbstractType
             'oldPassword',
             PasswordType::class,
             [
-                "label" => "Mot de passe actuel",
-                'label_attr' => ['class' => 'form-label'],
-                'attr' => ['class' => 'form-input'],
+                "label" => false,
+                'attr' => [
+                    'placeholder' => 'Mot de passe actuel',
+                    'class' => 'form__input'
+                ],
                 "mapped" => false,
                 "constraints" => [
                     new UserPassword()
@@ -42,14 +44,18 @@ class UserPasswordUpdateType extends AbstractType
                 'type' => PasswordType::class,
                 'invalid_message' => 'Les deux mot de passe ne sont pas identiques',
                 'first_options'  => [
-                    'label' => 'Nouveau mot de passe',
-                    'label_attr' => ['class' => 'form-label'],
-                    'attr' => ['class' => 'form-input'],         
+                    'label' => false,
+                    'attr' => [
+                        'placeholder' => 'Le nouveau mot de passe',
+                        'class' => 'form__input'
+                    ],         
                 ],
                 'second_options' => [
-                    'label' => 'Repeter le nouveau mot de passe',
-                    'label_attr' => ['class' => 'form-label'],
-                    'attr' => ['class' => 'form-input'],          
+                    'label' => false,
+                    'attr' => [
+                        'placeholder' => 'Répétez le nouveau mot de passe',
+                        'class' => 'form__input'
+                    ],          
                 ],
             ]
         );

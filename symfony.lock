@@ -1,4 +1,18 @@
 {
+    "api-platform/core": {
+        "version": "2.6",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "2.5",
+            "ref": "05b57782a78c21a664a42055dc11cf1954ca36bb"
+        },
+        "files": [
+            "config/packages/api_platform.yaml",
+            "config/routes/api_platform.yaml",
+            "src/Entity/.gitignore"
+        ]
+    },
     "beberlei/doctrineextensions": {
         "version": "v1.3.0"
     },
@@ -101,6 +115,9 @@
     "egulias/email-validator": {
         "version": "3.1.2"
     },
+    "fig/link-util": {
+        "version": "1.2.0"
+    },
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.7"
     },
@@ -124,6 +141,18 @@
     },
     "monolog/monolog": {
         "version": "2.5.0"
+    },
+    "nelmio/cors-bundle": {
+        "version": "2.2",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "1.5",
+            "ref": "6bea22e6c564fba3a1391615cada1437d0bde39c"
+        },
+        "files": [
+            "config/packages/nelmio_cors.yaml"
+        ]
     },
     "nikic/php-parser": {
         "version": "v4.13.2"
@@ -154,6 +183,9 @@
     },
     "psr/event-dispatcher": {
         "version": "1.0.0"
+    },
+    "psr/link": {
+        "version": "2.0.1"
     },
     "psr/log": {
         "version": "3.0.0"
@@ -241,6 +273,9 @@
     },
     "symfony/event-dispatcher-contracts": {
         "version": "v3.0.0"
+    },
+    "symfony/expression-language": {
+        "version": "v6.0.7"
     },
     "symfony/filesystem": {
         "version": "v6.0.6"
@@ -459,6 +494,9 @@
     "symfony/var-exporter": {
         "version": "v6.0.6"
     },
+    "symfony/web-link": {
+        "version": "v6.0.3"
+    },
     "symfony/web-profiler-bundle": {
         "version": "6.0",
         "recipe": {
@@ -517,5 +555,8 @@
     },
     "webmozart/assert": {
         "version": "1.10.0"
+    },
+    "willdurand/negotiation": {
+        "version": "3.1.0"
     }
 }

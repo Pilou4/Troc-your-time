@@ -1,7 +1,376 @@
+.div {
+    margin: 0 auto;
+    margin-top: 30px;
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    // &-1 {
+    //     margin: 10px;
+    //     position: absolute;
+    //     width: 500px;
+    //     height: 300px;
+    //     background-color: rgb(42, 42, 148);
+    //     clip-path: polygon(0.3% 100%, 0% 0%, 100% 0%);
+    // }
+    // &-2 {
+    //     margin: 10px;
+    //     position: relative;
+    //     width: 500px;
+    //     height: 300px;
+    //     clip-path: polygon(0.3% 100%, 100% 100%, 100% 0%);
+    //     background-color: rgb(255, 153, 0);
+    // }
+}s
+/* ---- INPUT ----*/
+.form__input {
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.329);
+    border-radius: 0;
+    margin-bottom: 10px;
+    width: 100%;
+    &:focus {
+        border-bottom: 2px solid rgb(42, 42, 148);
+    }
+}
+
+.form-check {
+    margin-top: 20px;
+}
+
+.form__username {
+    display: inline;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.329);
+    border-radius: 0;
+    margin-bottom: 10px;
+    &:focus {
+        border-bottom: 2px solid rgb(66, 0, 128);
+    }
+}
+
+/* ---- FORMULAIRE DE PROFIL ---- */
+.profile {
+    &__form {
+        max-width: 600px;
+        margin: 0 auto;
+        margin-top: 80px;
+        padding: 20px;
+        box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
+        border-radius: 20px;
+        border: 2px solid rgb(66, 0, 128);
+        &__title {
+            font-family: "Quicksand";
+            color: rgb(66, 0, 128);
+            text-align: center;
+            font-size: 3em;
+            padding: 10px;
+            letter-spacing: .1em;
+            text-shadow: 1px 1px 1px;
+            margin-bottom: 20px;
+        }
+        &__required {
+            text-align: end;
+            padding: 10px 20px;
+            font-size: 1.2em;
+            & span {
+                color: red;
+                font-size: 1.5em;
+            }
+        }
+        &__label {
+            margin-right: 20px;
+            text-align: left;
+            border: none;
+            border-radius: 10px;
+        }
+        &__input {
+            &:focus {
+                border-bottom: 2px solid rgb(42, 42, 148);
+            }
+        }
+        &__choice {
+        }
+        &__file {
+        }
+        &__number {
+        }
+        &__date {
+        }
+        &__button {
+            display: block;
+            margin: 0 auto;
+            margin-top: 25px;
+            margin-bottom: 25px;
+            background-color: rgb(66, 0, 128);
+            color: white;
+            border-radius: 20px;
+            padding: 5px 10px;
+            transition: all .5s ease-out;
+            font-size: 1.3em;
+            &:hover {
+                background-color: rgb(255, 153, 0);
+                padding: 10px 20px;
+                // color: rgb(204, 12, 204);
+            }
+            &__link {
+                transition: all .5s ease-out;
+                &:hover {
+                    color: white;
+                }
+            }
+        }
+    }
+}
+.help-text {
+    // color: whitesmoke;
+}
+
+/* ---- PAGE CREATE-ACCOUNT ---- */
+.register {
+    position: relative;
+    top: 90px;
+    padding: 20px;
+    margin-bottom: 200px;
+    &__form {
+        max-width: 600px;
+        margin: 0 auto;
+        margin-top: 30px;
+        padding: 20px;
+        box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
+        border-radius: 20px;
+        border: 2px solid rgb(42, 42, 148);
+        &__title {
+            font-family: "parisienne";
+            text-align: center;
+            font-size: 3em;
+            padding: 10px;
+            letter-spacing: .1em;
+            color: rgb(42, 42, 148);
+            text-shadow: 1px 1px 1px;
+        }
+        &__info {
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.2em;
+        }
+        &__help {
+            color: rgb(108, 117, 125);
+            margin: 0 30px 0;
+            &__list {
+                list-style-type: none;
+                margin-left: 30px;
+                &__item{
+                    color: rgb(108, 117, 125);
+                }
+            }
+        }
+        &__agree {
+            margin: 0;
+            padding: 0;
+        }
+        &__text {
+            // margin: 0;
+            // padding: 0;
+            text-align: center;
+        }
+        &__link {
+            color: blue;
+            text-decoration: underline;
+        }
+        &__button {
+            display: block;
+            margin: 0 auto;
+            margin-top: 25px;
+            margin-bottom: 25px;
+            background-color: rgb(66, 0, 128);
+            color: white;
+            border-radius: 20px;
+            padding: 5px 10px;
+            transition: all .5s ease-out;
+            font-size: 1.3em;
+            &:hover {
+                background-color: rgb(255, 153, 0);
+                padding: 10px 20px;
+                // color: rgb(204, 12, 204);
+            }
+            &__link {
+                transition: all .5s ease-out;
+                &:hover {
+                    color: white;
+                }
+            }
+        }
+    }
+}
+
+/* ---- PAGE LOGIN ---- */
+.login {
+    position: relative;
+    top: 90px;
+    padding: 20px;
+    margin-bottom: 200px;
+    min-height: 70vh;
+    &__form {
+        max-width: 600px;
+        margin: 0 auto;
+        margin-top: 80px;
+        padding: 20px;
+        box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
+        border-radius: 10px;
+        border: 2px solid rgb(42, 42, 148);
+        &__title {
+            font-family: "parisienne";
+            text-align: center;
+            font-size: 3em;
+            padding: 10px;
+            letter-spacing: .1em;
+            color: rgb(42, 42, 148);
+            text-shadow: 1px 1px 1px;
+        }
+        &__info {
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.2em;
+        }
+        &__checkbox {
+            font-size: 1.2em;
+        }
+        &__text {
+            // margin: 0;
+            // padding: 0;
+            text-align: center;
+            font-size: 1.2em;
+        }
+        &__forgotten {
+            display: block;
+            margin: 10px 0;
+            color: blue;
+            font-size: 1.2em;
+            text-decoration: underline;
+        }
+        &__link {
+            color: blue;
+            font-size: 1em;
+            text-decoration: underline;
+            margin: 10px;
+        }
+        &__button {
+            display: block;
+            margin: 0 auto;
+            margin-top: 25px;
+            margin-bottom: 25px;
+            background-color: rgb(66, 0, 128);
+            color: white;
+            border-radius: 20px;
+            padding: 5px 10px;
+            transition: all .5s ease-out;
+            font-size: 1.3em;
+            &:hover {
+                background-color: rgb(255, 153, 0);
+                padding: 10px 20px;
+                // color: rgb(204, 12, 204);
+            }
+            &__link {
+                transition: all .5s ease-out;
+                &:hover {
+                    color: white;
+                }
+            }
+        }
+    }
+}
+
+/* ---- PAGE FORGOTTEN PASSWORD ---- */
+.forgotten, .reset, .update, .announcement, .message {
+    position: relative;
+    top: 90px;
+    padding: 20px;
+    margin-bottom: 200px;
+    min-height: 70vh;
+    &__form {
+        max-width: 600px;
+        margin: 0 auto;
+        margin-top: 80px;
+        padding: 20px;
+        box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
+        border-radius: 20px;
+        border: 2px solid rgb(42, 42, 148);
+        &__title {
+            font-family: "parisienne";
+            text-align: center;
+            font-size: 3em;
+            padding: 10px;
+            letter-spacing: .1em;
+            color: rgb(42, 42, 148);
+            text-shadow: 1px 1px 1px;
+            margin-bottom: 20px;
+        }
+        &__info {
+            padding: 10px;
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 1.2em;
+        }
+        &__button {
+            display: block;
+            margin: 0 auto;
+            margin-top: 25px;
+            margin-bottom: 25px;
+            background-color: rgb(66, 0, 128);
+            color: white;
+            border-radius: 20px;
+            padding: 5px 10px;
+            transition: all .5s ease-out;
+            font-size: 1.3em;
+            &:hover {
+                background-color: rgb(255, 153, 0);
+                padding: 10px 20px;
+                // color: rgb(204, 12, 204);
+            }
+            &__link {
+                transition: all .5s ease-out;
+                &:hover {
+                    color: white;
+                }
+            }
+        }
+    }
+}
+
 .test {
     position: relative;
     top: 90px;
     min-height: 90vh;
+    width: 100%;
+    margin-bottom: 200px;
+    &__title {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px 0 0 0;
+        font-size: 2.5em;
+        // padding: 10px;
+        letter-spacing: .1em;
+        font-family: 'Satisfy';
+    }
+    &__text {
+        padding: 0 20px;
+        text-align: center;
+    }
+    &__logo {
+        width: 280px;
+    }
+    &__accueil {
+        width: 100%;
+        box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
+        // background-image: url('/public/images/th6.jpeg');.
+        // background-repeat: no-repeat;
+        // background-size: cover;
+        padding: 20px;
+    }
     &__categories {
         display: flex;
         flex-wrap: wrap;
@@ -39,406 +408,103 @@
             float: left;
         }
     }
-    padding: 50px;
-    &__title {
-        text-align: center;
-        padding: 10px;
-    }
-    &__subtitle {
-        font-size: 1.5em;
-        color: red;
-    }
-}
-.la-exchange-alt {
-    position: relative;
-    top: 3px;
-}
-.la-tag {
-    position: relative;
-    top: 1px;
-}
-.la-map-marker-alt {
-    position: relative;
-    top: 0px;
-}
-.la-heart {
-    margin-left: 10px;
 }
 
-.annonces {
-    display: flex;
-    flex-wrap: w;
-}
-.announces {
-    // width: 500px;
-    border: 1px solid lightblue;
-    border-radius: 10px;
-    margin: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
-    &__profile {
-        width: 100%;
-        margin: 0;
-        padding: 10px 20px;
-        // background-color: lightgreen;
-        display: flex;
-        align-items: baseline;
-        justify-content: space-between;
-        border-bottom: 1px solid lightcoral;
-        &__picture {
-            width: 50px;
-            border-radius: 50%;
-        }
-        &__username {
-            margin: 0;
-            // margin: 8px;
-        }
-        &__date {
-            margin: 0;
-            // margin: 5px;
-        }
-    }
+
+/* ---- PAGE MESSAGE LIST ---- */
+.search , .community {
+    position: relative;
+    top: 90px;
+    margin-bottom: 200px;
+    min-height: 80vh;
+    padding: 10px 20px 20px;
     &__title {
-        width: 100%;
-        padding: 20px 0 10px;
-        font-size: 1.2em;
-        font-weight: normal;
-        color: blue;
         text-align: center;
+        padding: 20px;
     }
-    &__picture {
-        width: 200px;
-        height: 120px;
-        margin: 5px 10px 10px 15px;
+    &__form {
+        max-width: 1300px;
+        margin: 0 auto;
+        box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
+        &__list {
+            list-style-type: none;
+            // border: 1px solid #f37646;
+            background-color: rgb(255, 153, 0);
+            display: flex;
+            align-items: center;
+            padding: 25px 10px 10px;
+            justify-content: center;
+            &__item {
+                margin: 0 5px;
+                padding: 8px;
+                border-radius: 5px;
+                & input {
+                    background-color: white;
+                    box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
+                    &::placeholder {
+                        // color: lightgrey;
+                    }
+                }
+            }
+        }
+        &__button {
+            // background-color: #f37646;
+            padding: 6px;
+            border-radius: 5px;
+            margin: 0 10px 15px;
+        }
     }
-    &__description {
-        font-size: 1em;
-        // float: left;
-        padding: 0 10px;
+    &__content {
+        max-width: 1300px;
+        margin: 0 auto;
+        margin-top: -18px;
+        display: flex;
+        border: 3px solid rgb(255, 153, 0);
+        box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
+        &__announces {
+            // width: calc(100% - 270px);
+            width: 950px;
+            margin: 0;
+            padding: 0;
+        }
+        &__announce {
+            width: 100%;
+            border: 1px solid rgb(66, 0, 128);
+            box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
+            border-radius: 5px;
+            margin: 10px;
+            background-color: white;
+        }
     }
     &__categories {
-        list-style-type: none;
-        padding: 0 15px;
-        width: 100%;
-    }
-    &__propose {
-        margin: 0;
-        font-size: .9em;
-    }
-    &__category {
-        margin: 0;
-        font-size: .9em;
-    }
-    &__city {
-        margin: 0;
-        font-size: .9em;
-    }
-    &__button {
-        display: block;
-        margin: 0 auto;
-        border-radius: 20px;
-        margin-bottom: 20px;
-        &__link {
-            text-decoration: none;
-        }
-    }
-}
-
-.users {
-    display: flex;
-    flex-wrap: wrap;
-}
-
-.user {
-    // width: 610px;
-    border: 1px solid lightblue;
-    margin: 10px;
-    padding: 10px;
-    border-radius: 10px;
-    box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
-    cursor: pointer;
-        &:hover {
-            transform: translate3d(0, -10px, 0);
-            color: initial;
-        }
-    &__infos {
-        display: flex;
-        align-items: center;
-    }
-    &__info {
-        list-style-type: none;
-        padding: 0 10px;
-        &__picture {
-            width: 80px;
-            border-radius: 50%;
-        }
-        &__city {
-            margin: 0;
-            font-size: .9em;
-        }
-        &__username {
-            margin: 0;
-            font-size: .9em;
-        }
-    }
-    
-    &__propose {
-        width: 100%;
-        margin: 0;
-    }
-    &__research {
-        width: 100%;
-        margin: 0;
-    }
-}
-
-/* ---- VUE D'UNE ANNONCE ----*/
-.announce {
-    position: relative;
-    top: 90px;
-    &__title {
-        text-align: center;
-        padding: 20px;
-    }
-    &__pictures {
-        display: flex;
-        justify-content: center;
-    }
-    &__picture {
-        // display: block;
-        width: 100%;
-        height: 350px;
-        padding: 20px;
-    }
-}
-
-/* ---- PAGE LOGIN ---- */
-.login {
-    position: relative;
-    top: 90px;
-    min-height: 80vh;
-    &__form {
-        max-width: 600px;
-        background-color: white;
-        // border: 2px solid aqua;
-        margin: 0 auto;
-        margin-top: 150px;
-        display: flex;
-        flex-wrap: wrap;
-        padding: 20px;
+        width: 300px;
+        margin-right: 20px;
+        border: 1px solid rgb(255, 153, 0);
         box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
-        border-bottom: 7px solid #f37646;
-        border-top: 7px solid #f37646;
-        border-left: 3px solid #f37646;
-        border-right: 3px solid #f37646;
-        border-radius: 20px;
-        // background: linear-gradient(145deg, #f37646, #f3e946) center center no-repeat;
-        &__top {
+        &__title {
             text-align: center;
-            width: 100%;
-            &__title {
-                font-family: "parisienne";
-                font-size: 2.5em;
-                letter-spacing: .1em;
-                color: rgb(42, 42, 148);
-                // color: purple;
-                text-shadow: 1px 1px 1px;
-            }
-            &__text {
+            padding: 10px;
+        }
+        &__name {
+            text-align: center;
+            font-size: 1.2em;
+            padding: 10px;
+            background-color: lighten($color: rgb(255, 153, 0), $amount: 5);
+        }
+        &__list {
+            list-style: none;
+            padding: 0;
+            &__item {
+                font-size: 1.2em;
+                margin: 0;
+                text-align: center;
                 padding: 10px;
-                letter-spacing: .1em;
-                font-size: 1.2em;
+                transition: all 1s;
+                &:hover {
+                    background-color: rgb(255, 153, 0);
+                    color: white;
+                }
             }
-        }
-        &__bottom {
-            width: 100%;
-            text-align: center;
-            margin-top: 20px;
-            &__text {
-                font-size: 1.2em;
-            }
-            &__link {
-                font-size: 1em;
-                color: rgb(42, 42, 148);
-            }
-        }
-        &__forgotten {
-            width: 100%;
-            display: flex;
-            justify-content: center;
-        }
-        &__link {
-            width: 100%;
-            font-size: 1.2em;
-            text-shadow: 1px 0px 0px;
-            color: rgb(42, 42, 148);
-        }
-        &__label {
-            width: 100%;
-            font-size: 1.2em;
-            margin: 0 10px;
-        }
-        &__input {
-            width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 10px;
-        }
-        &__checkbox {
-            width: 100%;
-            font-size: 1.2em;
-        }
-        &__button {
-            display: block;
-            margin: 0 auto;
-            padding: 10px;
-            border-bottom: 5px solid #f37646;
-            box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
-            border-top: 5px solid #f37646;
-            // border-left: 3px solid #f37646;
-            // border-right: 3px solid #f37646;
-            border-radius: 10px;
-            margin-top: 20px;
-            letter-spacing: .1em;
-            background-color: white;
-            transition: all 1s ease-out;
-            &:hover {
-                animation: buttonAnimate 1s forwards;
-            }
-        }
-    }
-}
-
-/* ---- PAGE FORGOTTEN PASSWORD ---- */
-.forgotten, .reset {
-    position: relative;
-    top: 90px;
-    min-height: 75vh;
-    &__title {
-        font-family: "parisienne";
-        font-size: 2.5em;
-        letter-spacing: .1em;
-        color: rgb(42, 42, 148);
-        // color: purple;
-        text-shadow: 1px 1px 1px;
-    }
-    &__form {
-        max-width: 600px;
-        background-color: white;
-        margin: 0 auto;
-        margin-top: 150px;
-        padding: 20px;
-        box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
-        border-bottom: 7px solid #f37646;
-        border-top: 7px solid #f37646;
-        border-left: 3px solid #f37646;
-        border-right: 3px solid #f37646;
-        border-radius: 20px;
-        &__label {
-            width: 100%;
-            margin: 0 10px;
-            font-size: 1.2em;
-        }
-        &__input {
-            width: 100%;
-            padding: 10px;
-            border-radius: 5px;
-            margin: 10px;
-            &:focus {
-                border: 5px solid red;
-            }
-            &:focus-within {
-                border: 5px solid lightblue;
-            }
-        }
-        &__button {
-            display: block;
-            margin: 0 auto;
-            font-size: 1.2em;
-            padding: 5px 20px;
-            border-bottom: 5px solid #f37646;
-            box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
-            border-top: 5px solid #f37646;
-            // border-left: 3px solid #f37646;
-            // border-right: 3px solid #f37646;
-            border-radius: 10px;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            letter-spacing: .1em;
-            background-color: white;
-            transition: all 1s ease-out;
-            &:hover {
-                animation: buttonAnimate 1s forwards;
-            }
-        }
-    }
-}
-
-/* ---- PAGE CREATE-ACCOUNT ---- */
-.register {
-    position: relative;
-    top: 90px;
-    padding: 20px;
-    margin-bottom: 120px;
-    min-height: 83vh;
-    &__form {
-        max-width: 600px;
-        background-color: white;
-        // border: 2px solid aqua;
-        margin: 0 auto;
-        margin-top: 30px;
-        display: flex;
-        flex-wrap: wrap;
-        padding: 20px;
-        box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
-        border-bottom: 7px solid #f37646;
-        border-top: 7px solid #f37646;
-        border-left: 3px solid #f37646;
-        border-right: 3px solid #f37646;
-        border-radius: 20px;
-        &__top {
-            text-align: center;
-            width: 100%;
-            &__title {
-                font-family: "parisienne";
-                font-size: 2.5em;
-                letter-spacing: .1em;
-                color: rgb(42, 42, 148);
-                // color: purple;
-                text-shadow: 1px 1px 1px;
-            }
-            &__text {
-                font-size: 1.2em;
-            }
-        }
-        &__button {
-            display: block;
-            margin: 0 auto;
-            font-size: 1.2em;
-            padding: 5px 20px;
-            border-bottom: 5px solid #f37646;
-            box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
-            border-top: 5px solid #f37646;
-            // border-left: 3px solid #f37646;
-            // border-right: 3px solid #f37646;
-            border-radius: 10px;
-            margin-top: 30px;
-            margin-bottom: 20px;
-            letter-spacing: .1em;
-            background-color: white;
-            transition: all 1s ease-out;
-            &:hover {
-                animation: buttonAnimate 1s forwards;
-            }
-        }
-        &__agree {
-            font-size: 1.2em;
-        }
-        &__text {
-            font-size: 1.2em;
-            margin-top: -20px;
-            padding-left: 28px;
         }
     }
 }

@@ -51,7 +51,23 @@ class ProfileRepository extends ServiceEntityRepository
      */
     public function findAllVisibleQuery(ProfileSearch $search)
     {
-        $query = $this->createQueryBuilder('profile');
+        $query = $this  ->createQueryBuilder('profile')
+                        ->leftjoin('profile.propose', 'propose')
+                        ->addSelect('propose')
+                        ->leftjoin('propose.category', 'category')
+                        ->addSelect('category');
+
+        if ($search->getCategory()) {
+            $query->andWhere('category IN(:categories)')
+            ->setParameter(':categories', $search->getCategory());
+        }
+        
+        if ($search->getSubCategory()) {
+            $query
+                ->andWhere('propose IN(:subCategory)')
+                ->setParameter('subCategory', $search->getSubCategory());
+        }
+
 
         if ($search->getLat() && $search->getLng() && $search->getDistance()) {
             $query = $query
@@ -77,8 +93,8 @@ class ProfileRepository extends ServiceEntityRepository
 
     public function findAllOrderedByDate()
     {
-        $queryBuilder = $this->createQueryBuilder('announcement');
-        $queryBuilder->orderBy('announcement.createdAt', 'desc');
+        $queryBuilder = $this->createQueryBuilder('profile');
+        $queryBuilder->orderBy('profile.createdAt', 'desc');
         $queryBuilder->setMaxResults('6');
         $query = $queryBuilder->getQuery();
 
