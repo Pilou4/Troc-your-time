@@ -264,9 +264,6 @@
 .myAnnounce {
     max-width: 1300px;
     margin: 0 auto;
-    position: relative;
-    top: 90px;
-    margin-bottom: 200px;
     display: flex;
     flex-wrap: wrap;
     &__title {
@@ -346,7 +343,7 @@
         &__title {
             font-family: "parisienne";
             font-size: 2em;
-            color: #f37646;
+            color: rgb(255, 153, 0);
             font-weight: bold;
             padding: 20px 10px;
         }
@@ -359,29 +356,29 @@
     }
     &__table {
         width: 100%;
-        border: 1px solid #f37646;
+        border: 1px solid rgb(255, 153, 0);
         &__thead {
             &__row {
-                border: 2px solid #f37646;
+                border: 2px solid rgb(255, 153, 0);
             }
             &__username {
-                border: 2px solid #f37646;
-                width: 15%;
+                border: 2px solid rgb(255, 153, 0);
+                // width: 15%;
                 text-align: center;
             }
             &__subject {
-                border: 2px solid #f37646;
-                width: 60%;
+                border: 2px solid rgb(255, 153, 0);
+                // width: 30%;
                 text-align: center;
             }
             &__date {
-                border: 2px solid #f37646;
-                width: 15%;
+                border: 2px solid rgb(255, 153, 0);
+                // width: 15%;
                 text-align: center;
             }
             &__actions {
-                border: 2px solid #f37646;
-                text-align: center;
+                border: 2px solid rgb(255, 153, 0);
+                // text-align: center;
                 width: 10%;
             }
         }

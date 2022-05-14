@@ -119,7 +119,6 @@ class AnnouncementRepository extends ServiceEntityRepository
         return $query->getQuery()->getSingleScalarResult();
     }   
 
-
     /**
      * @return Query
      */

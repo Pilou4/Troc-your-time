@@ -101,7 +101,31 @@ class ProfileRepository extends ServiceEntityRepository
         return $query->getResult();
     }
 
-    
+    public function findSenderMessage ($id) {
+        $query = $this->createQueryBuilder('profile');
+        $query->where(
+                $query->expr()->eq('profile.id', $id)
+            )
+            ->leftjoin('profile.sent', 'sender')
+            ->addSelect('sender')
+            ->andWhere('sender.is_sender_delete = 0')
+        ;
+        return $query->getQuery()->getResult();
+    }
+
+    public function findReceivedMessage ($id) {
+        $query = $this  
+            ->createQueryBuilder('profile');
+            $query->where(
+                $query->expr()->eq('profile.id', $id)
+            )
+            ->leftjoin('profile.received', 'received')
+            ->addSelect('received')
+            ->andWhere('received.is_recipient_delete = 0')
+        ;
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Profile[] Returns an array of Profile objects
     //  */

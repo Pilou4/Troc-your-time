@@ -87,7 +87,7 @@
                             {% endif %}
                             {{ announce.profile.username }}
                         </p>
-                        {% if announce.favorites %}
+                        {% if announce.favorites and app.user %}
                             {% set favoris = "" %}
                             {% for favories in announce.favorites %}
                                 {% if favories.id == app.user.profile.id %}
@@ -111,7 +111,7 @@
                                         "0"
                                     {% endif %}
                                 data-favoris=
-                                    {% if announce.favorites %}
+                                    {% if announce.favorites and app.user %}
                                         {{ favoris }}
                                     {% endif %}
                                 >

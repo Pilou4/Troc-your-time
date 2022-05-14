@@ -10,8 +10,8 @@
             <h1 class="message__contents__title">Messagerie de {{ app.user.profile.username }}</h1>
             <div class="message__content">
                 <h2 class="message__content__title">Résumer de ta messagerie</h2>
-                <p class="message__content__received">Vous avez reçus {{ app.user.profile.received|length }} message{{ app.user.profile.received|length < 1 ? '' : 's'}}</p>
-                <p class="message__content__sent">Vous avez envoyer {{ app.user.profile.sent|length }} message{{ app.user.profile.sent|length < 1 ? '' : 's'}}</p>
+                <p class="message__content__received">Vous avez reçus {{ received|length }} message{{ received|length <= 1 ? ' ' : 's'}}</p>
+                <p class="message__content__sent">Vous avez envoyer {{ sender|length }} message{{ sender|length <= 1 ? ' ' : 's'}}</p>
                 {# <button class="message__content__button">Voirs mes dossiers</button> #}
                 {# <button class="message__content__button"><a href="{{ path('message_send') }}" class="message__content__button__link">Envoyé un message</a></button> #}
             </div>

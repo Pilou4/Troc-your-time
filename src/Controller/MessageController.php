@@ -25,7 +25,7 @@ class MessageController extends AbstractController
     }
     
     #[Route('/list', name: 'list')]
-    public function list(): Response
+    public function list(ProfileRepository $profileRepository): Response
     {        
         /** @var $user instanceof User */
         $user = $this->security->getuser();
@@ -36,7 +36,30 @@ class MessageController extends AbstractController
         }
 
         return $this->render('message/list.html.twig', [
-            'controller_name' => 'MessageController',
+            'sender' => $profileRepository->findSenderMessage($user->getProfile()->getId()),
+            'received' => $profileRepository->findReceivedMessage($user->getProfile()->getId())
+        ]);
+    }
+
+    #[Route('/received', name: 'received')]
+    public function received(ProfileRepository $profileRepository): Response
+    {
+        /** @var $user instanceof User */
+        $user = $this->security->getuser();
+
+        return $this->render('message/received.html.twig', [
+            'received' => $profileRepository->findReceivedMessage($user->getProfile()->getId())
+        ]);
+    }
+
+    #[Route('/sent', name: 'sent')]
+    public function sent(ProfileRepository $profileRepository): Response
+    {
+        /** @var $user instanceof User */
+        $user = $this->security->getuser();
+
+        return $this->render('message/sent.html.twig', [
+            'sender' => $profileRepository->findSenderMessage($user->getProfile()->getId()),
         ]);
     }
 
@@ -108,17 +131,6 @@ class MessageController extends AbstractController
         ]);
     }
 
-    #[Route('/received', name: 'received')]
-    public function received(): Response
-    {
-        return $this->render('message/received.html.twig');
-    }
-
-    #[Route('/sent', name: 'sent')]
-    public function sent(): Response
-    {
-        return $this->render('message/sent.html.twig');
-    }
 
     #[Route('/basket', name: 'basket')]
     public function basket(): Response
@@ -135,6 +147,49 @@ class MessageController extends AbstractController
         $this->entityManager->flush();
 
         return $this->render('message/read.html.twig', compact("message"));
+    }
+
+    #[Route('/delete/{id}', name: 'delete', requirements: ['id' => '\d+'])]
+    public function delete(Message $message)
+    {
+        /** @var $user instanceof User */
+        $user = $this->security->getuser();
+
+        // Si l'utilisateur à envoyé le message
+        if ($message->getSender()->getId() == $user->getId()) {
+            if ($message->getIsRecipientDelete() == true ) {
+                $this->entityManager->remove($message);
+                $this->entityManager->flush();
+
+                $this->addFlash("success", "Le message a bien été supprimée");
+                return $this->redirectToRoute('message_list');
+            }
+            else {
+                $message->setIsSenderDelete(true);
+                $this->entityManager->flush();
+                $this->addFlash("success", "Le message a bien été supprimée");
+                return $this->redirectToRoute('message_list');
+            }
+        }
+
+        // Si l'utilisateur à reçu le message
+        if ($message->getRecipient()->getId() == $user->getId()) {
+            if ($message->getIsSenderDelete() == true) {
+                $this->entityManager->remove($message);
+                $this->entityManager->flush();
+
+                $this->addFlash("success", "Le message a bien été supprimée");
+                return $this->redirectToRoute('message_list');
+            }
+            else {
+                $message->setIsRecipientDelete(true);
+                $this->entityManager->flush();
+                $this->addFlash("success", "Le message a bien été supprimée");
+                return $this->redirectToRoute('message_list');
+            }
+        }
+        
+        return $this->redirectToRoute('message_list');
     }
 
 }

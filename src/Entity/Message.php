@@ -46,6 +46,12 @@ class Message
     #[ORM\ManyToOne(targetEntity: Announcement::class, inversedBy: 'message')]
     private $announcement;
 
+    #[ORM\Column(type: 'boolean')]
+    private $is_sender_delete = 0;
+
+    #[ORM\Column(type: 'boolean')]
+    private $is_recipient_delete = 0;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -146,4 +152,29 @@ class Message
 
         return $this;
     }
+
+    public function getIsSenderDelete(): ?bool
+    {
+        return $this->is_sender_delete;
+    }
+
+    public function setIsSenderDelete(bool $is_sender_delete): self
+    {
+        $this->is_sender_delete = $is_sender_delete;
+
+        return $this;
+    }
+
+    public function getIsRecipientDelete(): ?bool
+    {
+        return $this->is_recipient_delete;
+    }
+
+    public function setIsRecipientDelete(bool $is_recipient_delete): self
+    {
+        $this->is_recipient_delete = $is_recipient_delete;
+
+        return $this;
+    }
+
 }

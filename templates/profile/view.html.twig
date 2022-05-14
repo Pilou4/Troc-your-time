@@ -106,7 +106,7 @@
                         <li class="annonce__category"><i class="las la-tag"></i> {{ announce.subCategory.category.name }} / {{ announce.subCategory.name }}</li>
                         <li class="annonce__city"><i class="las la-map-marker-alt"></i> {{ announce.region }} / {{ announce.department }} / {{ announce.city }}</li>
                     </ul>
-                    <button><a href="{{ path('announcement_view', { 'id': announce.id }) }}">consulter</a></button>
+                    <button><a href="{{ path('announcement_view', { 'id': announce.id, 'slug': announce.slug }) }}">consulter</a></button>
                 </article>
                 {% endfor %}
         {% endif %}
