@@ -45,6 +45,31 @@ class MessageRepository extends ServiceEntityRepository
         }
     }
 
+    public function findSenderMessage ($id) {
+        $query = $this->createQueryBuilder('message');
+        $query->where(
+                $query->expr()->eq('message.id', $id)
+            )
+            ->andWhere('message.is_sender_delete = 0')
+            ->leftjoin('message.sender', 'sender')
+            ->addSelect('sender')
+        ;
+        return $query->getQuery()->getResult();
+    }
+
+    public function findReceivedMessage ($id) {
+        $query = $this  
+            ->createQueryBuilder('message');
+            $query->where(
+                $query->expr()->eq('message.id', $id)
+            )
+            ->andWhere('message.is_recipient_delete = 0')
+            ->leftjoin('message.recipient', 'recipient')
+            ->addSelect('recipient')
+        ;
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Message[] Returns an array of Message objects
     //  */

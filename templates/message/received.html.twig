@@ -11,7 +11,7 @@
 
             <div class="message__content">
                 <h2 class="message__content__title">Boite de Réception</h2>
-                <p class="message__content__received">Vous avez reçus {{ received|length }} message{{ received|length > 1 ? "s" : "" }}</p>
+                <p class="message__content__received">Vous avez reçus {{ messages|length }} message{{ messages|length > 1 ? "s" : "" }}</p>
                 <table class="message__table">
                     <thead class="message__table__thead">
                         <tr class="message__table__thead__row">
@@ -22,24 +22,22 @@
                         </tr>
                     </thead>
                     <tbody class="message__table__body">
-                        {% for message in received %}
-                            {% if message.isRecipientDelete == false %}
-                                {% if message.isRead == 0 %}
-                                    {% set bold = "bold" %}
-                                {% else %}
-                                    {% set bold = "" %}
-                                {% endif %}
-                                <tr class="message__table__body__row">
-                                    <td class="{{bold ~  ' message__table__tbody__username'}}">{{ message.sender.username }}</td>
-                                    <td class="{{bold ~  ' message__table__tbody__subject'}}">{{ message.title }}</td>
-                                    <td class="{{bold ~  ' message__table__tbody__date'}}">{{ message.createdAt|date('d-m-Y') }}</td>
-                                    <td class="message__table__tbody__actions">
-                                        <a href="{{ path('message_contact', {'username': message.sender.username}) }}"><i class="las la-reply la-2x"></i></a>
-                                        <a href="{{ path('message_read', {id: message.id}) }}"><i class="lab la-readme la-2x"></i></a>
-                                        <a href="{{ path('message_delete', {id: message.id}) }}"  onClick="return confirm('Confirmez la suppression');"><i class="las la-trash la-2x"></i></a>
-                                    </td>
-                                </tr>
+                        {% for message in messages %}
+                            {% if message.isRead == 0 %}
+                                {% set bold = "bold" %}
+                            {% else %}
+                                {% set bold = "" %}
                             {% endif %}
+                            <tr class="message__table__body__row">
+                                <td class="{{bold ~  ' message__table__tbody__username'}}">{{ message.sender.username }}</td>
+                                <td class="{{bold ~  ' message__table__tbody__subject'}}">{{ message.title }}</td>
+                                <td class="{{bold ~  ' message__table__tbody__date'}}">{{ message.createdAt|date('d-m-Y') }}</td>
+                                <td class="message__table__tbody__actions">
+                                    <a href="{{ path('message_contact', {'username': message.sender.username}) }}"><i class="las la-reply la-2x"></i></a>
+                                    <a href="{{ path('message_read', {id: message.id}) }}"><i class="lab la-readme la-2x"></i></a>
+                                    <a href="{{ path('message_delete', {id: message.id}) }}"  onClick="return confirm('Confirmez la suppression');"><i class="las la-trash la-2x"></i></a>
+                                </td>
+                            </tr>
                         {% endfor %}
                     </tbody>
                 </table>

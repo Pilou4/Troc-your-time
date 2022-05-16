@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Message;
 use App\Form\MessageType;
+use App\Repository\MessageRepository;
 use App\Repository\ProfileRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -25,41 +26,63 @@ class MessageController extends AbstractController
     }
     
     #[Route('/list', name: 'list')]
-    public function list(ProfileRepository $profileRepository): Response
+    public function list(MessageRepository $messageRepository): Response
     {        
         /** @var $user instanceof User */
         $user = $this->security->getuser();
 
+        $recipientMessages = $messageRepository->findBy([
+            'recipient' => $user->getProfile(),
+            'is_recipient_delete' => 0
+        ]);
+
+        $senderMessages = $messageRepository->findBy([
+            'sender' => $user->getProfile(),
+            'is_sender_delete' => 0
+        ]);
+        
         if (!$user->getProfile()) {
             $this->addFlash('message', "Vous devez compléter votre profil pour accéder à la messagerie");
             return $this->redirectToRoute('profile_add');
         }
 
         return $this->render('message/list.html.twig', [
-            'sender' => $profileRepository->findSenderMessage($user->getProfile()->getId()),
-            'received' => $profileRepository->findReceivedMessage($user->getProfile()->getId())
+            'sender' => $senderMessages,
+            'received' => $recipientMessages
         ]);
     }
 
     #[Route('/received', name: 'received')]
-    public function received(ProfileRepository $profileRepository): Response
+    public function received(MessageRepository $messageRepository): Response
     {
         /** @var $user instanceof User */
         $user = $this->security->getuser();
+        $messages = $messageRepository->findBy([
+            'recipient' => $user->getProfile(),
+            'is_recipient_delete' => 0
+        ]);
+
+        // dd($message);
+        // dd($profileRepository->findReceivedMessage($user->getProfile()->getId()));
 
         return $this->render('message/received.html.twig', [
-            'received' => $profileRepository->findReceivedMessage($user->getProfile()->getId())
+            'messages' => $messages
         ]);
     }
 
     #[Route('/sent', name: 'sent')]
-    public function sent(ProfileRepository $profileRepository): Response
+    public function sent(MessageRepository $messageRepository): Response
     {
         /** @var $user instanceof User */
         $user = $this->security->getuser();
 
+        $messages = $messageRepository->findBy([
+            'sender' => $user->getProfile(),
+            'is_sender_delete' => 0
+        ]);
+
         return $this->render('message/sent.html.twig', [
-            'sender' => $profileRepository->findSenderMessage($user->getProfile()->getId()),
+            'messages' => $messages
         ]);
     }
 
