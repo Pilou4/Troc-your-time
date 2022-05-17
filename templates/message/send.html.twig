@@ -1,15 +1,22 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello AnnouncementController!{% endblock %}
+{% block title %}Contacter un autre utilisateur !{% endblock %}
 
 {% block body %}
-<main class="announcementAdd">
-    <h1 class="announcementAdd__title">Ajouter une annonces</h1>
-    <div class="profileAdd__form">        
+<main class="message">
+    <div class="message__form">
+        <h1 class="message__form__title">Ajouter une annonces</h1>
         {{ form_start(form) }}
         {{ form_widget(form) }}
-        <input type="submit" value="Valider" class="profileAdd__form__button">
+        <input type="submit" value="Valider" class="message__form__button">
         {{ form_end(form) }}
     </div>
+    <form action="{{ path('message_ping') }}" method="post">
+        <button>ping !</button>
+    </form>
+    <form action="{{ path('message_ping', {user: app.user.profile.id}) }}" method="post">
+        <button>ping !</button>
+    </form>
+</main>
 </main>
 {% endblock %}

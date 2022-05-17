@@ -37,3 +37,7 @@ services:
     App\Service\Uploader:
         arguments:
             $uploadedFileDirectory: '%file_directory%'
+
+    App\Service\MercureCookieGenerator:
+        arguments:
+            $secret: '%env(MERCURE_JWT_SECRET)%'

@@ -46,6 +46,7 @@ import './js/message';
 import './js/favorite';
 import './js/tomSelect';
 import './js/modules/carousel';
+import './js/modules/mercure';
 import './js/form';
 
 // any CSS you import will output into a single css file (app.css in this case)

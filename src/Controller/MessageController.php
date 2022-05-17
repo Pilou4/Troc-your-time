@@ -4,15 +4,22 @@ namespace App\Controller;
 
 use App\Entity\Message;
 use App\Form\MessageType;
+use App\Form\MessageUsernameType;
 use App\Repository\MessageRepository;
 use App\Repository\ProfileRepository;
+use Symfony\Component\Mercure\Update;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Messenger\MessageBusInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use ApiPlatform\Core\Bridge\Doctrine\EventListener\PublishMercureUpdatesListener;
+use App\Entity\User;
+use App\Service\MercureCookieGenerator;
+use Symfony\Component\Serializer\SerializerInterface;
 
 #[Route('/message', name: 'message_'), IsGranted("ROLE_USER")]
 class MessageController extends AbstractController
@@ -122,21 +129,29 @@ class MessageController extends AbstractController
     }
 
     #[Route('/send', name: 'send')]
-    public function send(Request $request): Response
+    public function send(
+            Request $request,
+            MercureCookieGenerator $cookieGenerator,
+            MessageBusInterface $bus,
+            ?User $user = null,
+            SerializerInterface $serializer
+        ): Response
     {
+
         /** @var $user instanceof User */
         $user = $this->security->getuser();
 
         if (!$user->getProfile()) {
             $this->addFlash('message', "Vous devez compléter votre profil pour envoyer un message");
-            return $this->redirectToRoute('profile_add');
+            $response = $this->redirectToRoute('profile_add');
+
+            $response->headers->set('set-cookie', $cookieGenerator->generate($this->getUser()));
+            return $response;
         }
         
         $message = new Message();
-        /** @var $user instanceof User */
-        $user = $this->security->getuser();
 
-        $form = $this->createForm(MessageType::class, $message);
+        $form = $this->createForm(MessageUsernameType::class, $message);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -146,6 +161,18 @@ class MessageController extends AbstractController
             $this->entityManager->flush();
 
             $this->addFlash('success', "Votre message à bien été envoyer");
+            $target = '';
+            if ($user !== null) {
+                $target= "http://troc-service.fr/ping/user/{$user->getProfile()->getId()}";
+            }
+
+            $update = new Update(
+                "http://troc-service.fr/ping", 
+                $serializer->serialize($user->getProfile(), 'json', ['groups' => 'ping']), 
+                $private=false,
+                $target
+            );
+            $bus->dispatch($update);
             return $this->redirectToRoute('message_list');
         }
 
@@ -153,7 +180,23 @@ class MessageController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+    #[Route('/ping/{user}', name: 'ping', methods: ["POST"])]
+    public function ping(MessageBusInterface $bus, ?User $user = null, SerializerInterface $serializer)
+    {   
+        $target = '';
+        if ($user !== null) {
+            $target= "http://troc-service.fr/ping/user/{$user->getProfile()->getId()}";
+        }
 
+        $update = new Update(
+            "http://troc-service.fr/ping", 
+            $serializer->serialize($this->getUser()->getProfile(), 'json', ['groups' => 'ping']), 
+            $private=false,
+            $target
+        );
+        $bus->dispatch($update);
+        return $this->redirectToRoute('message_list');
+    }
 
     #[Route('/basket', name: 'basket')]
     public function basket(): Response

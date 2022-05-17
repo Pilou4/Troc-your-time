@@ -11,7 +11,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
-
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ProfileRepository::class)]
 #[UniqueEntity(fields: ['username'], message: "Nom d'utilisateur pas disponible")]
@@ -23,6 +23,7 @@ class Profile
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['ping'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 50)]
@@ -31,6 +32,7 @@ class Profile
     #[ORM\Column(type: 'string', length: 40)]
     #[Assert\Length(min:3, max:40, minMessage:"Le prénom doit contenir au minimun {{ limit }} caractères", maxMessage:"Le prénom ne peut pas dépasser {{ limit }} caractères")]
     #[Assert\Regex("/^[A-Za-z0-9]+[^\s!?\/.*#|]+(?:[A-Za-z0-9]+)*$/")] // [^\s!?\/.*#|]
+    #[Groups(['ping'])]
     private $username;
 
     #[ORM\Column(type: 'string', length: 100)]
