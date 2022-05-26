@@ -65,7 +65,7 @@ if (collection !== null) {
 /**
  * Ajout image au categorie
  */
-let categories = document.querySelectorAll('.homepage__category');
+let categories = document.querySelectorAll('#homepage-category');
 
 if (categories) {
     categories.forEach(category => {

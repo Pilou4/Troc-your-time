@@ -3,25 +3,27 @@
 namespace App\Controller;
 
 use App\Entity\Message;
+use App\Entity\Category;
 use App\Entity\Announcement;
 use App\Form\AnnouncementType;
 use App\Entity\AnnouncementSearch;
-use App\Entity\Category;
 use App\Form\AnnouncementSearchType;
 use App\Form\AnnouncementMessageType;
 use App\Repository\ProfileRepository;
-use Doctrine\ORM\EntityManagerInterface;
-use App\Repository\AnnouncementRepository;
 use App\Repository\CategoryRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\SubCategoryRepository;
+use App\Repository\AnnouncementRepository;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 #[Route('/announcement', name: 'announcement_')]
@@ -29,36 +31,37 @@ class AnnouncementController extends AbstractController
 {
     public function __construct(
         private EntityManagerInterface $entityManager,
-        private Security $security
+        private Security $security,
+        private MailerInterface $mailerInterface
         )
     {
     }
 
-    #[Route('/search', name: 'search')]
-    public function search(PaginatorInterface $paginator, Request $request, AnnouncementRepository $announcementRepository): Response
-    {
-        $search = new AnnouncementSearch();
-        $form = $this->createForm(AnnouncementSearchType::class, $search);
-        $form->handleRequest($request);
+    // #[Route('/search', name: 'search')]
+    // public function search(PaginatorInterface $paginator, Request $request, AnnouncementRepository $announcementRepository): Response
+    // {
+    //     $search = new AnnouncementSearch();
+    //     $form = $this->createForm(AnnouncementSearchType::class, $search);
+    //     $form->handleRequest($request);
 
-        $announcement = $paginator->paginate(
-            $announcementRepository->findAllVisibleQuery($search),
-            $request->query->getInt('page', 1),
-            2
-        );
+    //     $announcement = $paginator->paginate(
+    //         $announcementRepository->findAllVisibleQuery($search),
+    //         $request->query->getInt('page', 1),
+    //         2
+    //     );
 
-        return $this->render('announcement/search.html.twig', [
-            'announcements' => $announcement,
-            'form'          => $form->createView()
-        ]);
-    }
+    //     return $this->render('announcement/search.html.twig', [
+    //         'announcements' => $announcement,
+    //         'form'          => $form->createView()
+    //     ]);
+    // }
     
-    #[Route('/list', name: 'list')]
-    public function list(
+    #[Route('/search', name: 'search')]
+    public function search(
         PaginatorInterface $paginator,
         Request $request,
         AnnouncementRepository $announcementRepository,
-        CategoryRepository $categoryRepository
+        CategoryRepository $categoryRepository,
         ): Response
     {
         $search = new AnnouncementSearch();
@@ -77,7 +80,7 @@ class AnnouncementController extends AbstractController
         $announces = $paginator->paginate(
             $announcementRepository->findAllVisibleQuery($search, $subCategories),
             $request->query->getInt('page', 1),
-            2
+            3
         );
 
         if ($request->get("ajax")) {
@@ -90,7 +93,8 @@ class AnnouncementController extends AbstractController
             ]);
         }
 
-        return $this->render('announcement/list.html.twig', [
+        return $this->render('announcement/search.html.twig', [
+            'announcesAll' => $announcementRepository->findBy(['isOnline' => 1]),
             'announces'  => $announces,
             'categories' => $categoryRepository->findAll(),
             'form'       => $form->createView(),
@@ -229,16 +233,32 @@ class AnnouncementController extends AbstractController
         $form->handleRequest($request);
 
         /** @var $user instanceof User */
-        $user = $this->security->getuser();
+        $user = $this->security->getUser();
         if ($user->isVerified() === false) {
             $this->addFlash('error', "Adresse email non vérifié");
             return $this->redirectToRoute('homepage');
         }
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
             $this->entityManager->persist($announcement);
             $this->entityManager->flush();
+
+            $email = (new TemplatedEmail())
+                ->from($user->getEmail())
+                ->to("fred@frederic-caffier.fr")
+                ->subject('contact sur troc time')
+                ->htmlTemplate('contact/email.html.twig')
+                ->context([
+                    'firstname' => $user->getProfile()->getFirstname(),
+                    'lastname' => $user->getProfile()->getLastname(),
+                    'object' => "ATTENTES ANNONCES EN LIGNE",
+                    'mail' => $user->getEmail(),
+                    'message' => "Une annonce viens d'ếtre publié sur le site de TROC-SERVICE"
+                ]);
+            // Envoie du mail
+            $this->mailerInterface->send($email);
+
+
             $this->addFlash('success', "Votre annonce à bien été enregistrer");
             return $this->redirectToRoute('announcement_list');
         }
@@ -253,11 +273,30 @@ class AnnouncementController extends AbstractController
         $form = $this->createForm(AnnouncementType::class, $announcement);
         $form->handleRequest($request);
 
+        /** @var $user instanceof User */
+        $user = $this->security->getUser();
+
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $announcement->setIsOnline(false);
             $this->entityManager->persist($announcement);
             $this->entityManager->flush();
 
+            $email = (new TemplatedEmail())
+                ->from($user->getEmail())
+                ->to("fred@frederic-caffier.fr")
+                ->subject('contact sur troc time')
+                ->htmlTemplate('contact/email.html.twig')
+                ->context([
+                    'firstname' => $user->getProfile()->getFirstname(),
+                    'lastname' => $user->getProfile()->getLastname(),
+                    'object' => "ANNONCES MODIFIER A VÉRIFIER",
+                    'mail' => $user->getEmail(),
+                    'message' => "Une annonce viens d'ếtre publié sur le site de TROC-SERVICE"
+                ]);
+
+            // Envoie du mail
+            $this->mailerInterface->send($email);
             $this->addFlash('success', "L'annonce a bien été modifier");
             return $this->redirectToRoute('announcement_me');
         }
@@ -269,12 +308,19 @@ class AnnouncementController extends AbstractController
     #[Route('/delete/{id}', name: 'delete', requirements: ['id' => '\d+'])]
     public function delete(Announcement $announcement)
     {
-        // dd($announcement);
-        $this->entityManager->remove($announcement);
-        $this->entityManager->flush();
+         /** @var $user instanceof User */
+        $user = $this->security->getUser();
 
-        $this->addFlash("success", "L'annonce a bien été supprimée");
+        if ($announcement->getProfile()->getId() === $user->getProfile()->getId()) {
+            $this->entityManager->remove($announcement);
+            $this->entityManager->flush();
+            $this->addFlash("success", "L'annonce a bien été supprimée");
+            return $this->redirectToRoute('announcement_me');
+        }
 
+        $this->addFlash("error", "Vous ne pouvez pas supprimer l'annonce d'un autre utilisateur");
         return $this->redirectToRoute('announcement_me');
+
+        
     }
 }

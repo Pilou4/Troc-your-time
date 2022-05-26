@@ -7,109 +7,45 @@
 {% endblock %}
 {% block body %}
 <main class="profile">
-    <h1 class="profile__title">Profile de {{ profile.username }}</h1>
+    <button class="button__return"><i class="las la-arrow-left"></i> <a href="{{  app.request.headers.get('referer')}}" title="retour à la page précédente">retour</a></button>
+    <h1>Profile de {{ profile.username }}</h1>
     <section class="profile__user">
-        <div class="profile__user__info">
-            {% if profile.filename %}
-                <img src={{ vich_uploader_asset(profile, 'imageFile')}} alt="image de profil {{ profile.username }}" class="profile__user__picture">
-            {% else %}
-                <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil vide" class="profile__user__picture">
-            {% endif %}
-            <p class="profile__user__name">{{ profile.username }}</p>
-            <p class="profile__user__city"><i class="las la-map-marker-alt la-lg"></i> {{ profile.region ~ ' / ' ~ profile.department ~ ' / ' ~ profile.city }}</p>           
-        </div>
-        <div class="profile__user__change">
-            <div>
-                <p class="profile__user__propose">Je propose :</p>
-                <ul class="profile__user__propose__list">
-                    {% for propose in profile.propose %}
-                        <li class="profile__user__propose__list__item">{{ propose.name }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-            <div>
-                <p class="profile__user__research">Je recherche :</p>
-                <ul class="profile__user__research__list">
-                    {% for research in profile.research %}
-                        <li class="profile__user__research__list__item">{{ research.name }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        </div>
-        <button class="profile__user__button"><a href="{{ path('message_contact', {'username': profile.username }) }}" class="profile__user__button__link">Contacter</a></button>
+        {% if profile.filename %}
+            <img src={{ vich_uploader_asset(profile, 'imageFile')}} alt="image de profil {{ profile.username }}" class="profile__user__picture">
+        {% else %}
+            <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil vide" class="profile__user__picture">
+        {% endif %}
+        <ul>
+            <li><i class="las la-user-alt la-lg"></i> {{ profile.username }}</li>
+            <li><i class="las la-map-marker-alt la-lg"></i> {{ profile.region ~ ' / ' ~ profile.department ~ ' / ' ~ profile.city }}</li>
+            <li><i class="las la-clock la-lg"></i> inscrit le {{ profile.createdAt|date('d/m/Y') }}</li>
+        </ul>
     </section>
+    <section class="profile__service">
+        <ul>
+            <li><strong>Je propose :</strong></li>
+            {% for propose in profile.propose %}
+                <li>{{ propose.name }}</li>
+            {% endfor %}
+        </ul>
+        <ul>
+            <li><strong>Je recherche :</strong></li>
+            {% for research in profile.research %}
+                <li><i class="las la-search"></i> {{ research.name }}</li>
+            {% endfor %}
+        </ul>
+    </section>
+    <button class="profile__button"><a href="{{ path('message_contact', {'username': profile.username }) }}" class="profile__user__button__link">Me contacter</a></button>
     <section class="profile__announces">
-        <h2 class="profile__subtitle">Mes annonces</h2>
+        <h2>Mes annonces</h2>
         {% if profile.announcements|length == 0 %}
             <p class="profile__announce__text">Pas d'annonce pour le moment.</p>
         {% else %}
                 <p class="profile__announce__text">{{ profile.announcements|length }} annonces en ligne</p>
-                {% for announce in profile.announcements %}
-                    <article class="annonce">
-                    <aside class="annonce__profile">
-                        <p class="annonce__profile__username">
-                            {% if announce.profile.filename %}
-                                <img src={{ vich_uploader_asset(announce.profile, 'imageFile')}} alt="image de profil de {{ announce.profile.username }})" class="annonce__profile__picture">
-                            {% else %}
-                                <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil vide (grisé)" class="annonce__profile__picture">
-                            {% endif %}
-                            {{ announce.profile.username }}
-                        </p>
-                        {% if announce.favorites %}
-                            {% set favoris = "" %}
-                            {% for favories in announce.favorites %}
-                                {% if favories.id == app.user.profile.id %}
-                                    {% set favoris = favories.id %}
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
-                        <p class="annonce__profile__date">
-                            {{ announce.createdAt|date('d/m/Y') }}
-                            <i 
-                                class="lar la-heart"
-                                data-announce={{ announce.id }}
-                                data-profile=
-                                    {% if app.user %}
-                                        {% if app.user.profile %}
-                                            {{ app.user.profile.id }}
-                                        {% else %}
-                                            "00"
-                                        {% endif %}                                    
-                                    {% else %}
-                                        "0"
-                                    {% endif %}
-                                data-favoris=
-                                    {% if announce.favorites %}
-                                        {{ favoris }}
-                                    {% endif %}
-                                >
-                            </i>
-                        </p>
-                    </aside>
-                    <h2 class="annonce__title">{{ announce.title }}</h2>
-                    {% if announce.pictures %}
-                        {% for picture in announce.pictures %}
-                            {% if loop.first %}
-                                <img class="annonce__picture" src="{{ vich_uploader_asset(picture, 'imageFile')}}" alt="image de l'announces {{ announce.title }}">
-                            {% endif %}
-                        {% else %}
-                            <img class="annonce__picture" src="{{ asset('images/empty.png') }}" alt="image annonces vide">
-                        {% endfor %}
-                    {% endif %}
-                    <p class="annonce__content">{{ announce.description }}</p>
-                    <ul class="annonce__categories">
-                        <li class="search__content__announce__propose"><i class="las la-exchange-alt"></i> Je propose en échange : 
-                            {% for propose in announce.propose %}
-                                {{ propose.name }}{{ loop.last ? '.' : ','}}
-                            {% endfor %}
-                        </li>
-                        <li class="annonce__category"><i class="las la-tag"></i> {{ announce.subCategory.category.name }} / {{ announce.subCategory.name }}</li>
-                        <li class="annonce__city"><i class="las la-map-marker-alt"></i> {{ announce.region }} / {{ announce.department }} / {{ announce.city }}</li>
-                    </ul>
-                    <button><a href="{{ path('announcement_view', { 'id': announce.id, 'slug': announce.slug }) }}">consulter</a></button>
-                </article>
-                {% endfor %}
+                {% set announces = profile.announcements %}
+                {% include "partials/_card-announement.html.twig" %}
         {% endif %}
     </section>
+    
 </main>
 {% endblock %}

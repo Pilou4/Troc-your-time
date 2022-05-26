@@ -27,6 +27,7 @@ class UserSubscriber implements EventSubscriber
 
     public  function prePersist(LifecycleEventArgs $args) {
         $entity = $args->getObject();
+        
         $user  = $this->security->getUser();
         
         if ($entity instanceof Profile) {

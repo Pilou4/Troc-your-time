@@ -7,14 +7,16 @@
     {% include "message/partials/_nav.html.twig" %}
         <i class="las la-caret-square-right la-lg message__open" id="message-open"></i>
         <section class="message__contents">    
-            <h1 class="message__contents__title">Messagerie de {{ app.user.profile.username }}</h1>
+            <h1>Messagerie de {{ app.user.profile.username }}</h1>
             <div class="message__content">
-                <h2 class="message__content__title">{{ message.title }}</h2>
-                <p class="message__content__received">Message de {{ message.sender.username }}</p>
-                <p class="message__content__sent">Le {{ message.createdAt|date }}</p>
+                <h2>{{ message.title }}</h2>
+                <p>Message de {{ message.sender.username }}</p>
+                <p>Le {{ message.createdAt|date }}</p>
                 <p>{{ message.message }}</p>
-                <button class="message__content__button">Supprimer</button>
-                <button class="message__content__button"><a href="{{ path('message_contact',{'username': message.sender.username }) }}" class="message__content__button__link">Répondre</a></button>
+                <div class="message__buttons">
+                    <button><a href="{{ path('message_delete', {id: message.id}) }}"  onClick="return confirm('Confirmez la suppression');">Supprimer</a></button>
+                    <button><a href="{{ path('message_contact',{'username': message.sender.username }) }}">Répondre</a></button>
+                </div>
             </div>
         </section>
     </main>

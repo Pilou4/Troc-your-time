@@ -1,101 +1,67 @@
-{% for announce in announces %}
-    <article class="search__content__announce">
-        <aside class="announce__profile">
-            <p class="announce__profile__username">
-                {% if announce.profile.filename %}
-                    <img src={{ vich_uploader_asset(announce.profile, 'imageFile')}} alt="image de profil de {{ announce.profile.username }})" class="announce__profile__picture">
-                {% else %}
-                    <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil vide (grisé)" class="announce__profile__picture">
-                {% endif %}
-                {{ announce.profile.username }}
-            </p>
-            {% if announce.favorites %}
-                {% set favoris = "" %}
-                {% for favories in announce.favorites %}
-                    {% if favories.id == app.user.profile.id %}
-                        {% set favoris = favories.id %}
-                    {% endif %}
-                {% endfor %}
-            {% endif %}
-            <p class="announce__profile__date">
-                {{ announce.createdAt|date('d/m/Y') }}
-                <i 
-                    class="lar la-heart"
-                    data-announce={{ announce.id }}
-                    data-profile=
-                        {% if app.user %}
-                            {% if app.user.profile %}
-                                {{ app.user.profile.id }}
-                            {% else %}
-                                "00"
-                            {% endif %}                                    
-                        {% else %}
-                            "0"
-                        {% endif %}
-                    data-favoris=
-                        {% if announce.favorites %}
-                            {{ favoris }}
-                        {% endif %}
-                    >
-                </i>
-            </p>
-        </aside>
-        <h2 class="announce__title">{{ announce.title }}</h2>
-        <div class="announce__content">
+ {% for announce in announces %}
+    <article class="announceSearch">
+        <section class="announceSearch__picture">
             {% if announce.pictures %}
                 {% for picture in announce.pictures %}
                     {% if loop.first %}
-                        <img class="announce__content__picture" src="{{ vich_uploader_asset(picture, 'imageFile')}}" alt="image de l'announces {{ announce.title }}">
+                        <img class="announceSearch__img" src="{{ vich_uploader_asset(picture, 'imageFile')}}" alt="image de l'announces {{ announce.title }}">
                     {% endif %}
                 {% else %}
-                    <img class="announce__content__picture" src="{{ asset('images/empty.png') }}" alt="image announces vide">
+                    <img class="announceSearch__img" src="{{ asset('images/empty.png') }}" alt="image announces vide">
                 {% endfor %}
             {% endif %}
-            <p class="announce__content__text">{{ announce.description }}</p>
-        </div>
-        <p class="announce__propose"><strong><i class="las la-exchange-alt"></i> Je propose en échange :</strong> 
-            {% for propose in announce.propose %}
-                {{ propose.name }}{{ loop.last ? '.' : ','}}
-            {% endfor %}
-        </p>
-        <button class="announce__button"><a href="{{ path('announcement_view', { 'id': announce.id, 'slug': announce.slug }) }}" class="announce__button__link">Consulter</a></button>
-        <p class="announce__category"><i class="las la-tag"></i> {{ announce.subCategory.category.name }} / {{ announce.subCategory.name }}</p>
-        <p class="announce__city"><i class="las la-map-marker-alt"></i> {{ announce.region }} / {{ announce.department }} / {{ announce.city }}</p>
+        </section>
+        <section class="announceceSearch__content">
+            <aside>
+                <p class="announceSearch__profile">
+                    {% if announce.profile.filename %}
+                        <img src={{ vich_uploader_asset(announce.profile, 'imageFile')}} alt="image de profil de {{ announce.profile.username }})">
+                    {% else %}
+                        <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil vide (grisé)">
+                    {% endif %}
+                    {{ announce.profile.username }}
+                </p>
+                {% if announce.favorites and app.user and app.user.profile %}
+                    {% set favoris = "" %}
+                    {% for favories in announce.favorites %}
+                        {% if favories.id == app.user.profile.id %}
+                            {% set favoris = favories.id %}
+                        {% endif %}
+                    {% endfor %}
+                {% endif %}
+                <p>
+                    {{ announce.createdAt|date('d/m/Y') }}
+                    <i
+                        class="lar la-heart"
+                        data-announce={{ announce.id }}
+                        data-profile=
+                            {% if app.user %}
+                                {% if app.user.profile %}
+                                    {{ app.user.profile.id }}
+                                {% else %}
+                                    "00"
+                                {% endif %}
+                            {% else %}
+                                "0"
+                            {% endif %}
+                        data-favoris=
+                            {% if announce.favorites and app.user and app.user.profile %}
+                                {{ favoris }}
+                            {% endif %}
+                        >
+                    </i>
+                </p>
+            </aside>
+            <h3>{{ announce.title }}</h3>
+            <p class="announceSearch__description">{{ announce.description }}</p>
+            <p class="announceSearch__propose"><strong><i class="las la-exchange-alt"></i> Je propose en échange :</strong>
+                {% for propose in announce.propose %}
+                    {{ propose.name }}{{ loop.last ? '.' : ','}}
+                {% endfor %}
+            </p>
+            {# <button><a href="{{ path('announcement_view', { 'id': announce.id, 'slug': announce.slug }) }}" class="announce__button__link">Consulter</a></button> #}
+            <p class="announceSearch__category"><i class="las la-tag"></i> {{ announce.subCategory.category.name }} / {{ announce.subCategory.name }}</p>
+            <p class="announceSearch__city"><i class="las la-map-marker-alt"></i> {{ announce.region }} / {{ announce.department }} / {{ announce.city }}</p>
+        </section>
     </article>
 {% endfor %}
-<div class="pagination">
-    {{ knp_pagination_render(announces) }}
-</div>
-
-{# On crée des variables personnalisées #}
-{# {% set queryParams = app.request.query.all %}
-{% set queryString = queryParams|filter((v, k) => k != "page" and k != "ajax")|url_encode %}
-
-<ul class="pagination">
-    <li class="{{ (page == 1) ? 'disabled' : '' }}">
-        <a href="?page=1&{{queryString}}">
-            <i class="las la-step-backward"></i>
-        </a>
-    </li>    
-    <li class="{{ (page == 1) ? 'disabled' : '' }}">
-        <a href="{{ (page > 1) ? '?page=' ~ (page - 1) : '' }}&{{queryString}}">
-            <i class="las la-angle-left"></i>
-        </a>
-    </li>
-    {% set pages = (total / limit)|round(0, 'ceil') %}
-    {% for item in 1..pages %}
-        <li class="{{ (page == item) ? 'active' : '' }}">
-            <a href="?page={{ item }}&{{queryString}}">{{ item }}</a>
-        </li>
-    {% endfor %}
-    <li class="{{ (page == pages) ? 'disabled' : '' }}">
-        <a href="{{ (page < pages) ? '?page=' ~ (page + 1) : '' }}&{{queryString}}">
-            <i class="las la-angle-right"></i>
-        </a>
-    </li>
-    <li class="{{ (page == pages) ? 'disabled' : '' }}">
-        <a href="?page={{ pages }}&{{queryString}}">
-            <i class="las la-step-forward"></i>
-        </a>
-    </li>
-</ul> #}

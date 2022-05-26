@@ -1,29 +1,28 @@
-<header class="header">
-    <a href="#" class="header__icon" id="header__icon"></a>
-    <a href="{{ path('homepage') }}" class="header__link">
-        <img src="{{ asset('images/logo/troc-service6-sf.png') }}" alt="logo troc service" class="header__logo">
+<header>
+    <a href="#" id="header__icon"></a>
+    <a href="{{ path('homepage') }}" title="aller vers la page d'accueil" aria-selected={{ app.request.attributes.get('_route') == 'homepage' ? "true" : "false" }}>
+        <img src="{{ asset('images/logo/logo-test5.png') }}" alt="logo de troc service" id="logo">
+        {# accueil #}
     </a>
-    <nav class="header__nav">       
-        <button class="header__nav__button">
-            <a href="{{ path('announcement_add') }}" class="header__nav__button__link"></i><i class="las la-plus-circle la-lg"></i> Ajouter une annonce</a>
-        </button>
-            <a href="{{ path('profile_community') }}" class="header__nav__link">communauté</a>
-            <a href="{{ path('contact') }}" class="header__nav__link">contact</a>
-            <a href="{{ path('announcement_favorite') }}" class="header__nav__link">Favoris</a>
-            <a href="{{ path('message_list') }}" class="header__nav__link">Messages</a>
+    <nav class="menu" role="tablist">
+        <a href="{{ path('profile_community') }}" role="tab" aria-selected={{ app.request.attributes.get('_route') == 'profile_community' ? "true" : "false" }}>communauté</a>
+        <a href="{{ path('contact') }}" role="tab" aria-selected={{ app.request.attributes.get('_route') == 'contact' ? "true" : "false" }}>contact</a>
+        <a href="{{ path('announcement_favorite') }}" role="tab" aria-selected={{ app.request.attributes.get('_route') == 'announcement_favorite' ? "true" : "false" }}>Favoris</a>
+        <a href="{{ path('message_list') }}" role="tab" aria-selected={{ app.request.attributes.get('_route') == 'message_list' ? "true" : "false" }}>Messages</a>
         {% if app.user %}
             {% if app.user.profile == null %}
-                <a href="{{ path('profile_add') }}" class="header__nav__link">Compléter profil</a>
+                <a href="{{ path('profile_add') }}" aria-selected={{ app.request.attributes.get('_route') == 'profile_add' ? "true" : "false" }}>Compléter profil</a>
                 {% else %}
-                        <a href="{{ path('profile_me') }}" class="header__nav__link">Profil</a>
-                    {# <div class="header__nav__right__link">
-                        <p class="header__nav__right__icone"><i class="las la-user-tie la-2x"></i></p>
-                        <a href="{{ path('app_logout') }}" class="header__nav__link">Se déconnecter</a>
-                    </div> #}
+                        <a href="{{ path('profile_me') }}" aria-selected={{ app.request.attributes.get('_route') == 'profile_me' ? "true" : "false" }}>Profil</a>
             {% endif %}
         {% else %}
-            <a href="{{ path('app_login') }}" class="header__nav__link">Se connecter</a>
+            <a href="{{ path('app_login') }}" aria-selected={{ app.request.attributes.get('_route') == 'app_login' ? "true" : "false" }}>Se connecter</a>
         {% endif %}
-            {# <a href="{{ path('admin_dashboard') }}" class="header__nav__link">Admin</a> #}
+        {% if app.user and is_granted("ROLE_ADMIN") %}
+            <a href="{{ path('admin_dashboard') }}" aria-selected={{ app.request.attributes.get('_route') == 'admin_dashboard' ? "true" : "false" }}>Admin</a>
+        {% endif %}
     </nav>
+    {# <button>
+            <a href="{{ path('announcement_add') }}" role="tab"></i><i class="las la-plus-circle la-lg"></i> Ajouter une annonce</a>
+    </button> #}
 </header>

@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tableau de bord administration !{% endblock %}
+
+{% block body %}
+<main class="admin">
+    {% include "admin/partials/_nav.html.twig" %}
+    <i class="las la-caret-square-right la-lg admin__open" id="admin-open"></i>
+    <section class="admin__contents">
+        <h1>Liste de toutes les annonces</h1>
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th class="admin__description">Description</th>
+                    <th class="admin__date">Date de création</th>
+                    <th class="admin__online">En ligne</th>
+                    <th>Image</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for announce in announces %}
+                    <tr>
+                        <td>{{ announce.title }}</td>
+                        <td class="admin__description">{{ announce.description }}</td>
+                        <td class="admin__date">{{ announce.createdAt|date('d m Y') }}</td>
+                        <td class="admin__online">{{ announce.isOnline == true ? 'oui' : 'non' }}</td>
+                        <td>
+                            {% if announce.pictures %}
+                                {% for picture in announce.pictures %}
+                                    <img class="announce__content__picture" src="{{ vich_uploader_asset(picture, 'imageFile')}}" alt="image de l'announces {{ announce.title }}">
+                                {% else %}
+                                    <img class="announce__content__picture" src="{{ asset('images/empty.png') }}" alt="image announces vide">
+                                {% endfor %}
+                            {% endif %}
+                        </td>
+                        <td><a href="{{ path('announcement_view', {'id' : announce.id, 'slug': announce.slug }) }}">consulter</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+</main>
+{% endblock %}

@@ -242,7 +242,7 @@ if (document.getElementById('carousel1')) {
     document.addEventListener('DOMContentLoaded', function () {
         new Carousel(document.getElementById('carousel1'), {
             slidesToScroll: 1,
-            slidesVisible: 3,
+            slidesVisible: 2,
             // loop: true,
             pagination: false,
             // infinite: true,
@@ -255,7 +255,7 @@ if (document.getElementById('carousel1')) {
 if (document.getElementById('carousel2')) {
     document.addEventListener('DOMContentLoaded', function () {
         new Carousel(document.getElementById('carousel2'), {
-            slidesToScroll: 1,
+            slidesToScroll: 2,
             slidesVisible: 2,
             // loop: true,
             pagination: false,

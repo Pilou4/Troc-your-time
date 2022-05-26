@@ -9,9 +9,11 @@ use App\Repository\SubCategoryRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/admin/sub/category', name: 'admin_sub_')]
+#[IsGranted("ROLE_ADMIN")]
 class AdminSubCategoryController extends AbstractController
 {
     public function __construct(private EntityManagerInterface $entityManager)

@@ -4,14 +4,16 @@
 
 {% block body %}
 <main class="favorite">
-    <h1>Mes favoris</h1>
+    <h1>Mes annonces favorites</h1>
+    <button>retour</button>
     {% if app.user.profile.favorites %}
-        <p>test</p>
-        {% for favorite in app.user.profile.favorites %}
-            <article>
-                <h2>{{ favorite.title }}</h2>
-            </article>
-        {% endfor %}
+        <p>Vous avez {{ app.user.profile.favorites|length }} annonce{{ app.user.profile.favorites|length > 1 ? 's' }} en favoris</p>
+        <section class="favorite__announces">
+            {% set announces = app.user.profile.favorites %}
+            {% include "partials/_card-announement.html.twig" %}
+        </section>
+    {% else %}
+        <p>Vous n'avez pas d'annonce en favoris</p>
     {% endif %}
 </main>
 {% endblock %}

@@ -10,26 +10,26 @@
             <h1 class="message__contents__title">Messagerie de {{ app.user.profile.username}}</h1>
 
             <div class="message__content">
-                <h2 class="message__content__title">Messages envoyés</h2>
-                <p class="message__content__received">Vous avez envoyés: {{ messages|length }} message{{ messages|length > 1 ? "s" : "" }}</p>
-                <table class="message__table">
-                    <thead class="message__table__thead">
-                        <tr class="message__table__thead__row">
-                            <th class="message__table__thead__username">À</th>
-                            <th class="message__table__thead__subject">Sujet</th>
-                            <th class="message__table__thead__date">Date</th>
-                            <th class="message__table__thead__actions">Actions</th>
+                <h2>Messages envoyés</h2>
+                <p>Vous avez envoyés: {{ messages|length }} message{{ messages|length > 1 ? "s" : "" }}</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="message__username">À</th>
+                            <th class="message__subject">Sujet</th>
+                            <th class="message__date">Date</th>
+                            <th class="message__actions">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="message__table__body">
                         {% for message in messages %}
                             <tr class="message__table__body__row">
-                                <td class="message__table__tbody__username">{{ message.recipient.username }}</td>
-                                <td class="message__table__tbody__subject">{{ message.title }}</td>
-                                <td class="message__table__tbody__date">{{ message.createdAt|date('d-m-Y') }}</td>
-                                <td class="message__table__tbody__actions">
-                                    <a href="{{ path('message_read', {id: message.id}) }}"><i class="lab la-readme la-2x"></i></a>
-                                    <a href="{{ path('message_delete', {id: message.id}) }}"  onClick="return confirm('Confirmez la suppression');"><i class="las la-trash la-2x"></i></a>
+                                <td class="message__username">{{ message.recipient.username }}</td>
+                                <td class="message__subject">{{ message.title }}</td>
+                                <td class="message__date">{{ message.createdAt|date('d-m-Y') }}</td>
+                                <td class="message__actions">
+                                    <a href="{{ path('message_read', {id: message.id}) }}"><i class="lab la-readme la-lg"></i></a>
+                                    <a href="{{ path('message_delete', {id: message.id}) }}"  onClick="return confirm('Confirmez la suppression');"><i class="las la-trash-alt la-lg"></i></a>
                                 </td>
                             </tr>
                         {% endfor %}

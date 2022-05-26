@@ -4,49 +4,47 @@
 {% set queryParams = app.request.query.all %}
 {% set queryString = queryParams|filter((v, k) => k != "page" and k != "ajax")|url_encode %}
 {% block body %}
-    <main class="community">
-        <h1 class="community__title">Liste des membres de la commnuité</h1>
-        <section class="community__buttons">
-            <button class="community__buttons__item">
-                <a href="{{ path('announcement_list') }}">annonces</a>
-            </button>
-            <button class="community__buttons__item">
-                <a href="{{ path('profile_community') }}">membres</a>
-            </button>
-        </section>
-        <h2 class="community__subtitle">Il y a actuellement {{ profiles|length }} membres dans la communautés</h2>
-        <section class="community__form">
+    <main class="search">
+        <h1>Liste des membres de la communauté</h1>
+        <section class="search__form">
+            <h2>Il y a actuellement {{ profilesAll|length }} membres dans la communauté</h2>
             {{ form_start(form) }}
-                <ul class="community__form__list">
-                    <li class="community__form__list__item">{{ form_row(form.username) }}</li>
-                    <li class="community__form__list__item">{{ form_row(form.address, {id: 'search_address_profile'}) }}</li>
-                    <li class="community__form__list__item">{{ form_row(form.distance) }}</li>
-                    {# <li class="community__form__list__item">{{ form_row(form.category) }}</li> #}
-                    <li><button class="community__form__button">Rechercher</button></li>
+                <ul>
+                    <li>{{ form_row(form.username) }}</li>
+                    <li>{{ form_row(form.address, {id: 'search_address_profile'}) }}</li>
+                    <li>{{ form_row(form.distance) }}</li>
+                    <li><button>Rechercher</button></li>
                 </ul>    
             {{ form_end(form) }}
         </section>
-        <section class="community__content">
-            <div class="search__categories">
-                <h2 class="search__categories__title">Catégories</h2>
+        <div class="search__links">
+            <p>resultat de la recherche : {{ profiles|length }} profile{{ profiles|length > 1 ? 's'}} trouvé{{ profiles|length > 1 ? 's' }}</p>
+            <div>
+                <a href="{{ path('announcement_search') }}" aria-selected={{ app.request.attributes.get('_route') == 'announcement_search' ? "true" : "false" }}>annonces</a>
+                <a href="{{ path('profile_community') }}" aria-selected={{ app.request.attributes.get('_route') == 'profile_community' ? "true" : "false" }}>membres</a>
+            </div>
+        </div>
+        <section class="search__content">
+            <section class="search__categories">
+                <h3>Catégories</h3>
                 {% for category in categories %}
-                    <p class="search__categories__name"><a href="{{ path('profile_community') }}?category={{ category.id }} ">{{ category.name }}</a></p>
+                    <p><a href="{{ path('profile_community') }}?category={{ category.id }} ">{{ category.name }}</a></p>
                     {% for subCategory in category.subCategories %}
                         {% if queryParams and queryParams.subCategories is defined %}
                             {% set checked = (subCategory.id in queryParams.subCategories) ? "checked" : "" %}
                         {% else %}
                             {% set checked = "" %}
                         {% endif %}
-                            <ul class="search__categories__list">
-                                <li class="search__categories__list__item"><a href="{{ path('profile_community') }}?subCategory={{ subCategory.id }}">{{subCategory.name}} </a></li>
-                            </ul>
-                        {% endfor %}                
+                        <ul>
+                            <li><a href="{{ path('profile_community') }}?subCategory={{ subCategory.id }}">{{subCategory.name}} </a></li>
+                        </ul>
+                    {% endfor %}                
                 {% endfor %}
                 <input type="hidden" name="page" value="{{page}}">
-            </div>
+            </section>
 
-            <div class="search__content__announces" id="content">
-                {% include "profile/_content.html.twig" %}
+            <div class="search__users" id="content">
+                {% include "partials/_card-users.html.twig" %}
             </div>
         </section>
     </main>

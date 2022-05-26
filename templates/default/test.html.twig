@@ -4,7 +4,17 @@
 
 {% block body %}
 <main class="test">
-    <div class="div">
+    <section class="Pro">
+        <a href="{{ path('profile_avatar', { 'username': app.user.profile.username})}}">
+            {% if app.user.profile.filename %}
+                <img src={{ vich_uploader_asset(app.user.profile, 'imageFile')}} alt="image de profil (avatar)" class="me__user__picture">
+            {% else %}
+                <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil (avatar)" class="me__user__picture">
+            {% endif %}
+        </a>
+        <button>Voir mon profil public</button>
+    </section>
+    {# <div class="div">
         <article>
             <div class="div-1"></div>
             <div class="div-2"></div>
@@ -36,7 +46,7 @@
                 </div>
             </article>
     {% endfor %}
-    </div>
+    </div> #}
 
     {# <section class="test__accueil">
         <h1 class="test__title">Bienvenue sur <img src="{{ asset('images/logo/troc-service6-sf.png') }}" alt="logo troc service" class="test__logo"></h1>
@@ -47,7 +57,7 @@
             {# <a href="{{ path('create_account')}}">s'inscrire gratuitement.</a> 
         </p>
     </section> #}
-    <div class="annonces">
+    {# <div class="annonces">
         {% for announce in announcements %}
             <article class="annonce">
                 <aside class="annonce__profile">
@@ -112,7 +122,7 @@
                 </ul>
             </article>
         {% endfor %}
-    </div>
+    </div> #}
     {# <h2 class="homepage__subtitle">Dernières membres inscrits</h2>
         <section class="homepage__users">
             <div id="carousel2">

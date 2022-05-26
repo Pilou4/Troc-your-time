@@ -5,19 +5,25 @@
     margin-bottom: 200px;
     background-color: white;
     box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
-    &__title {
-        text-align: center;
-        padding: 20px;
-    }
+}
+
+.announcement__pictures {
+    display: flex;
+    justify-content: center;
+}
+
+.announcement__pictures img {
+    // display: block;
+    width: 100%;
+    height: 350px;
+    padding: 20px;
+}
+
+.announcement {
     &__pictures {
-        display: flex;
-        justify-content: center;
     }
     &__picture {
-        // display: block;
-        width: 100%;
-        height: 350px;
-        padding: 20px;
+        
     }
     &__description {
         text-align: center;
@@ -78,86 +84,5 @@
     }
 }
 
-/* ---- CARD ANNONCES ---- */
-.announce {
-    width: 600px;
-    border: 1px solid rgb(66, 0, 128);
-    box-shadow: 0 15px 35px #3232321a, 0 5px 15px #0000001a;
-    border-radius: 5px;
-    margin: 10px;
-    background-color: white;
-    &__profile {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        border-bottom: 2px solid rgb(66, 0, 128);
-        background-color: rgb(66, 0, 128);
-        color: white;
-        padding: 20px 20px 0;
-        &__picture {
-            width: 60px;
-            border-radius: 50%;
-            margin-right: 10px;
-        }
-    }
-    &__title {
-        text-align: center;
-        font-size: 1.5em;
-        color: rgb(66, 0, 128);
-        padding: 10px;
-    }
-    &__content {
-        display: flex;
-        padding: 10px;
-        &__picture {
-            width: 250px;
-            max-height: 150px;
-            margin: 10px;
-        }
-        &__text {
-            margin: 10px;
-        }
-    }
-    &__propose {
-        padding: 0 10px 5px;
-        & strong {
-            color: rgb(66, 0, 128);
-        }
-    }
-    &__button {
-        display: block;
-        border-radius: 20px;
-        padding: 5px 10px;
-        margin: 0 auto;
-        margin-bottom: 20px;
-        background-color: rgb(66, 0, 128);
-        transition: all .6s ease-out;
-        &:hover {
-            background-color: rgb(255, 153, 0);
-        }
-        &__link {
-            color: white;
-            &:hover {
-                color: white;
-            }
-        }
-    }
-    &__category {
-        border-top: 1px solid rgb(66, 0, 128);
-        margin: 0;
-        padding: 15px 10px 0;
-    }
-    &__city {
-        margin: 0;
-        padding: 0 10px 20px;
-    }
-    &__buttons {
-        display: flex;
-        justify-content: center;
-        &__link {
-            margin: 20px;
-        }
-    }
-}
 
 

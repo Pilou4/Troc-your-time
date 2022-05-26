@@ -1,0 +1,17 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier les services recherché de {{ app.user.profile.username }}{% endblock %}
+
+{% block body %}
+    <main class="usersForm">
+        <div class="usersForm__form">
+            <h1>Modifier Adresse! </h1>
+        
+            {{ form_start(form) }}
+            {{ form_widget(form) }}
+            <input type="submit" value="Valider">
+            {{ form_end(form) }}
+        </div>
+    </main>
+{% endblock %}
+

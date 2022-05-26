@@ -51,7 +51,7 @@ class AnnouncementSearchType extends AbstractType
             'label' => false,
             'required' => false,
             'attr' => [
-                'placeholder' => 'ville, régions ou département',
+                'placeholder' => 'ville, régions, département',
             ]
         ])
 

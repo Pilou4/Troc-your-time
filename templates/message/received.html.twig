@@ -7,18 +7,18 @@
         {% include "message/partials/_nav.html.twig" %}
         <i class="las la-caret-square-right la-lg message__open" id="message-open"></i>
         <section class="message__contents">
-            <h1 class="message__contents__title">Messagerie de {{ app.user.profile.username}}</h1>
+            <h1>Messagerie de {{ app.user.profile.username}}</h1>
 
             <div class="message__content">
-                <h2 class="message__content__title">Boite de Réception</h2>
-                <p class="message__content__received">Vous avez reçus {{ messages|length }} message{{ messages|length > 1 ? "s" : "" }}</p>
-                <table class="message__table">
-                    <thead class="message__table__thead">
-                        <tr class="message__table__thead__row">
-                            <th class="message__table__thead__username">De</th>
-                            <th class="message__table__thead__subject">Sujet</th>
-                            <th class="message__table__thead__date">Date</th>
-                            <th class="message__table__thead__actions">Actions</th>
+                <h2>Boite de Réception</h2>
+                <p>Vous avez reçus {{ messages|length }} message{{ messages|length > 1 ? "s" : "" }}</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="message__username">De</th>
+                            <th class="message__subject">Sujet</th>
+                            <th class="message__date">Date</th>
+                            <th class="message__actions">Actions</th>
                         </tr>
                     </thead>
                     <tbody class="message__table__body">
@@ -29,13 +29,13 @@
                                 {% set bold = "" %}
                             {% endif %}
                             <tr class="message__table__body__row">
-                                <td class="{{bold ~  ' message__table__tbody__username'}}">{{ message.sender.username }}</td>
-                                <td class="{{bold ~  ' message__table__tbody__subject'}}">{{ message.title }}</td>
-                                <td class="{{bold ~  ' message__table__tbody__date'}}">{{ message.createdAt|date('d-m-Y') }}</td>
-                                <td class="message__table__tbody__actions">
-                                    <a href="{{ path('message_contact', {'username': message.sender.username}) }}"><i class="las la-reply la-2x"></i></a>
-                                    <a href="{{ path('message_read', {id: message.id}) }}"><i class="lab la-readme la-2x"></i></a>
-                                    <a href="{{ path('message_delete', {id: message.id}) }}"  onClick="return confirm('Confirmez la suppression');"><i class="las la-trash la-2x"></i></a>
+                                <td class="{{bold ~  ' message__username'}}">{{ message.sender.username }}</td>
+                                <td class="{{bold ~  ' message__subject'}}">{{ message.title }}</td>
+                                <td class="{{bold ~  ' message__date'}}">{{ message.createdAt|date('d-m-Y') }}</td>
+                                <td class="message__actions">
+                                    <a href="{{ path('message_contact', {'username': message.sender.username}) }}"><i class="las la-reply la-lg"></i></a>
+                                    <a href="{{ path('message_read', {id: message.id}) }}"><i class="lab la-readme la-lg"></i></a>
+                                    <a href="{{ path('message_delete', {id: message.id}) }}"  onClick="return confirm('Confirmez la suppression');"><i class="las la-trash-alt la-lg"></i></a>
                                 </td>
                             </tr>
                         {% endfor %}

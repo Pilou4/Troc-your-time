@@ -5,9 +5,9 @@ Map.init();
 /**
  *  Responsive HEADER
  */
-const header = document.querySelector('.header');
-const nav = document.querySelector('.nav');
-const links = document.querySelectorAll('.header__nav__link');
+const header = document.querySelector('header');
+const nav = document.querySelector('.menu');
+const links = nav.querySelectorAll('a');
 
 // navbar responsive
 (function () {
@@ -40,13 +40,15 @@ const links = document.querySelectorAll('.header__nav__link');
  * (and its CSS file) in your base layout (base.html.twig).
  */
 import './js/modules/places'
+import './js/modules/carousel';
+import './js/modules/mercure';
+import './js/menu';
 import './js/category';
 import './js/announces';
 import './js/message';
+import './js/admin';
 import './js/favorite';
 import './js/tomSelect';
-import './js/modules/carousel';
-import './js/modules/mercure';
 import './js/form';
 
 // any CSS you import will output into a single css file (app.css in this case)

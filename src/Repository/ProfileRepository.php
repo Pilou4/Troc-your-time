@@ -86,6 +86,28 @@ class ProfileRepository extends ServiceEntityRepository
             );
             $query->setParameter('username', "%{$search->getUsername()}%");
         }
+
+        if ($search->getUsername() && $search->getSubCategory()) {
+            $query->where(
+                $query->expr()->orX(
+                    $query->expr()->like('profile.username', ':username'),
+                )
+            );
+            $query->setParameter('username', "%{$search->getUsername()}%");
+            $query->andWhere('propose IN(:subCategory)')
+                ->setParameter('subCategory', $search->getSubCategory());
+        }
+
+        if ($search->getUsername() && $search->getCategory()) {
+            $query->where(
+                $query->expr()->orX(
+                    $query->expr()->like('profile.username', ':username'),
+                )
+            );
+            $query->setParameter('username', "%{$search->getUsername()}%");
+            $query->andWhere('category IN(:categories)')
+            ->setParameter(':categories', $search->getCategory());
+        }
         // $query = $query->getQuery();
 
         return $query->getQuery()->getResult();

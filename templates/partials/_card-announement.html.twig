@@ -1,0 +1,69 @@
+ {% for announce in announces %}
+    <article class="announce">
+        <aside>
+            <p class="announce__profile">
+                {% if announce.profile.filename %}
+                    <img src={{ vich_uploader_asset(announce.profile, 'imageFile')}} alt="image de profil de {{ announce.profile.username }})">
+                {% else %}
+                    <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil vide (grisé)">
+                {% endif %}
+                {{ announce.profile.username }}
+            </p>
+            {% if announce.favorites and app.user and app.user.profile %}
+                {% set favoris = "" %}
+                {% for favories in announce.favorites %}
+                    {% if favories.id == app.user.profile.id %}
+                        {% set favoris = favories.id %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+            <p>
+                {{ announce.createdAt|date('d/m/Y') }}
+                <i 
+                    class="lar la-heart"
+                    data-announce={{ announce.id }}
+                    data-profile=
+                        {% if app.user %}
+                            {% if app.user.profile %}
+                                {{ app.user.profile.id }}
+                            {% else %}
+                                "00"
+                            {% endif %}                                    
+                        {% else %}
+                            "0"
+                        {% endif %}
+                    data-favoris=
+                        {% if announce.favorites and app.user and app.user.profile %}
+                            {{ favoris }}
+                        {% endif %}
+                    >
+                </i>
+            </p>
+        </aside>
+        <h3>{{ announce.title }}</h3>
+        {% if announce.pictures %}
+            {% for picture in announce.pictures %}
+                {% if loop.first %}
+                    <img class="announce__picture" src="{{ vich_uploader_asset(picture, 'imageFile')}}" alt="image de l'announces {{ announce.title }}">
+                {% endif %}
+            {% else %}
+                <img class="announce__picture" src="{{ asset('images/empty.png') }}" alt="image announces vide">
+            {% endfor %}
+        {% endif %}
+        <p>{{ announce.description }}</p>
+        <p class="announce__propose"><strong><i class="las la-exchange-alt"></i> Je propose en échange :</strong> 
+            {% for propose in announce.propose %}
+                {{ propose.name }}{{ loop.last ? '.' : ','}}
+            {% endfor %}
+        </p>
+        <button><a href="{{ path('announcement_view', { 'id': announce.id, 'slug': announce.slug }) }}" class="announce__button__link">Consulter</a></button>
+        <p class="announce__category"><i class="las la-tag"></i> {{ announce.subCategory.category.name }} / {{ announce.subCategory.name }}</p>
+        <p class="announce__city"><i class="las la-map-marker-alt"></i> {{ announce.region }} / {{ announce.department }} / {{ announce.city }}</p>
+        {% if app.request.attributes.get('_route') == 'announcement_me' and app.user %}
+        <div class="announce__icone">
+            <a href="{{ path('announcement_update', {'id': announce.id}) }}" title="modifier votre annonce"><i class="lar la-edit la-2x"></i></a>
+            <a href="{{ path('announcement_delete', {'id': announce.id}) }}" title="supprimer votre annonce" onClick="return confirm('Confirmez la suppression');"><i class="las la-trash-alt la-2x"></i></a>
+        </div>
+        {% endif %}
+    </article>
+{% endfor %}

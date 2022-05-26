@@ -17,7 +17,8 @@
         {% endblock %}
         {# <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>"> #}
         <link href="https://cdn.jsdelivr.net/npm/tom-select@2.0.1/dist/css/tom-select.css" rel="stylesheet">
-        <link rel="shortcut icon" href="favicon/favicon.png" type="image/x-icon">
+        {# <link rel="shortcut icon" href="favicon/favicon.png" type="image/x-icon"> #}
+        <link rel="shortcut icon" href="{{ asset('favicon/favicon.svg') }}" type="image/x-icon">
         <title>{% block title %}Welcome!{% endblock %}</title>
         
         <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
@@ -32,6 +33,7 @@
     </head>
     <body>
         {% include "./partials/_header.html.twig" %}
+        {# <img src="favicon/faviconTR2.svg" class="svg" alt=""> #}
         {% for label, messages in app.flashes %}
             {% for message in messages %}
                 <div class="alert alert-{{ label }}">

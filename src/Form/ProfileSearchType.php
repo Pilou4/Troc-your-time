@@ -22,9 +22,9 @@ class ProfileSearchType extends AbstractType
             'label' => false,
             'required' => false,
             'attr' => [
-                'class' => 'community__form__input',
                 'placeholder' => "nom d'utilisateur",
             ],
+            // 'help' => 'exemple choobie78'
         ])
         ->add('category', HiddenType::class)
         ->add('subCategory', HiddenType::class)
@@ -54,14 +54,13 @@ class ProfileSearchType extends AbstractType
             'label' => false,
             'required' => false,
             'attr' => [
-                'class' => 'community__form__input',
-                'placeholder' => 'adresse',
+                'placeholder' => 'ville, région , département',
             ],
+            // 'help' => 'ville, région, departement'
         ])
         ->add('distance', ChoiceType::class, [
             'label' => false,
             'placeholder' => 'distance',
-            'attr' => ['class' => 'community__form__input'],
             'required' => false,
             'choices' => [
                 '5 km' => 5,
@@ -71,7 +70,8 @@ class ProfileSearchType extends AbstractType
                 '100 km' => 100,
                 '200 km' => 200,
                 'toute la france' => 1200 
-            ]
+            ],
+            // 'help' => 'distance en km'
         ])
         ->add('lat', HiddenType::class)
         ->add('lng', HiddenType::class)

@@ -1,6 +1,5 @@
 let collection = document.querySelector("#announcement_pictureFiles");
 
-
 /**
  * FORMULAIRES ANNONCES
  */
@@ -9,16 +8,18 @@ if (collection !== null) {
     buttonAdd = document.createElement("button");
     buttonAdd.className = "admin__content__form__button__new";
     buttonAdd.innerText = "Ajouter une image";
-
+    let countButton = 0;
     let newButtonAdd = collection.append(buttonAdd);
-    collection.dataset.index = collection.querySelectorAll("input").length;
+    let index = collection.dataset.index = collection.querySelectorAll("input").length;
 
     buttonAdd.addEventListener("click", function () {
         addButton(collection, newButtonAdd);
     })
 
     function addButton(collection, newButtonAdd) {
-        let index = collection.dataset.index;
+        countButton++
+        
+        // let index = collection.dataset.index;
         let prototype = collection.dataset.prototype;
         prototype = prototype.replace(/__name__/g, index);
         let content = document.createElement("html");
@@ -26,9 +27,9 @@ if (collection !== null) {
         let newForm = content.querySelector("div");
         let buttonDelete = document.createElement("button");
         buttonDelete.type = "button";
-        buttonDelete.id = "delete-sub-category-" + index;
+        buttonDelete.id = "delete-pictures-" + index;
         buttonDelete.className = "admin__content__form__button__delete";
-        buttonDelete.innerText = "Supprimer une sous catégorie";
+        buttonDelete.innerText = "Supprimer une image";
 
             newForm.append(buttonDelete);
 
@@ -53,7 +54,7 @@ if (collection !== null) {
                     buttonDelete.type = "button";
                     buttonDelete.id = "delete-sub-category-" + index;
                     buttonDelete.className = "admin__content__form__button__delete";
-                    buttonDelete.innerText = "Supprimer une sous catégorie";      
+                    buttonDelete.innerText = "Supprimer une image";      
                     updateForm.append(buttonDelete);
                     buttonDelete.addEventListener("click", function () {
                         this.previousElementSibling.parentElement.remove();

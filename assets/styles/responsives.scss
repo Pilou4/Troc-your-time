@@ -1,50 +1,50 @@
 @media screen and (max-width: 1000px) {
     
-    .header {
+    header {
         // border-bottom: 1px solid white;
         display: initial;
-        &__logo {
-            float: none;
-            display: block;
-            margin: 0 auto;
-        }
-        &__nav {
-            width: 250px;
-            padding: 0;
-            margin: 0;
-            transform: translateX(-250px);
-            transition: all .5s ease-out;
-            position: absolute;
-            top: 90px;
-            left: 0;
-            width: 250px;
-            height: 100vh;
-            flex-direction: column;
-            justify-content: flex-start;
-            align-items: center;
-            flex-wrap: wrap;
-            &__button {
-                font-size: 1em;
-                margin: 20px 0;
-                background-color: white;
-                &__link {
-                    color: #000000;
-                }
-            }
-            &__link {
-                margin: 0;
-                width: 100%;
-                padding: 10px;
-                text-align: center;
-                color: white;
-                border-bottom: 3px solid rgb(255, 153, 0);
-                border-radius: 0;
-            }
-        }
+    }
+    .menu {
+        width: 250px;
+        padding: 0;
+        margin: 0;
+        transform: translateX(-250px);
+        transition: all .5s ease-out;
+        position: absolute;
+        top: 90px;
+        left: 0;
+        width: 250px;
+        height: 100vh;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        flex-wrap: wrap;
     }
 
+    .menu a {
+        margin: 0;
+        width: 100%;
+        padding: 10px;
+        text-align: center;
+        color: white;
+        border-bottom: 3px solid rgb(255, 153, 0);
+        border-radius: 0;
+    }
 
-    .header__icon {
+    #logo {
+        float: none;
+        display: block;
+        margin: 0 auto;
+    }
+
+    .indicator {
+        top: 0;
+        right: auto;
+        width: 4px;
+        height: auto;
+    }
+
+    #header__icon {
         position: relative;
         display: block;
         float: left;
@@ -58,7 +58,7 @@
             display: block;
             width: 30px;
             height: 0;
-            top: 10px;
+            top: 30px;
             left: 20px;
             // left: 15px;
             box-shadow: 0 10px 0 1.3px rgb(255, 153, 0), 0 16px 0 1.3px rgb(255, 153, 0), 0 22px 0 1.3px rgb(255, 153, 0);
@@ -80,14 +80,14 @@
             cursor: pointer;
             opacity: 40%;
         }
-        .header {
+        header {
             background-color: darken(rgb(69, 45, 134), 5);
-            &__nav {
-                transform: translateX(0);
-                transition: all .5s ease-out;
-                background-color: darken(rgb(69, 45, 134), 5);
-                opacity: 100%;
-            }
+        }
+        .menu {
+            transform: translateX(0);
+            transition: all .5s ease-out;
+            background-color: darken(rgb(69, 45, 134), 5);
+            opacity: 100%;
         }
     }
 }

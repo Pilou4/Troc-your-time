@@ -124,8 +124,9 @@ class AnnouncementRepository extends ServiceEntityRepository
      */
     public function findAllVisibleQuery(AnnouncementSearch $search, $subCategories = null)
     {
-        $query = $this  ->createQueryBuilder('announcement')
-                        ->leftjoin('announcement.subCategory', 'subCategory')
+        $query = $this  ->createQueryBuilder('announce')
+                        ->where('announce.isOnline = 1')
+                        ->leftjoin('announce.subCategory', 'subCategory')
                         ->addSelect('subCategory')
                         ->leftjoin('subCategory.category', 'category')
                         ->addSelect('category');
@@ -148,8 +149,8 @@ class AnnouncementRepository extends ServiceEntityRepository
 
         if ($search->getLat() && $search->getLng() && $search->getDistance()) {
             $query = $query
-                ->select('announcement')
-                ->andWhere('(6353 * 2 * ASIN(SQRT( POWER(SIN((announcement.lat - :lat) *  pi()/180 / 2), 2) +COS(announcement.lat * pi()/180) * COS(:lat * pi()/180) * POWER(SIN((announcement.lng - :lng) * pi()/180 / 2), 2) ))) <= :distance')
+                ->select('announce')
+                ->andWhere('(6353 * 2 * ASIN(SQRT( POWER(SIN((announce.lat - :lat) *  pi()/180 / 2), 2) +COS(announce.lat * pi()/180) * COS(:lat * pi()/180) * POWER(SIN((announce.lng - :lng) * pi()/180 / 2), 2) ))) <= :distance')
                 ->setParameter('lng', $search->getLng())
                 ->setParameter('lat', $search->getLat())
                 ->setParameter('distance', $search->getDistance());
@@ -158,10 +159,33 @@ class AnnouncementRepository extends ServiceEntityRepository
         if ($search->getTitle()) {
             $query->where(
                 $query->expr()->orX(
-                    $query->expr()->like('announcement.title', ':title'),
+                    $query->expr()->like('announce.title', ':title'),
                 )
             );
             $query->setParameter('title', "%{$search->getTitle()}%");
+        }
+
+        if ($search->getTitle() && $search->getCategory()) {
+            $query->where(
+                $query->expr()->orX(
+                    $query->expr()->like('announce.title', ':title'),
+                )
+            );
+            $query->setParameter('title', "%{$search->getTitle()}%");
+            $query->andWhere('category IN(:categories)')
+            ->setParameter(':categories', $search->getCategory());
+        }
+
+        if ($search->getTitle() && $search->getSubCategory()) {
+            $query->where(
+                $query->expr()->orX(
+                    $query->expr()->like('announce.title', ':title'),
+                )
+            );
+            $query->setParameter('title', "%{$search->getTitle()}%");
+            $query
+                ->andWhere('subCategory IN(:subCategory)')
+                ->setParameter('subCategory', $search->getSubCategory());
         }
 
         // $query = $query->getQuery();
@@ -171,12 +195,12 @@ class AnnouncementRepository extends ServiceEntityRepository
 
     public function findAllOrderedByDate()
     {
-        $queryBuilder = $this->createQueryBuilder('announcement');
-        $queryBuilder->orderBy('announcement.createdAt', 'desc');
-        $queryBuilder->setMaxResults('10');
-        $query = $queryBuilder->getQuery();
+        $query = $this  ->createQueryBuilder('announce')
+                        ->where('announce.isOnline = 1')
+                        ->orderBy('announce.createdAt', 'desc')
+                        ->setMaxResults('10');
 
-        return $query->getResult();
+        return $query->getQuery()->getResult();
     }
 
     // /**

@@ -7,12 +7,14 @@ use App\Form\CategoryType;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use App\Repository\SubCategoryRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/admin/category', name: 'admin_category_')]
+#[IsGranted("ROLE_ADMIN")]
 class AdminCategoryController extends AbstractController
 {
     public function __construct(private EntityManagerInterface $entityManager)
@@ -77,6 +79,22 @@ class AdminCategoryController extends AbstractController
         $this->entityManager->flush();
 
         $this->addFlash("success", "La catégorie a bien été supprimée");
+
+        return $this->redirectToRoute('admin_category_list');
+    }
+
+    #[Route('/delete/picture/{id}', name: 'delete_picture', requirements: ['id' => '\d+'])]
+    public function deletePicture(Category $category, Request $request)
+    {
+        $namePicture = $category->getFilename();
+
+        dd($namePicture);
+        unlink($namePicture);
+        $category->setFilename(null);
+        $this->entityManager->persist($category);
+        $this->entityManager->flush();
+
+        $this->addFlash("success", "Limage de la catégorie a bien été supprimée");
 
         return $this->redirectToRoute('admin_category_list');
     }

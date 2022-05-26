@@ -3,12 +3,13 @@
 {% block title %}Contacter {{ username }}{% endblock %}
 
 {% block body %}
-<main class="message">
-    <div class="message__form">  
-        <h1 class="message__form__title">Contacter {{ username }}</h1>      
+<main class="contactUser">
+    <button class="button__return"><i class="las la-arrow-left"></i> <a href="{{  app.request.headers.get('referer')}}" title="retour à la page précédente">retour</a></button>
+    <div class="contactUser__form">  
+        <h1>Contacter {{ username }}</h1>      
         {{ form_start(form) }}
         {{ form_widget(form) }}
-        <input type="submit" value="Valider" class="message__form__button">
+        <input type="submit" value="Valider">
         {{ form_end(form) }}
     </div>
 </main>

@@ -35,7 +35,7 @@ class DefaultController extends AbstractController
         // );
 
         return $this->render('default/homepage.html.twig', [
-            'announcements' => $announcementRepository->findAllOrderedByDate(),
+            'announces' => $announcementRepository->findAllOrderedByDate(),
             'categories' => $categoryRepository->findAllOrderedByName(),
             'profiles' => $profileRepository->findAllOrderedByDate(),
         ]);

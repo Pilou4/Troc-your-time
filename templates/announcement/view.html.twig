@@ -4,7 +4,8 @@
 
 {% block body %}
 <main class="announcement">
-    <h1 class="announcement__title">{{ announcement.title }}</h1>
+    <h1>{{ announcement.title }}</h1>
+    <button class="button__return"><i class="las la-arrow-left"></i> <a href="{{  app.request.headers.get('referer')}}" title="retour à la page précédente">retour</a></button>
     <section class="announcement__pictures">
         {% if announcement.pictures %}
             <div id="carousel3">
@@ -12,7 +13,8 @@
                 <img class="announcement__picture" src="{{ vich_uploader_asset(picture, 'imageFile')}}" alt="image de l'annonce {{ announcement.title }}">
                 {% endfor %}
             </div>
-        {% else %}
+        {% endif %}
+        {% if announcement.pictures == null %}
             <img class="announcement__picture" src="{{ asset('images/empty.jpg') }}" alt="image annonce vide">
         {% endif %}
     </section>

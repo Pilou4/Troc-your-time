@@ -21,9 +21,7 @@ class ContactType extends AbstractType
             [
                 'label' => false,
                 'required' => true,
-                'label_attr' => ['class' => 'home__contact__form__label'],
                 'attr' => [
-                    'class' => 'home__contact__form__input',
                     'placeholder' => 'votre prénom'
                 ]
             ]
@@ -35,9 +33,7 @@ class ContactType extends AbstractType
             [
                 'label' => false,
                 'required' => true,
-                'label_attr' => ['class' => 'home__contact__form__label'],
                 'attr' => [
-                    'class' => 'home__contact__form__input',
                     'placeholder' => 'votre nom'
                 ]
             ]
@@ -49,9 +45,7 @@ class ContactType extends AbstractType
             [
                 'label' => false,
                 'required' => true,
-                'label_attr' => ['class' => 'home__contact__form__label'],
                 'attr' => [
-                    'class' => 'home__contact__form__input',
                     'placeholder' => 'sujet'
                 ]
             ]
@@ -62,9 +56,7 @@ class ContactType extends AbstractType
             [
                 'label' => false,
                 'required' => true,
-                'label_attr' => ['class' => 'home__contact__form__label'],
                 'attr' => [
-                    'class' => 'home__contact__form__input',
                     'placeholder' => 'votre email'
                 ]
             ]
@@ -75,9 +67,7 @@ class ContactType extends AbstractType
             [
                 'label' => false,
                 'required' => true,
-                'label_attr' => ['class' => 'home__contact__form__label'],
                 'attr' => [
-                    'class' => 'home__contact__form__textarea',
                     'placeholder' => 'votre message'
                 ]
             ]
@@ -86,15 +76,17 @@ class ContactType extends AbstractType
             'agreeTerms',
             CheckboxType::class, [
                 'mapped' => false,
-                'label' => "En soumettant ce formulaire, j'accepte 
-                que mes données personnelles soient utilisées pour 
-                me recontacter. Aucun autre traitement ne sera effectué 
-                avec mes informations.",
+                // 'label' => "En soumettant ce formulaire, j'accepte 
+                // que mes données personnelles soient utilisées pour 
+                // me recontacter. Aucun autre traitement ne sera effectué 
+                // avec mes informations.",
+                'label' => false,
                 'constraints' => [
                     new IsTrue([
                         'message' => 'You should agree to our terms.',
                     ]),
                 ],
+                'label_attr' => ['class' => 'contact__label__check'],
             ]
         );
     }

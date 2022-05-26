@@ -180,6 +180,7 @@ class MessageController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+    
     #[Route('/ping/{user}', name: 'ping', methods: ["POST"])]
     public function ping(MessageBusInterface $bus, ?User $user = null, SerializerInterface $serializer)
     {   

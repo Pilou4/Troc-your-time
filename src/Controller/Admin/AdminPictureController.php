@@ -11,6 +11,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 #[Route('/admin/picture', name: 'admin_picture_')]
+#[IsGranted("ROLE_ADMIN")]
 class AdminPictureController extends AbstractController
 {
     #[Route('/delete/{id}', name: 'delete')]

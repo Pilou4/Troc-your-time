@@ -4,23 +4,25 @@
 
 {% block body %}
     <main class="contact">
-        <h1 class="contact__title">Nous contacter</h1>
+        <h1>Nous contacter</h1>
         {{ form_start(form) }}
             {{ form_row(form.object) }}
-            <div class="home__contact__form__name">
+            <div class="contact__name">
                 {{ form_row(form.firstname) }}
                 {{ form_row(form.lastname) }}
             </div>
             {{ form_row(form.email) }}
             {{ form_row(form.message) }}
-            <div class="home__contact__form__authorize">
-                {{ form_row(form.agreeTerms, { 'attr': {'class': 'home__contact__form__authorize'} }) }}
-                <p class="home__contact__form__authorize__text">
+            <div class="contact__agree">
+                {{ form_row(form.agreeTerms, { 'attr': {'class': 'contact__check__authorize'} }) }}
+                <p>
+                    En soumettant ce formulaire, j'accepteque mes données personnelles soient utilisées pour 
+                    me recontacter. Aucun autre traitement ne sera effectué avec mes informations.
                     Pour connaître et exercer vos droits, veuillez consultez la
-                    <a href="{{ path('confidentiality') }}" class="home__contact__form__authorize__link">Politique de confidentialité.</a>
+                    <a href="{{ path('confidentiality') }}" title="vers la politique de confidentialité">Politique de confidentialité.</a>
                 </p>
             </div>
-            <button class="home__contact__form__button">Envoyer</button>
+            <input type="submit" value="Envoyer">
         {{ form_end(form) }}
     </main>
 {% endblock %}

@@ -5,95 +5,122 @@
 {% block body %}
     <main class="me">
         <h1 class="me__title">Page de profil de {{ app.user.profile.firstname ~ ' ' ~ app.user.profile.lastname}}</h1>
-        <section class="me__user">
-            <a href="{{ path('profile_avatar', { 'username': app.user.profile.username})}}">
-                {% if app.user.profile.filename %}
-                    <img src={{ vich_uploader_asset(app.user.profile, 'imageFile')}} alt="image de profil (avatar)" class="me__user__picture">
-                {% else %}
-                    <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil (avatar)" class="me__user__picture">
-                {% endif %}
-            </a>
-            <div class="me__user__info">
-            <h3 class="me__user__info__title">Civilité</h3>
-                <ul class="me__user__info__list">
-                    <li class="me__info__list__item">Nom d'utilisateur : {{ app.user.profile.username }}</li>
-                    <li class="me__info__list__item">Genre : {{ app.user.profile.gender }}</li>
-                    <li class="me__info__list__item">Prénom : {{ app.user.profile.firstname }}</li>
-                    <li class="me__info__list__item">Nom : {{ app.user.profile.lastname }}</li>
-                    <li class="me__info__list__item">Date da naissances : {{ app.user.profile.birthday|date('d/m/Y') }}</li>
-                </ul>
-                <button class="me__user__info__button"><a href="{{ path('profile_update_civility', { 'id': app.user.profile.id })}}" class="me__user__info__button__link">Modifier</a></button>
+        <section class="me__pictures">
+            <div>
+                <a href="{{ path('profile_avatar', { 'username': app.user.profile.username }) }}">
+                    {% if app.user.profile.filename %}
+                        <img src={{ vich_uploader_asset(app.user.profile, 'imageFile')}} alt="image du profil {{ app.user.profile.username }}">
+                    {% else %}
+                        <img src="{{ asset('images/profil.jpeg') }}" alt="image du profil {{ app.user.profile.username }}">
+                    {% endif %}
+                </a>
+                <p class="me__info__list__item">{{ app.user.profile.username }}</p>
             </div>
-            <div class="me__user__info">
-                <h3 class="me__user__info__title">Coordonnées</h3>
-                <ul class="me__user__info__list">
-                    <li class="me__info__list__item">Numéro et rue : {{ app.user.profile.street }}</li>
-                    <li class="me__info__list__item">Code Postal {{ app.user.profile.zipcode }}</li>
-                    <li class="me__info__list__item">Commmune : {{ app.user.profile.city }}</li>
-                    <li class="me__info__list__item">Département {{ app.user.profile.department }}</li>
-                    <li class="me__info__list__item">Region : {{ app.user.profile.region }}</li>
-                </ul>
-                <button class="me__user__info__button"><a href="{{ path('profile_update_address', { 'id': app.user.profile.id })}}" class="me__user__info__button__link">Modifier</a></button>
+            <button><a href="{{ path('profile_view', {'username': app.user.profile.username}) }}">Voir mon profil public</a></button>
+        </section>
+        <section class="me__info">
+            <div>
+                <h2>Photo de profil</h2>
+                <p>Pour une expérience plus agréable entre membres de la communautés !</p>
             </div>
-            <div class="me__user__info">
-                <h3 class="me__user__info__title">Services</h3>
-                <p class="me__user__info__text">
-                    Je propose :
-                    {% for propose in app.user.profile.propose %}
-                        {{ propose }}{{loop.last ? '.' : ','}}
-                    {% endfor %}
-                </p>
-                <p class="me__user__info__text">
-                    Je recherche :
-                    {% for research in app.user.profile.research %}
-                        {{ research }}{{loop.last ? '.' : ','}}
-                    {% endfor %}
-                </p>
-                <button class="me__user__info__button"><a href="{{ path('profile_update_propose', { 'id': app.user.profile.id })}}" class="me__user__info__button__link">Modifier</a></button>
+            <button><a href="{{ path('profile_avatar', { 'username': app.user.profile.username }) }}">Ajouter ma photo de profil</a></button>
+        </section>
+        <section class="me__civility">
+            <div>
+                <h3>Civilité</h3>
+                <ul>
+                    <li><span>Nom d'utilisateur :</span> {{ app.user.profile.username }}</li>
+                    <li><span>Genre :</span> {{ app.user.profile.gender }}</li>
+                    <li><span>Prénom :</span> {{ app.user.profile.firstname }}</li>
+                    <li><span>Nom :</span> {{ app.user.profile.lastname }}</li>
+                    <li><span>Date da naissances :</span> {{ app.user.profile.birthday|date('d/m/Y') }}</li>
+                </ul>
+            </div>
+                <button><a href="{{ path('profile_update_civility', { 'id': app.user.profile.id })}}">Modifier</a></button>
             </div>
         </section>
-        <section class="me__links">
-            <a href="{{ path('announcement_me') }}" class="me__link">
-                <h3 class="me__link__name">Annonces</h3>
-                <p class="me__link__text">
+        <section class="me__contactInfo">
+            <div>
+                <h3>Coordonnées</h3>
+                <ul>
+                    <li><span>Numéro et rue : </span>{{ app.user.profile.number }}</li>
+                    <li><span>Code Postal : </span>{{ app.user.profile.zipcode }}</li>
+                    <li><span>Commmune : </span>{{ app.user.profile.city }}</li>
+                    <li><span>Département : </span>{{ app.user.profile.department }}</li>
+                    <li><span>Region : </span>{{ app.user.profile.region }}</li>
+                </ul>
+            </div>
+            <button><a href="{{ path('profile_update_address', { 'id': app.user.profile.id })}}">Modifier</a></button>
+        </section>
+        <section class="me__service">
+            <div>
+                <h3>Services</h3>
+                <div class="me__service__items">
+                    <div>
+                        <p>Je propose :</p>
+                        <ul class="me__service__propose">
+                            {% for propose in app.user.profile.propose %}
+                                <li>{{ propose }}{{loop.last ? '.' : ','}}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div>
+                        <p>Je recherche :</p>
+                        <ul class="me__service__search">
+                            {% for research in app.user.profile.research %}
+                                <li>{{ research }}{{loop.last ? '.' : ','}}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <button><a href="{{ path('profile_update_propose', { 'id': app.user.profile.id })}}">Modifier</a></button>
+        </section>
+        <section class="me__cards">
+            <div>
+                <h3>Annonces</h3>
+                <p>
                     Vous avez actuellement {{ app.user.profile.announcements|length }} 
                     annonce{{ app.user.profile.announcements|length <= 1 ? "" : "s" }} 
                     en ligne{{ app.user.profile.announcements|length <= 1 ? "" : "s" }}. <br />
                     Gérer et publier vos annonces.
                 </p>
-            </a>
-            <a href="{{ path('message_list') }}" class="me__link">
-                <h3 class="me__link__name">Messagerie</h3>
-                <p class="me__link__text">
+                <button><a href="{{ path('announcement_me') }}">gérer mes annonces</a></button>
+            </div>
+            <div>
+                <h3>Messagerie</h3>
+                <p>
                     Accéder à votre messagerie personnel
                 </p>
-            </a>
-            <a href="{{ path('announcement_favorite') }}" class="me__link">
-                <h3 class="me__link__name">Favoris</h3>
-                <p class="me__link__text">
-                    Vous avez actuellement {{ app.user.profile.favorites|length }} 
-                    annonce{{ app.user.profile.announcements|length <= 1 ? "" : "s" }} 
-                    en favori{{ app.user.profile.favorites|length <= 1 ? "" : "s" }}. <br />
-                    Accéder à vos favoris.
-                </p>
-            </a>
-            <a href="{{ path('change_password') }}" class="me__link">
-                <h3 class="me__link__name">Sécurité</h3>
-                <p class="me__link__text">Modifier votre mot de passe</p>
-            </a>
-            <a href="{{ path('profile_data') }}" class="me__link">
-                <h3 class="me__link__name">RGPD</h3>
-                <p class="me__link__text">Consulter et télécharger vos données perssonnelles</p>
-            </a>
-            <a href="{{ path('profile_update', { 'id': app.user.profile.id })}}" class="me__link">
-                <h3 class="me__link__name">Paramètres</h3>
-                <p class="me__link__text">Modifier vos informations</p>
-            </a>
-            <a href="{{ path('app_logout') }}" class="me__link">
-                <h3 class="me__link__name">Deconnexion</h3>
-            </a>
-            <div class="me__link">
-                <h3 class="me__link__name">Aide</h3>
+                <button><a href="{{ path('message_list') }}">accéder à ma messagerie</a></button>
+            </div>
+            <div>
+                <h3>Sécurité</h3>
+                <p>Modifier votre mot de passe</p>
+                <button><a href="{{ path('change_password') }}">modifier mon mot de passe</a></button>
+            </div>
+            <div>
+                <h3>Favoris</h3>
+                <p>ModiConsulter et gérer vos favoris</p>
+                <button><a href="{{ path('announcement_favorite') }}">gérer mes favoris</a></button>
+            </div>
+            <div>
+                <h3>RGPD</h3>
+                <p>Consulter et télécharger vos données perssonnelles</p>
+                <button><a href="{{ path('profile_data') }}">consulter mes données personnelles</a></button>
+            </div>
+            <div>
+                <h3>Paramètres</h3>
+                <p>Modifier vos informations</p>
+                <button><a href="{{ path('profile_update', { 'id': app.user.profile.id })}}">modifier mon profile</a></button>
+            </div>
+            <div>
+                <h3>Deconnexion</h3>
+                <button><a href="{{ path('app_logout') }}">se deconnecter</a></button>
+            </div>
+            <div>
+                <h3>Aide</h3>
+                <button>consulter</button>
             </div>
         </section>
     </main>

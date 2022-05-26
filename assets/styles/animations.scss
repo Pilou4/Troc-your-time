@@ -83,7 +83,7 @@
 .carousel__prev {
     background-image: url(left.svg);
     right: auto;
-    left: 20px; 
+    left: 15px; 
 }
 
 .carousel__prev--hidden, .carousel__next--hidden {
@@ -128,15 +128,21 @@
         transform: scale(1);
     }
     to {
-        transform: scale(1.2);
-        background-color: rgb(47, 37, 75);
+        transform: scale(1.1);
+        background-color: rgb(69, 45, 134);
         color: white;
-        border-left: 3px solid #f37646;
-        border-right: 3px solid #f37646;
-        border-bottom: 7px solid #f37646;
-        border-top: 7px solid #f37646;
     }
-    
+}
+
+@keyframes visible {
+    0% {
+        opacity: 0;
+        transform: translateY(-100px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0px);
+    }
 }
 
 /* ---- SYMBOLE ---- */
@@ -160,7 +166,8 @@
 }
 .la-search {
     position: relative;
-    top: 3px;
+    top: 1px;
+    
 }
 .la-plus-circle {
     position: relative;
@@ -174,4 +181,17 @@
 .la-searchengin {
     position: relative;
     margin-right: 5px;
+}
+
+.la-edit {
+    color: orange;
+}
+
+.la-trash-alt {
+    color: red;
+}
+
+.la-arrow-left {
+    position: relative;
+    top: 1px;
 }

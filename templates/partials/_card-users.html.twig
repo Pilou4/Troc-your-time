@@ -1,0 +1,29 @@
+{% for profile in profiles %}
+    <a href="{{ path('profile_view', {'username': profile.username}) }}">
+        <article class="user">
+            <aside>
+                {% if profile.filename %}
+                    <img src={{ vich_uploader_asset(profile, 'imageFile')}} alt="image de profil {{ profile.username }}">
+                {% else %}
+                    <img src="{{ asset('images/profil.jpeg') }}" alt="image de profil vide">
+                {% endif %}
+                <ul class="user__info">
+                    <li class="user__info__city"><i class="las la-map-marker-alt la-lg"></i> {{ profile.region }} / {{ profile.department }}</li>
+                    <li class="user__info__username"><i class="las la-user-tie la-lg"></i> {{ profile.username }}</li>
+                </ul>
+            </aside>
+            <p class="user__propose">
+                <strong><i class="las la-exchange-alt la-lg"></i>Je propose :</strong>
+                {% for propose in profile.propose %}
+                    {{ propose }}{{ loop.last ? '.' : ','}}
+                {% endfor %}
+            </p>
+            <p class="user__research">
+                <strong><i class="lab la-searchengin la-lg"></i>Je recherche :</strong>
+                {% for research in profile.research %}
+                    {{ research }}{{ loop.last ? '.' : ','}}
+                {% endfor %}
+            </p>
+        </article>
+    </a>
+{% endfor %}

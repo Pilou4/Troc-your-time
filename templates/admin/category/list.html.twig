@@ -5,10 +5,11 @@
 {% block body %}
 <main class="admin">
     {% include "admin/partials/_nav.html.twig" %}
-    <section class="admin__content">
-        <h1 class="admin__content__title">Liste des catégories</h1>
-        <button class="admin__content__button"><a href="{{ path('admin_category_add') }}">Ajouter une catégorie</a></button>
-        <table>
+    <i class="las la-caret-square-right la-2x admin__open" id="admin-open"></i>
+    <section class="admin__contents">
+        <h1 class="admin__contents__title">Liste des catégories</h1>
+        <button class="admin__contents__button"><a href="{{ path('admin_category_add') }}">Ajouter une catégorie</a></button>
+        <table class="admin__table">
             <thead>
                 <tr>
                     <th>Nom</th>
@@ -24,7 +25,10 @@
                         <td>{{ category.name }}</td>
                         <td>{{ category.subCategories|length }}</td>
                         {% if category.filename %}
-                            <td><img src={{ vich_uploader_asset(category, 'imageFile')}} alt="image de la category {{ category.name }}" class="admin__category__img"></td>
+                            <td>
+                                <img src={{ vich_uploader_asset(category, 'imageFile')}} alt="image de la category {{ category.name }}" class="admin__category__img">
+                                <button><a href="{{ path('admin_category_delete_picture', { 'id': category.id }) }}">supprimer</a></button>
+                            </td>
                         {% endif %}
                         <td>{{ category.createdAt|date('d-m-Y') }}</td>
                         <td>

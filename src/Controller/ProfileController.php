@@ -15,6 +15,7 @@ use App\Form\ProfileCivilityType;
 use App\Repository\ProfileRepository;
 use App\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,6 +35,7 @@ class ProfileController extends AbstractController
     }
 
     #[Route('/me', name: 'me')]
+    #[IsGranted("ROLE_USER")]
     public function me(): Response
     {
         return $this->render('profile/me.html.twig');
@@ -42,6 +44,7 @@ class ProfileController extends AbstractController
     #[Route('/community', name: 'community')]
     public function community(
         ProfileRepository $profileRepository,
+        PaginatorInterface $paginator,
         Request $request,
         CategoryRepository $categoryRepository
         ): Response
@@ -50,9 +53,18 @@ class ProfileController extends AbstractController
         $search = new ProfileSearch();
         $form = $this->createForm(ProfileSearchType::class, $search);
         $form->handleRequest($request);
+        
+        $profiles = $paginator->paginate(
+            $profileRepository->findAllVisibleQuery($search),
+            $request->query->getInt('page', 1),
+            12
+        );
+
+        
 
         return $this->render('profile/community.html.twig', [
-            'profiles' => $profileRepository->findAllVisibleQuery($search),
+            'profilesAll' => $profileRepository->findAll(),
+            'profiles' => $profiles,
             'categories' => $categoryRepository->findAll(),
             'page'       => $page,
             'form' => $form->createView()
@@ -233,7 +245,7 @@ class ProfileController extends AbstractController
     }
 
     #[Route('/update/propose/{id}', name: 'update_propose', requirements: ['id' => '\d+'])]
-    public function updatePropose(Request $request, Profile $profile): Response
+    public function updateService(Request $request, Profile $profile): Response
     {
         $form = $this->createForm(ProfileProposeType::class, $profile);
         $form->handleRequest($request);
@@ -248,7 +260,7 @@ class ProfileController extends AbstractController
             return $this->redirectToRoute('profile_me');
         }
 
-        return $this->render('profile/update_propose.html.twig', [
+        return $this->render('profile/update_service.html.twig', [
             'form' => $form->createView(),
         ]);
     }

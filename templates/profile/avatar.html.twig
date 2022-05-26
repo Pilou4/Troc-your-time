@@ -1,14 +1,14 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier avatar du profile!{% endblock %}
+{% block title %}Modifier image de profile de {{ app.user.profile.username }} {% endblock %}
 
 {% block body %}
-    <main class="profile">
-        <div class="profile__form">
-            <h1 class="profile__form__title">Modifier image de profile</h1>
+    <main class="usersForm">
+        <div class="usersForm__form">
+            <h1>Modifier image de profile</h1>
             {{ form_start(form) }}
             {{ form_widget(form) }}
-            <input type="submit" value="Valider" class="profile__form__button">
+            <input type="submit" value="Valider">
             {{ form_end(form) }}
         </div>
     </main>
